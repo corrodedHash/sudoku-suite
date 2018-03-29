@@ -5,10 +5,12 @@ cmake_minimum_required(VERSION 3.3.2)
 set(SUDOKU_ENABLE_TESTS OFF CACHE BOOL "Enable tests")
 set(SUDOKU_ENABLE_FUZZER OFF CACHE BOOL "Enable fuzzing")
 set(SUDOKU_ENABLE_BENCHMARKS OFF CACHE BOOL "Enable benchmarks")
+set(SUDOKU_ENABLE_TIDY OFF CACHE BOOL "Enable clang-tidy")
 
 # Set compiler flags
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+set(CMAKE_CXX_STANDARD 17)
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /W4")
   # Need to make Visual C++ conform standard
@@ -23,17 +25,17 @@ else()
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     string (APPEND CMAKE_CXX_FLAGS " -fcolor-diagnostics")
   else()
-    message(STATUS "Not compiling with clang, disabling colored diagnostics")
+    message(WARNING "Not compiling with clang, disabling colored diagnostics")
   endif()
 
-  string (APPEND CMAKE_CXX_FLAGS " -std=c++1z")
-  string (APPEND CMAKE_CXX_FLAGS " -fPIC")
   string (APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer")
   #string (APPEND CMAKE_CXX_FLAGS " -flto=thin")
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address")
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 
-  set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,readability-*")
+  if (SUDOKU_ENABLE_TIDY)
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,readability-*")
+  endif()
 
 endif()
 
