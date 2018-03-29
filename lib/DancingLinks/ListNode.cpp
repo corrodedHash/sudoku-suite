@@ -1,6 +1,7 @@
-#include "dancingLinks.hpp"
+#include "DancingLinks.hpp"
 
-void DancingLinks::ListNode::unregisterNeighbors()
+namespace DancingLinks {
+void ListNode::unregisterNeighbors()
 {
   if (Left != nullptr) {
     Left->Right = Right;
@@ -16,13 +17,13 @@ void DancingLinks::ListNode::unregisterNeighbors()
   }
 }
 
-void DancingLinks::ListNode::unregisterBase()
+void ListNode::unregisterBase()
 {
   Column->unregisterNode();
   //Row->unregisterNode();
 }
 
-void DancingLinks::ListNode::registerNeighbors()
+void ListNode::registerNeighbors()
 {
   if (Left != nullptr) {
     Left->Right = this;
@@ -38,17 +39,18 @@ void DancingLinks::ListNode::registerNeighbors()
   }
 }
 
-void DancingLinks::ListNode::registerBase(){
+void ListNode::registerBase(){
   Column->registerNode();
   //Row->registerNode();
 }
 
-void DancingLinks::ListNode::unlink()
+void ListNode::unlink()
 {
   unregisterNeighbors();
   unregisterBase();
 }
-void DancingLinks::ListNode::link(){
+void ListNode::link(){
   registerNeighbors();
   registerBase();
+}
 }

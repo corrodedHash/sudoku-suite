@@ -1,4 +1,4 @@
-#include "dancingLinks.hpp"
+#include "DancingLinks.hpp"
 
 namespace DancingLinks {
 void BaseNode::unlink()

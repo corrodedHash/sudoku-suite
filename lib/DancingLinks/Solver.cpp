@@ -1,33 +1,34 @@
-#include "dancingLinks.hpp"
+#include "DancingLinks.hpp"
 #include <map>
 
-void DancingLinks::Solver::unlinkNode(DancingLinks::ListNode* toUnlink)
+namespace DancingLinks {
+void Solver::unlinkNode(ListNode* toUnlink)
 {
   toUnlink->unlink();
   List.unlinkColumn(toUnlink);
   List.unlinkRow(toUnlink);
-  for (DancingLinks::ListNode* curColumn = toUnlink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
+  for (ListNode* curColumn = toUnlink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
     List.unlinkColumn(curColumn);
-    for (DancingLinks::ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
+    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
       List.unlinkRow(curRow);
     }
   }
 }
 
-void DancingLinks::Solver::linkNode(DancingLinks::ListNode* toLink)
+void Solver::linkNode(ListNode* toLink)
 {
   toLink->link();
   List.linkColumn(toLink);
   List.linkRow(toLink);
-  for (DancingLinks::ListNode* curColumn = toLink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
+  for (ListNode* curColumn = toLink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
     List.linkColumn(curColumn);
-    for (DancingLinks::ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
+    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
       List.linkRow(curRow);
     }
   }
 }
 
-DancingLinks::ListNode* DancingLinks::Solver::get(int id)
+ListNode* Solver::get(int id)
 {
   BaseNode* currentColumn = List.RootColumn;
   while (currentColumn != nullptr) {
@@ -48,13 +49,13 @@ DancingLinks::ListNode* DancingLinks::Solver::get(int id)
   return nullptr;
 }
 
-void DancingLinks::Solver::backtrack()
+void Solver::backtrack()
 {
   linkNode(Removed.back());
   TestedId.pop();
   Removed.pop_back();
 }
-void DancingLinks::Solver::deepen(ListNode* node)
+void Solver::deepen(ListNode* node)
 {
   ++TestedId.top();
   TestedId.push(0);
@@ -62,7 +63,7 @@ void DancingLinks::Solver::deepen(ListNode* node)
   unlinkNode(node);
 }
 
-bool DancingLinks::Solver::checkListEmptyColumn()
+bool Solver::checkListEmptyColumn()
 {
   for (BaseNode* it = List.RootColumn; it != nullptr; it = static_cast<BaseNode*>(it->Right)) {
     if (it->getCount() == 0) {
@@ -72,7 +73,7 @@ bool DancingLinks::Solver::checkListEmptyColumn()
   return false;
 }
 
-bool DancingLinks::Solver::nextModel()
+bool Solver::nextModel()
 {
   while (true) {
     if (checkListEmptyColumn()) {
@@ -95,4 +96,5 @@ bool DancingLinks::Solver::nextModel()
       }
     }
   }
+}
 }

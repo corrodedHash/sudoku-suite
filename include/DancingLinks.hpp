@@ -90,4 +90,4 @@ DancingLinks::List toDancingLinksList(std::array<std::array<bool, T * T * T * T 
 
 template <int T> void drawSudoku(const DancingLinks::Solver& s);
 
-#include "dancingLinks.tpp"
+#include "DancingLinks.tpp"
