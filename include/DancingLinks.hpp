@@ -1,3 +1,4 @@
+#pragma once
 #include <array>
 #include <cassert>
 #include <memory>
@@ -58,18 +59,20 @@ struct List {
   void linkColumn(ListNode* cell);
 };
 
-struct Solver {
+class Solver {
   List List;
   std::vector<ListNode*> Removed;
   std::stack<int> TestedId;
-  Solver(struct List list) : List(std::move(list)) { TestedId.push(0); }
 
   void unlinkNode(DancingLinks::ListNode* toUnlink);
   void linkNode(DancingLinks::ListNode* toLink);
   ListNode* get(int id);
+  bool checkListEmptyColumn();
+
+public:
+  Solver(struct List list) : List(std::move(list)) { TestedId.push(0); }
   void backtrack();
   void deepen(ListNode* node);
-  bool nextModel();
-  bool checkListEmptyColumn();
+  std::optional<std::vector<int>> nextModel();
 };
 } // namespace DancingLinks

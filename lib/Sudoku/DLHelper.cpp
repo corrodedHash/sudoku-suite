@@ -1,4 +1,5 @@
 #include "Sudoku.hpp"
+#include <cassert>
 
 namespace Sudoku {
 int DLHelper::getColId(int row, int col, int number, int blocksize) {
@@ -23,11 +24,15 @@ std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize) {
   return std::make_tuple(row, column, number);
 }
 
-DancingLinks::List toDancingLinksList(const Field& field) {
-  DancingLinks::List result(field.getMaxNumber() * field.getMaxNumber() *
-                                field.getMaxNumber(),
-                            field.getMaxNumber() * field.getMaxNumber() * 4);
+std::pair<int, int> DLHelper::getDancingListSize(int blocksize) {
+  return std::make_pair(blocksize * blocksize * blocksize * blocksize *
+                            blocksize * blocksize,
+                        blocksize * blocksize * blocksize * blocksize * 4);
+}
 
+DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
+  auto [dlHeight, dlWidth] = getDancingListSize(field.getBlocksize());
+  DancingLinks::List result(dlHeight, dlWidth);
   int hBase = 0;
 
   // Each cell can only have one number
@@ -74,12 +79,13 @@ DancingLinks::List toDancingLinksList(const Field& field) {
 
   // Each block can only have each number once
   for (int blockStartRow = 0; blockStartRow < field.getMaxNumber();
-       blockStartRow += T)
+       blockStartRow += field.getBlocksize())
     for (int blockStartColumn = 0; blockStartColumn < field.getMaxNumber();
-         blockStartColumn += T)
+         blockStartColumn += field.getBlocksize())
       for (int number = 0; number < field.getMaxNumber(); ++number) {
-        for (int cellStartRow = 0; cellStartRow < T; ++cellStartRow) {
-          for (int cellStartColumn = 0; cellStartColumn < T;
+        for (int cellStartRow = 0; cellStartRow < field.getBlocksize();
+             ++cellStartRow) {
+          for (int cellStartColumn = 0; cellStartColumn < field.getBlocksize();
                ++cellStartColumn) {
             if (field.getCellValue(blockStartRow + cellStartRow,
                                    blockStartColumn + cellStartColumn) == 0 ||
@@ -96,5 +102,15 @@ DancingLinks::List toDancingLinksList(const Field& field) {
         ++hBase;
       }
   return result;
+}
+
+Field DLHelper::fromDancingLinksList(const std::vector<int> rowIndices,
+                                     int blocksize) {
+  Field field(blocksize);
+  for (int entry : rowIndices) {
+    auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
+    field.setCellValue(cColumn, cRow, cNumber);
+  }
+  return field;
 }
 } // namespace Sudoku

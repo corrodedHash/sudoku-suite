@@ -72,24 +72,30 @@ bool Solver::checkListEmptyColumn() {
   return false;
 }
 
-bool Solver::nextModel() {
+std::optional<std::vector<int>> Solver::nextModel() {
   while (true) {
     if (checkListEmptyColumn()) {
       if (Removed.empty()) {
-        return false;
+        return std::nullopt;
       }
       backtrack();
     } else {
       ListNode* next = get(TestedId.top());
       if (next == nullptr) {
         if (Removed.empty()) {
-          return false;
+          return std::nullopt;
         }
         backtrack();
       } else {
         deepen(next);
         if (List.isEmpty()) {
-          return true;
+          std::vector<int> result;
+          result.reserve(Removed.size());
+          for (ListNode* node : Removed){
+            auto [lRow, lColumn] = List.getCoord(node); 
+            result.push_back(lRow);
+          } 
+          return result;
         }
       }
     }

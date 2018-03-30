@@ -1,5 +1,5 @@
-add_library(sudoku Field.cpp DLHelper.cpp)
-target_include_directories(sudoku PUBLIC ${CMAKE_SOURCE_DIR}/include)
+add_library(Sudoku Field.cpp DLHelper.cpp)
+target_include_directories(Sudoku PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(sudoku PUBLIC dlsudoku)
+target_link_libraries(Sudoku PUBLIC DancingLinks)
 

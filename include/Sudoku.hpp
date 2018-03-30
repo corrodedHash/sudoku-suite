@@ -1,12 +1,17 @@
-#include <pair>
+#pragma once
+#include <utility>
+#include <tuple>
+#include <vector>
+#include <string>
+#include "DancingLinks.hpp"
 
 namespace Sudoku {
 class Field {
   std::vector<int> Grid;
 
-  const int Blocksize;
+  int Blocksize;
 
-  int getIndex(int x, int y);
+  int getIndex(int x, int y) const;
   std::pair<int, int> getCoord(int index);
 
 public:
@@ -20,16 +25,19 @@ public:
   int getCellValue(int x, int y) const;
   void setCellValue(int x, int y, int value);
 
-  void print() const;
+  bool isSolved();
+
+  std::string print() const;
 };
 
 class DLHelper {
 private:
   static int getColId(int row, int col, int number, int blocksize);
   static std::tuple<int, int, int> getSudokuPos(int rowIndex, int blocksize);
+  static std::pair<int, int> getDancingListSize(int blocksize);
 
 public:
   static DancingLinks::List toDancingLinksList(const Field& field);
-  static Field fromDancingLinksList(const std::vector<int> rowIndices);
+  static Field fromDancingLinksList(const std::vector<int> rowIndices, int blocksize);
 };
 } // namespace Sudoku
