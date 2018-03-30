@@ -2,34 +2,35 @@
 #include <map>
 
 namespace DancingLinks {
-void Solver::unlinkNode(ListNode* toUnlink)
-{
+void Solver::unlinkNode(ListNode* toUnlink) {
   toUnlink->unlink();
   List.unlinkColumn(toUnlink);
   List.unlinkRow(toUnlink);
-  for (ListNode* curColumn = toUnlink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
+  for (ListNode* curColumn = toUnlink->Row->Right; curColumn != nullptr;
+       curColumn = curColumn->Right) {
     List.unlinkColumn(curColumn);
-    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
+    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
+         curRow = curRow->Down) {
       List.unlinkRow(curRow);
     }
   }
 }
 
-void Solver::linkNode(ListNode* toLink)
-{
+void Solver::linkNode(ListNode* toLink) {
   toLink->link();
   List.linkColumn(toLink);
   List.linkRow(toLink);
-  for (ListNode* curColumn = toLink->Row->Right; curColumn != nullptr; curColumn = curColumn->Right) {
+  for (ListNode* curColumn = toLink->Row->Right; curColumn != nullptr;
+       curColumn = curColumn->Right) {
     List.linkColumn(curColumn);
-    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr; curRow = curRow->Down) {
+    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
+         curRow = curRow->Down) {
       List.linkRow(curRow);
     }
   }
 }
 
-ListNode* Solver::get(int id)
-{
+ListNode* Solver::get(int id) {
   BaseNode* currentColumn = List.RootColumn;
   while (currentColumn != nullptr) {
     if (currentColumn->getCount() == 0) {
@@ -49,23 +50,21 @@ ListNode* Solver::get(int id)
   return nullptr;
 }
 
-void Solver::backtrack()
-{
+void Solver::backtrack() {
   linkNode(Removed.back());
   TestedId.pop();
   Removed.pop_back();
 }
-void Solver::deepen(ListNode* node)
-{
+void Solver::deepen(ListNode* node) {
   ++TestedId.top();
   TestedId.push(0);
   Removed.push_back(node);
   unlinkNode(node);
 }
 
-bool Solver::checkListEmptyColumn()
-{
-  for (BaseNode* it = List.RootColumn; it != nullptr; it = static_cast<BaseNode*>(it->Right)) {
+bool Solver::checkListEmptyColumn() {
+  for (BaseNode* it = List.RootColumn; it != nullptr;
+       it = static_cast<BaseNode*>(it->Right)) {
     if (it->getCount() == 0) {
       return true;
     }
@@ -73,8 +72,7 @@ bool Solver::checkListEmptyColumn()
   return false;
 }
 
-bool Solver::nextModel()
-{
+bool Solver::nextModel() {
   while (true) {
     if (checkListEmptyColumn()) {
       if (Removed.empty()) {
@@ -97,4 +95,4 @@ bool Solver::nextModel()
     }
   }
 }
-}
+} // namespace DancingLinks

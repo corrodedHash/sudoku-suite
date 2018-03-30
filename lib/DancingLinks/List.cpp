@@ -2,9 +2,8 @@
 
 namespace DancingLinks {
 List::List(int rowCount, int columnCount)
-    : Columns(std::vector<BaseNode>(columnCount))
-    , Rows(std::vector<BaseNode>(rowCount))
-{
+    : Columns(std::vector<BaseNode>(columnCount)),
+      Rows(std::vector<BaseNode>(rowCount)) {
 
   Columns.front().Right = &Columns.at(1);
   Columns.back().Left = &Columns.at(Columns.size() - 2);
@@ -23,8 +22,7 @@ List::List(int rowCount, int columnCount)
   RootColumn = &Columns.at(0);
 }
 
-void List::insertNode(int row, int column)
-{
+void List::insertNode(int row, int column) {
   BaseNode& rowNode = Rows.at(row);
   BaseNode& columnNode = Columns.at(column);
   Nodes.push_back(std::make_unique<ListNode>());
@@ -39,8 +37,7 @@ void List::insertNode(int row, int column)
   newNode->link();
 }
 
-void List::unlinkRow(ListNode* cell)
-{
+void List::unlinkRow(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* left = cell->Left; left != nullptr; left = left->Left) {
     left->unlink();
@@ -50,8 +47,7 @@ void List::unlinkRow(ListNode* cell)
   }
 }
 
-void List::unlinkColumn(ListNode* cell)
-{
+void List::unlinkColumn(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* up = cell->Up; up != nullptr; up = up->Up) {
     up->unlink();
@@ -65,8 +61,7 @@ void List::unlinkColumn(ListNode* cell)
   }
 }
 
-void List::linkRow(ListNode* cell)
-{
+void List::linkRow(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* left = cell->Left; left != nullptr; left = left->Left) {
     left->link();
@@ -76,8 +71,7 @@ void List::linkRow(ListNode* cell)
   }
 }
 
-void List::linkColumn(ListNode* cell)
-{
+void List::linkColumn(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* up = cell->Up; up != nullptr; up = up->Up) {
     up->link();
@@ -89,23 +83,21 @@ void List::linkColumn(ListNode* cell)
     RootColumn = static_cast<BaseNode*>(cell->Column);
   }
 }
-int List::getColumnCount() const
-{
+int List::getColumnCount() const {
   int result = 0;
   for (auto& x : Columns) {
-    if (x.getCount() > 0){
+    if (x.getCount() > 0) {
       ++result;
     }
   }
   return result;
 }
 
-std::pair<int, int> List::getCoord(ListNode* node) const
-{
+std::pair<int, int> List::getCoord(ListNode* node) const {
   int rowIndex = node->Row - &Rows[0];
   assert(rowIndex < Rows.size());
   int columnIndex = node->Column - &Columns[0];
   assert(columnIndex < Columns.size());
   return std::make_pair(rowIndex, columnIndex);
 }
-}
+} // namespace DancingLinks

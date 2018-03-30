@@ -1,7 +1,6 @@
 #include <z3++.h>
 #include <iostream>
-void solve()
-{
+void solve() {
   z3::context c;
   z3::expr ebase = c.parse_file("test.smt2");
   z3::solver s(c);
@@ -34,6 +33,4 @@ void solve()
     std::cout << v.name() << " = " << m.get_const_interp(v) << "\n";
   }
 }
-int main(int argc, char** args){
-  solve();
-}
+int main(int argc, char** args) { solve(); }

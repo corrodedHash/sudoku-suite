@@ -25,10 +25,10 @@ struct ListNode {
 };
 
 struct BaseNode : public ListNode {
-  private:
+private:
   int Count;
 
-  public:
+public:
   ListNode* Last = this;
   int getCount() const;
 
@@ -46,10 +46,7 @@ struct List {
 
   List(int rowCount, int columnCount);
 
-  bool isEmpty()
-  {
-    return RootColumn == nullptr;
-  }
+  bool isEmpty() { return RootColumn == nullptr; }
 
   void insertNode(int row, int column);
   int getColumnCount() const;
@@ -65,11 +62,7 @@ struct Solver {
   List List;
   std::vector<ListNode*> Removed;
   std::stack<int> TestedId;
-  Solver(struct List list)
-      : List(std::move(list))
-  {
-    TestedId.push(0);
-  }
+  Solver(struct List list) : List(std::move(list)) { TestedId.push(0); }
 
   void unlinkNode(DancingLinks::ListNode* toUnlink);
   void linkNode(DancingLinks::ListNode* toLink);
@@ -79,15 +72,4 @@ struct Solver {
   bool nextModel();
   bool checkListEmptyColumn();
 };
-}
-int getColId(int row, int col, int number);
-
-template <int T>
-std::array<std::array<bool, T * T * T * T * 4>, T * T * T * T * T * T> createExactCover();
-
-template <int T>
-DancingLinks::List toDancingLinksList(std::array<std::array<bool, T * T * T * T * 4>, T * T * T * T * T * T> matrix);
-
-template <int T> void drawSudoku(const DancingLinks::Solver& s);
-
-#include "DancingLinks.tpp"
+} // namespace DancingLinks

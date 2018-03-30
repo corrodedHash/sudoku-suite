@@ -9,7 +9,7 @@ class Field {
   int getIndex(int x, int y);
   std::pair<int, int> getCoord(int index);
 
-  public:
+public:
   Field(int blocksize);
 
   const int UnsetValue = 0;
@@ -24,12 +24,12 @@ class Field {
 };
 
 class DLHelper {
-  private:
+private:
   static int getColId(int row, int col, int number, int blocksize);
   static std::tuple<int, int, int> getSudokuPos(int rowIndex, int blocksize);
 
-  public:
+public:
   static DancingLinks::List toDancingLinksList(const Field& field);
   static Field fromDancingLinksList(const std::vector<int> rowIndices);
 };
-}
+} // namespace Sudoku

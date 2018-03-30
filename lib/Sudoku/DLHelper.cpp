@@ -1,8 +1,7 @@
 #include "Sudoku.hpp"
 
 namespace Sudoku {
-int DLHelper::getColId(int row, int col, int number, int blocksize)
-{
+int DLHelper::getColId(int row, int col, int number, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   assert(row >= 0 && row < blocksize2P);
   assert(col >= 0 && col < blocksize2P);
@@ -10,8 +9,7 @@ int DLHelper::getColId(int row, int col, int number, int blocksize)
   return number + col * blocksize2P + row * blocksize2P * blocksize2P;
 }
 
-std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize)
-{
+std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   int blocksize4P = blocksize2P * blocksize2P;
   int row = rowIndex / (blocksize4P);
@@ -25,11 +23,10 @@ std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize)
   return std::make_tuple(row, column, number);
 }
 
-DancingLinks::List toDancingLinksList(const Field& field)
-{
-  DancingLinks::List result(
-      field.getMaxNumber() * field.getMaxNumber() * field.getMaxNumber(),
-      field.getMaxNumber() * field.getMaxNumber() * 4);
+DancingLinks::List toDancingLinksList(const Field& field) {
+  DancingLinks::List result(field.getMaxNumber() * field.getMaxNumber() *
+                                field.getMaxNumber(),
+                            field.getMaxNumber() * field.getMaxNumber() * 4);
 
   int hBase = 0;
 
@@ -37,8 +34,10 @@ DancingLinks::List toDancingLinksList(const Field& field)
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int col = 0; col < field.getMaxNumber(); ++col) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
-        if (field.getCellValue(row, col) == 0 || field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()), hBase);
+        if (field.getCellValue(row, col) == 0 ||
+            field.getCellValue(row, col) == number + 1) {
+          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+                            hBase);
         }
       }
       ++hBase;
@@ -49,8 +48,10 @@ DancingLinks::List toDancingLinksList(const Field& field)
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int number = 0; number < field.getMaxNumber(); ++number) {
       for (int col = 0; col < field.getMaxNumber(); ++col) {
-        if (field.getCellValue(row, col) == 0 || field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()), hBase);
+        if (field.getCellValue(row, col) == 0 ||
+            field.getCellValue(row, col) == number + 1) {
+          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+                            hBase);
         }
       }
       ++hBase;
@@ -61,8 +62,10 @@ DancingLinks::List toDancingLinksList(const Field& field)
   for (int col = 0; col < field.getMaxNumber(); ++col) {
     for (int number = 0; number < field.getMaxNumber(); ++number) {
       for (int row = 0; row < field.getMaxNumber(); ++row) {
-        if (field.getCellValue(row, col) == 0 || field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()), hBase);
+        if (field.getCellValue(row, col) == 0 ||
+            field.getCellValue(row, col) == number + 1) {
+          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+                            hBase);
         }
       }
       ++hBase;
@@ -70,14 +73,23 @@ DancingLinks::List toDancingLinksList(const Field& field)
   }
 
   // Each block can only have each number once
-  for (int blockStartRow = 0; blockStartRow < field.getMaxNumber(); blockStartRow += T)
-    for (int blockStartColumn = 0; blockStartColumn < field.getMaxNumber(); blockStartColumn += T)
+  for (int blockStartRow = 0; blockStartRow < field.getMaxNumber();
+       blockStartRow += T)
+    for (int blockStartColumn = 0; blockStartColumn < field.getMaxNumber();
+         blockStartColumn += T)
       for (int number = 0; number < field.getMaxNumber(); ++number) {
         for (int cellStartRow = 0; cellStartRow < T; ++cellStartRow) {
-          for (int cellStartColumn = 0; cellStartColumn < T; ++cellStartColumn) {
-            if (field.getCellValue(blockStartRow + cellStartRow, blockStartColumn + cellStartColumn) == 0
-                || field.getCellValue(blockStartRow + cellStartRow, blockStartColumn + cellStartColumn) == number + 1) {
-              result.insertNode(getColId(blockStartRow + cellStartRow, blockStartColumn + cellStartColumn, number, field.getBlocksize()), hBase);
+          for (int cellStartColumn = 0; cellStartColumn < T;
+               ++cellStartColumn) {
+            if (field.getCellValue(blockStartRow + cellStartRow,
+                                   blockStartColumn + cellStartColumn) == 0 ||
+                field.getCellValue(blockStartRow + cellStartRow,
+                                   blockStartColumn + cellStartColumn) ==
+                    number + 1) {
+              result.insertNode(getColId(blockStartRow + cellStartRow,
+                                         blockStartColumn + cellStartColumn,
+                                         number, field.getBlocksize()),
+                                hBase);
             }
           }
         }
@@ -85,4 +97,4 @@ DancingLinks::List toDancingLinksList(const Field& field)
       }
   return result;
 }
-}
+} // namespace Sudoku
