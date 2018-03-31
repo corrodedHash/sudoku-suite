@@ -30,9 +30,10 @@ std::pair<int, int> DLHelper::getDancingListSize(int blocksize) {
                         blocksize * blocksize * blocksize * blocksize * 4);
 }
 
-DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
+std::unique_ptr<DancingLinks::List>
+DLHelper::toDancingLinksList(const Field& field) {
   auto [dlHeight, dlWidth] = getDancingListSize(field.getBlocksize());
-  DancingLinks::List result(dlHeight, dlWidth);
+  auto result = std::make_unique<DancingLinks::List>(dlHeight, dlWidth);
   int hBase = 0;
 
   // Each cell can only have one number
@@ -41,7 +42,7 @@ DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result->insertNode(getColId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -55,7 +56,7 @@ DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
       for (int col = 0; col < field.getMaxNumber(); ++col) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result->insertNode(getColId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -69,7 +70,7 @@ DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
       for (int row = 0; row < field.getMaxNumber(); ++row) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result->insertNode(getColId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -92,7 +93,7 @@ DancingLinks::List DLHelper::toDancingLinksList(const Field& field) {
                 field.getCellValue(blockStartRow + cellStartRow,
                                    blockStartColumn + cellStartColumn) ==
                     number + 1) {
-              result.insertNode(getColId(blockStartRow + cellStartRow,
+              result->insertNode(getColId(blockStartRow + cellStartRow,
                                          blockStartColumn + cellStartColumn,
                                          number, field.getBlocksize()),
                                 hBase);

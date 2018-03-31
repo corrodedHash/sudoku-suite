@@ -12,6 +12,8 @@ struct ListNode;
 
 struct BaseNode;
 struct ListNode {
+  ListNode() = default;
+  ListNode(const ListNode& other) = delete;
   ListNode *Left, *Right, *Up, *Down;
   BaseNode* Row;
   BaseNode* Column;
@@ -30,6 +32,7 @@ private:
   int Count;
 
 public:
+  BaseNode() = default;
   ListNode* Last = this;
   int getCount() const;
 
@@ -39,16 +42,21 @@ public:
   void link();
 };
 
-struct List {
+class List {
+private:
   std::vector<BaseNode> Columns;
   std::vector<BaseNode> Rows;
   std::vector<std::unique_ptr<ListNode>> Nodes;
-  BaseNode* RootColumn;
+  ListNode RootNode;
 
+public:
   List(int rowCount, int columnCount);
+  List(const List& other) = delete;
 
-  bool isEmpty() { return RootColumn == nullptr; }
+  bool isEmpty() { return getFirstColumn() == nullptr; }
 
+  BaseNode* getFirstColumn();
+  BaseNode* getFirstRow();
   void insertNode(int row, int column);
   int getColumnCount() const;
   std::pair<int, int> getCoord(ListNode* node) const;
@@ -57,21 +65,25 @@ struct List {
   void unlinkColumn(ListNode* cell);
   void linkRow(ListNode* cell);
   void linkColumn(ListNode* cell);
+
+  void print();
 };
 
 class Solver {
-  List List;
+  std::unique_ptr<List> List;
   std::vector<ListNode*> Removed;
-  std::stack<int> TestedId;
+  ListNode* CurrentGuessedRow;
 
-  void unlinkNode(DancingLinks::ListNode* toUnlink);
-  void linkNode(DancingLinks::ListNode* toLink);
+  void assumeRow(ListNode* row);
+  void resetRow(ListNode* row);
   ListNode* get(int id);
   bool checkListEmptyColumn();
 
 public:
-  Solver(struct List list) : List(std::move(list)) { TestedId.push(0); }
-  void backtrack();
+  Solver(std::unique_ptr<struct List>&& list) : List(std::move(list)) {
+    CurrentGuessedRow = List->getFirstRow();
+  }
+  bool backtrack();
   void deepen(ListNode* node);
   std::optional<std::vector<int>> nextModel();
 };

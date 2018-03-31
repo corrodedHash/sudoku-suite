@@ -2,68 +2,49 @@
 #include <map>
 
 namespace DancingLinks {
-void Solver::unlinkNode(ListNode* toUnlink) {
-  toUnlink->unlink();
-  List.unlinkColumn(toUnlink);
-  List.unlinkRow(toUnlink);
-  for (ListNode* curColumn = toUnlink->Row->Right; curColumn != nullptr;
+void Solver::assumeRow(ListNode* row) {
+  List->unlinkRow(row);
+  for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
        curColumn = curColumn->Right) {
-    List.unlinkColumn(curColumn);
+    List->unlinkColumn(curColumn);
     for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
          curRow = curRow->Down) {
-      List.unlinkRow(curRow);
+      List->unlinkRow(curRow);
     }
   }
 }
 
-void Solver::linkNode(ListNode* toLink) {
-  toLink->link();
-  List.linkColumn(toLink);
-  List.linkRow(toLink);
-  for (ListNode* curColumn = toLink->Row->Right; curColumn != nullptr;
+void Solver::resetRow(ListNode* row) {
+  List->linkRow(row);
+  for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
        curColumn = curColumn->Right) {
-    List.linkColumn(curColumn);
+    List->linkColumn(curColumn);
     for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
          curRow = curRow->Down) {
-      List.linkRow(curRow);
+      List->linkRow(curRow);
     }
   }
 }
 
-ListNode* Solver::get(int id) {
-  BaseNode* currentColumn = List.RootColumn;
-  while (currentColumn != nullptr) {
-    if (currentColumn->getCount() == 0) {
-      return nullptr;
-    }
-    if (currentColumn->getCount() > id) {
-      ListNode* currentCell = currentColumn->Down;
-      for (int i = 0; i < id; ++i) {
-        currentCell = currentCell->Down;
-        assert(currentCell != nullptr);
-      }
-      return currentCell;
-    }
-    id -= currentColumn->getCount();
-    currentColumn = static_cast<BaseNode*>(currentColumn->Right);
-  }
-  return nullptr;
-}
-
-void Solver::backtrack() {
-  linkNode(Removed.back());
-  TestedId.pop();
+bool Solver::backtrack() {
+  resetRow(Removed.back());
+  CurrentGuessedRow = Removed.back()->Down;
   Removed.pop_back();
+  if (Removed.empty() && CurrentGuessedRow == nullptr) {
+    return false;
+  } else {
+    return true;
+  }
 }
+
 void Solver::deepen(ListNode* node) {
-  ++TestedId.top();
-  TestedId.push(0);
   Removed.push_back(node);
-  unlinkNode(node);
+  assumeRow(node);
+  CurrentGuessedRow = List->getFirstRow();
 }
 
 bool Solver::checkListEmptyColumn() {
-  for (BaseNode* it = List.RootColumn; it != nullptr;
+  for (BaseNode* it = List->getFirstColumn(); it != nullptr;
        it = static_cast<BaseNode*>(it->Right)) {
     if (it->getCount() == 0) {
       return true;
@@ -73,32 +54,52 @@ bool Solver::checkListEmptyColumn() {
 }
 
 std::optional<std::vector<int>> Solver::nextModel() {
+  std::vector<ListNode*> lastVec;
   while (true) {
     if (checkListEmptyColumn()) {
-      if (Removed.empty()) {
+      if (!backtrack()) {
         return std::nullopt;
       }
-      backtrack();
     } else {
-      ListNode* next = get(TestedId.top());
+      ListNode* next = CurrentGuessedRow;
       if (next == nullptr) {
-        if (Removed.empty()) {
+        if (!backtrack()) {
           return std::nullopt;
         }
-        backtrack();
       } else {
         deepen(next);
-        if (List.isEmpty()) {
+        if (List->isEmpty()) {
           std::vector<int> result;
           result.reserve(Removed.size());
-          for (ListNode* node : Removed){
-            auto [lRow, lColumn] = List.getCoord(node); 
+          for (ListNode* node : Removed) {
+            auto [lRow, lColumn] = List->getCoord(node);
             result.push_back(lRow);
-          } 
+          }
           return result;
         }
       }
     }
+#ifdef NDEBUG
+    int rowCount = 0;
+    for (ListNode* x = List->getFirstRow(); x != nullptr; x = x->Down)
+      ++rowCount;
+    if (rowCount < 40)
+      std::cout << Removed.size() << " " << rowCount << '\n';
+    auto oldit = lastVec.begin();
+    auto newit = Removed.begin();
+    for (; ; ++oldit, ++newit) {
+      if (oldit == lastVec.end()){
+        assert(newit != Removed.end());
+        break;
+      }
+      assert(newit != Removed.end());
+      if (*oldit < *newit){
+        break;
+      }
+      assert(*oldit == *newit);
+    }
+#endif
+
   }
 }
 } // namespace DancingLinks

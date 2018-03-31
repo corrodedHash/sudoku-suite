@@ -4,7 +4,8 @@
 
 const int SudokuBlockSize = 3;
 int main(int /*argc*/, char** /*args*/) {
-  DancingLinks::Solver s(Sudoku::DLHelper::toDancingLinksList(Sudoku::Field(SudokuBlockSize)));
+  std::unique_ptr<DancingLinks::List> l = Sudoku::DLHelper::toDancingLinksList(Sudoku::Field(SudokuBlockSize));
+  DancingLinks::Solver s(std::move(l));
   while (auto model = s.nextModel()) {
     std::cout << Sudoku::DLHelper::fromDancingLinksList(*model, SudokuBlockSize).print();
     char x;

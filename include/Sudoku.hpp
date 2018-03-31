@@ -37,7 +37,9 @@ private:
   static std::pair<int, int> getDancingListSize(int blocksize);
 
 public:
-  static DancingLinks::List toDancingLinksList(const Field& field);
-  static Field fromDancingLinksList(const std::vector<int> rowIndices, int blocksize);
+  static std::unique_ptr<DancingLinks::List>
+  toDancingLinksList(const Field& field);
+  static Field fromDancingLinksList(const std::vector<int> rowIndices,
+                                    int blocksize);
 };
 } // namespace Sudoku
