@@ -1,5 +1,6 @@
 #include "DancingLinks.hpp"
 #include <map>
+#include <iomanip>
 
 namespace DancingLinks {
 void Solver::assumeRow(ListNode* row) {
@@ -79,12 +80,14 @@ std::optional<std::vector<int>> Solver::nextModel() {
         }
       }
     }
-#ifdef NDEBUG
+    /*
     int rowCount = 0;
     for (ListNode* x = List->getFirstRow(); x != nullptr; x = x->Down)
       ++rowCount;
-    if (rowCount < 40)
+    if (rowCount < 40){
       std::cout << Removed.size() << " " << rowCount << '\n';
+      //List->print();
+    }
     auto oldit = lastVec.begin();
     auto newit = Removed.begin();
     for (; ; ++oldit, ++newit) {
@@ -92,13 +95,17 @@ std::optional<std::vector<int>> Solver::nextModel() {
         assert(newit != Removed.end());
         break;
       }
-      assert(newit != Removed.end());
+      if (newit == Removed.end()){
+        assert(CurrentGuessedRow == nullptr || CurrentGuessedRow > *oldit);
+        break;
+      }
       if (*oldit < *newit){
         break;
       }
       assert(*oldit == *newit);
     }
-#endif
+    lastVec = Removed;
+    */
 
   }
 }

@@ -17,7 +17,9 @@ void ListNode::unregisterNeighbors() {
 }
 
 void ListNode::unregisterBase() {
-  Column->unregisterNode();
+  if (!Unlinked) {
+    Column->unregisterNode();
+  }
   // Row->unregisterNode();
 }
 
@@ -37,16 +39,20 @@ void ListNode::registerNeighbors() {
 }
 
 void ListNode::registerBase() {
-  Column->registerNode();
+  if (Unlinked) {
+    Column->registerNode();
+  }
   // Row->registerNode();
 }
 
 void ListNode::unlink() {
   unregisterNeighbors();
   unregisterBase();
+  Unlinked = true;
 }
 void ListNode::link() {
   registerNeighbors();
   registerBase();
+  Unlinked = false;
 }
 } // namespace DancingLinks

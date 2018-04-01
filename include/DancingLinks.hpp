@@ -11,23 +11,27 @@ namespace DancingLinks {
 struct ListNode;
 
 struct BaseNode;
-struct ListNode {
-  ListNode() = default;
-  ListNode(const ListNode& other) = delete;
-  ListNode *Left, *Right, *Up, *Down;
-  BaseNode* Row;
-  BaseNode* Column;
+class ListNode {
+protected:
+  bool Unlinked = true;
 
   void registerBase();
   void unregisterBase();
   void registerNeighbors();
   void unregisterNeighbors();
 
+public:
+  ListNode() = default;
+  ListNode(const ListNode& other) = delete;
+  ListNode *Left, *Right, *Up, *Down;
+  BaseNode* Row;
+  BaseNode* Column;
+
   virtual void unlink();
   virtual void link();
 };
 
-struct BaseNode : public ListNode {
+class BaseNode : public ListNode {
 private:
   int Count;
 

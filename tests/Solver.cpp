@@ -23,6 +23,25 @@ TEST_CASE("Solver") {
   }
 }
 
+TEST_CASE("Big Solver"){
+  auto l = std::make_unique<DancingLinks::List>(100, 100);
+  for (int i = 0; i < 99; ++i){
+    l->insertNode(i, i);
+    l->insertNode(i, i+ 1);
+  }
+  l->insertNode(99, 99);
+
+  DancingLinks::Solver s(std::move(l));
+
+  while (auto model = s.nextModel()) {
+    std::cout << "Model ";
+    for (int x : *model)
+      std::cout << x << " ";
+    std::cout << '\n';
+  }
+
+}
+
 TEST_CASE("List") {
   DancingLinks::List l(3, 1);
 
