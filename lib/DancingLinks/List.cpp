@@ -29,16 +29,6 @@ List::List(int rowCount, int columnCount)
   Rows.at(0).Up = &RootNode;
 }
 
-BaseNode*
-List::getFirstColumn() {
-  return static_cast<BaseNode*>(RootNode.Right);
-}
-
-BaseNode*
-List::getFirstRow() {
-  return static_cast<BaseNode*>(RootNode.Down);
-}
-
 void
 List::insertNode(int row, int column) {
   BaseNode& rowNode = Rows.at(row);

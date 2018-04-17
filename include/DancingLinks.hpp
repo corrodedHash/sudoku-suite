@@ -57,10 +57,21 @@ public:
   List(int rowCount, int columnCount);
   List(const List& other) = delete;
 
-  bool isEmpty() { return getFirstColumn() == nullptr; }
+  bool
+  isEmpty() {
+    return getFirstColumn() == nullptr;
+  }
 
-  BaseNode* getFirstColumn();
-  BaseNode* getFirstRow();
+  BaseNode*
+  getFirstColumn() {
+    return static_cast<BaseNode*>(RootNode.Right);
+  }
+
+  BaseNode*
+  getFirstRow() {
+    return static_cast<BaseNode*>(RootNode.Down);
+  }
+
   void insertNode(int row, int column);
   int getColumnCount() const;
   std::pair<int, int> getCoord(ListNode* node) const;

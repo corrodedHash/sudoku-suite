@@ -1,4 +1,5 @@
 #pragma once
+
 #include <utility>
 #include <tuple>
 #include <vector>
@@ -20,7 +21,10 @@ public:
   const int UnsetValue = 0;
   const int MinNumber = 1;
   int getMaxNumber() const;
-  int getBlocksize() const { return Blocksize; };
+  int
+  getBlocksize() const {
+    return Blocksize;
+  };
 
   int getCellValue(int x, int y) const;
   void setCellValue(int x, int y, int value);
@@ -39,7 +43,7 @@ private:
 public:
   static std::unique_ptr<DancingLinks::List>
   toDancingLinksList(const Field& field);
-  static Field fromDancingLinksList(const std::vector<int> rowIndices,
-                                    int blocksize);
+  static Field
+  fromDancingLinksList(const std::vector<int> rowIndices, int blocksize);
 };
 } // namespace Sudoku
