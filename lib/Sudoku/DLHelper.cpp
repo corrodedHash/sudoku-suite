@@ -2,7 +2,8 @@
 #include <cassert>
 
 namespace Sudoku {
-int DLHelper::getColId(int row, int col, int number, int blocksize) {
+int
+DLHelper::getColId(int row, int col, int number, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   assert(row >= 0 && row < blocksize2P);
   assert(col >= 0 && col < blocksize2P);
@@ -10,7 +11,8 @@ int DLHelper::getColId(int row, int col, int number, int blocksize) {
   return number + col * blocksize2P + row * blocksize2P * blocksize2P;
 }
 
-std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize) {
+std::tuple<int, int, int>
+DLHelper::getSudokuPos(int rowIndex, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   int blocksize4P = blocksize2P * blocksize2P;
   int row = rowIndex / (blocksize4P);
@@ -24,7 +26,8 @@ std::tuple<int, int, int> DLHelper::getSudokuPos(int rowIndex, int blocksize) {
   return std::make_tuple(row, column, number);
 }
 
-std::pair<int, int> DLHelper::getDancingListSize(int blocksize) {
+std::pair<int, int>
+DLHelper::getDancingListSize(int blocksize) {
   return std::make_pair(blocksize * blocksize * blocksize * blocksize *
                             blocksize * blocksize,
                         blocksize * blocksize * blocksize * blocksize * 4);
@@ -43,7 +46,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result->insertNode(getColId(row, col, number, field.getBlocksize()),
-                            hBase);
+                             hBase);
         }
       }
       ++hBase;
@@ -57,7 +60,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result->insertNode(getColId(row, col, number, field.getBlocksize()),
-                            hBase);
+                             hBase);
         }
       }
       ++hBase;
@@ -71,7 +74,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result->insertNode(getColId(row, col, number, field.getBlocksize()),
-                            hBase);
+                             hBase);
         }
       }
       ++hBase;
@@ -80,9 +83,9 @@ DLHelper::toDancingLinksList(const Field& field) {
 
   // Each block can only have each number once
   for (int blockStartRow = 0; blockStartRow < field.getMaxNumber();
-       blockStartRow += field.getBlocksize())
+       blockStartRow += field.getBlocksize()) {
     for (int blockStartColumn = 0; blockStartColumn < field.getMaxNumber();
-         blockStartColumn += field.getBlocksize())
+         blockStartColumn += field.getBlocksize()) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
         for (int cellStartRow = 0; cellStartRow < field.getBlocksize();
              ++cellStartRow) {
@@ -94,19 +97,22 @@ DLHelper::toDancingLinksList(const Field& field) {
                                    blockStartColumn + cellStartColumn) ==
                     number + 1) {
               result->insertNode(getColId(blockStartRow + cellStartRow,
-                                         blockStartColumn + cellStartColumn,
-                                         number, field.getBlocksize()),
-                                hBase);
+                                          blockStartColumn + cellStartColumn,
+                                          number, field.getBlocksize()),
+                                 hBase);
             }
           }
         }
         ++hBase;
       }
+    }
+  }
   return result;
 }
 
-Field DLHelper::fromDancingLinksList(const std::vector<int> rowIndices,
-                                     int blocksize) {
+Field
+DLHelper::fromDancingLinksList(const std::vector<int> rowIndices,
+                               int blocksize) {
   Field field(blocksize);
   for (int entry : rowIndices) {
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);

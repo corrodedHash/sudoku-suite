@@ -3,7 +3,8 @@
 #include <iomanip>
 
 namespace DancingLinks {
-void Solver::assumeRow(ListNode* row) {
+void
+Solver::assumeRow(ListNode* row) {
   List->unlinkRow(row);
   for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
        curColumn = curColumn->Right) {
@@ -15,7 +16,8 @@ void Solver::assumeRow(ListNode* row) {
   }
 }
 
-void Solver::resetRow(ListNode* row) {
+void
+Solver::resetRow(ListNode* row) {
   List->linkRow(row);
   for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
        curColumn = curColumn->Right) {
@@ -27,24 +29,23 @@ void Solver::resetRow(ListNode* row) {
   }
 }
 
-bool Solver::backtrack() {
+bool
+Solver::backtrack() {
   resetRow(Removed.back());
   CurrentGuessedRow = Removed.back()->Down;
   Removed.pop_back();
-  if (Removed.empty() && CurrentGuessedRow == nullptr) {
-    return false;
-  } else {
-    return true;
-  }
+  return !(Removed.empty() && CurrentGuessedRow == nullptr);
 }
 
-void Solver::deepen(ListNode* node) {
+void
+Solver::deepen(ListNode* node) {
   Removed.push_back(node);
   assumeRow(node);
   CurrentGuessedRow = List->getFirstRow();
 }
 
-bool Solver::checkListEmptyColumn() {
+bool
+Solver::checkListEmptyColumn() {
   for (BaseNode* it = List->getFirstColumn(); it != nullptr;
        it = static_cast<BaseNode*>(it->Right)) {
     if (it->getCount() == 0) {
@@ -54,7 +55,8 @@ bool Solver::checkListEmptyColumn() {
   return false;
 }
 
-std::optional<std::vector<int>> Solver::nextModel() {
+std::optional<std::vector<int>>
+Solver::nextModel() {
   std::vector<ListNode*> lastVec;
   while (true) {
     if (checkListEmptyColumn()) {
@@ -106,7 +108,6 @@ std::optional<std::vector<int>> Solver::nextModel() {
     }
     lastVec = Removed;
     */
-
   }
 }
 } // namespace DancingLinks

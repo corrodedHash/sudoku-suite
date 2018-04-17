@@ -15,19 +15,20 @@ TEST_CASE("Solver") {
   while (auto model = s.nextModel()) {
     REQUIRE(model->size() == 2);
     std::cout << "Model ";
-    for (int x : *model)
+    for (int x : *model) {
       std::cout << x << " ";
+    }
     std::cout << '\n';
     REQUIRE(std::find(model->begin(), model->end(), 1) != model->end());
     REQUIRE(std::find(model->begin(), model->end(), 2) != model->end());
   }
 }
 
-TEST_CASE("Big Solver"){
+TEST_CASE("Big Solver") {
   auto l = std::make_unique<DancingLinks::List>(100, 100);
-  for (int i = 0; i < 99; ++i){
+  for (int i = 0; i < 99; ++i) {
     l->insertNode(i, i);
-    l->insertNode(i, i+ 1);
+    l->insertNode(i, i + 1);
   }
   l->insertNode(99, 99);
 
@@ -35,11 +36,11 @@ TEST_CASE("Big Solver"){
 
   while (auto model = s.nextModel()) {
     std::cout << "Model ";
-    for (int x : *model)
+    for (int x : *model) {
       std::cout << x << " ";
+    }
     std::cout << '\n';
   }
-
 }
 
 TEST_CASE("List") {

@@ -34,7 +34,7 @@ else()
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 
   if (SUDOKU_ENABLE_TIDY)
-    set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,readability-*")
+    set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
   endif()
 
 endif()
@@ -63,9 +63,6 @@ endif()
 add_subdirectory(tools)
 
 ### END SOURCE FILES ###
-
-# Add clang-tidy target
-add_custom_target(tidy COMMAND python2 /usr/share/clang/run-clang-tidy.py "-header-filter=-benchmark.h" "-checks=bugprone-*,clang-analyzer-*,misc-*,modernize-*,performance-*,readability-*" > tidy.txt DEPENDS lib_core)
 
 # Add doxygen target
 find_package(Doxygen)

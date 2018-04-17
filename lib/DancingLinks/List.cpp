@@ -29,13 +29,18 @@ List::List(int rowCount, int columnCount)
   Rows.at(0).Up = &RootNode;
 }
 
-BaseNode* List::getFirstColumn() {
+BaseNode*
+List::getFirstColumn() {
   return static_cast<BaseNode*>(RootNode.Right);
 }
 
-BaseNode* List::getFirstRow() { return static_cast<BaseNode*>(RootNode.Down); }
+BaseNode*
+List::getFirstRow() {
+  return static_cast<BaseNode*>(RootNode.Down);
+}
 
-void List::insertNode(int row, int column) {
+void
+List::insertNode(int row, int column) {
   BaseNode& rowNode = Rows.at(row);
   BaseNode& columnNode = Columns.at(column);
   Nodes.push_back(std::make_unique<ListNode>());
@@ -50,35 +55,40 @@ void List::insertNode(int row, int column) {
   newNode->link();
 }
 
-void List::unlinkRow(ListNode* cell) {
+void
+List::unlinkRow(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* right = cell->Row; right != nullptr; right = right->Right) {
     right->unlink();
   }
 }
 
-void List::unlinkColumn(ListNode* cell) {
+void
+List::unlinkColumn(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* down = cell->Column; down != nullptr; down = down->Down) {
     down->unlink();
   }
 }
 
-void List::linkRow(ListNode* cell) {
+void
+List::linkRow(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* right = cell->Row; right != nullptr; right = right->Right) {
     right->link();
   }
 }
 
-void List::linkColumn(ListNode* cell) {
+void
+List::linkColumn(ListNode* cell) {
   assert(cell != nullptr);
   for (ListNode* down = cell->Column; down != nullptr; down = down->Down) {
     down->link();
   }
 }
 
-int List::getColumnCount() const {
+int
+List::getColumnCount() const {
   int result = 0;
   for (auto& x : Columns) {
     if (x.getCount() > 0) {
@@ -88,7 +98,8 @@ int List::getColumnCount() const {
   return result;
 }
 
-std::pair<int, int> List::getCoord(ListNode* node) const {
+std::pair<int, int>
+List::getCoord(ListNode* node) const {
   std::pair<int, int> result;
   if (node->Row == nullptr) {
     result.first = -1;
@@ -104,7 +115,8 @@ std::pair<int, int> List::getCoord(ListNode* node) const {
   return result;
 }
 
-void List::print() {
+void
+List::print() {
   int cellWidth = 3;
   std::string cellSeperator = " | ";
   std::cout << std::setw(cellWidth) << " ";
