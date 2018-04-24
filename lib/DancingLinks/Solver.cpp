@@ -1,6 +1,7 @@
 #include "DancingLinks.hpp"
 #include <map>
 #include <iomanip>
+#include <iostream>
 
 namespace DancingLinks {
 void
@@ -31,21 +32,21 @@ Solver::resetRow(ListNode* row) {
 
 bool
 Solver::backtrack() {
-  resetRow(Removed.back());
-  CurrentGuessedRow = Removed.back()->Down;
-  Removed.pop_back();
-  return !(Removed.empty() && CurrentGuessedRow == nullptr);
+  resetRow(RemovedRows.back());
+  CurrentGuessedRow = RemovedRows.back()->Down;
+  RemovedRows.pop_back();
+  return !(RemovedRows.empty() && CurrentGuessedRow == nullptr);
 }
 
 void
 Solver::deepen(ListNode* node) {
-  Removed.push_back(node);
+  RemovedRows.push_back(node);
   assumeRow(node);
   CurrentGuessedRow = List->getFirstRow();
 }
 
 bool
-Solver::checkListEmptyColumn() {
+Solver::containsEmptyColumn() {
   for (BaseNode* it = List->getFirstColumn(); it != nullptr;
        it = static_cast<BaseNode*>(it->Right)) {
     if (it->getCount() == 0) {
@@ -59,7 +60,7 @@ std::optional<std::vector<int>>
 Solver::nextModel() {
   std::vector<ListNode*> lastVec;
   while (true) {
-    if (checkListEmptyColumn()) {
+    if (containsEmptyColumn()) {
       if (!backtrack()) {
         return std::nullopt;
       }
@@ -73,8 +74,8 @@ Solver::nextModel() {
         deepen(next);
         if (List->isEmpty()) {
           std::vector<int> result;
-          result.reserve(Removed.size());
-          for (ListNode* node : Removed) {
+          result.reserve(RemovedRows.size());
+          for (ListNode* node : RemovedRows) {
             auto [lRow, lColumn] = List->getCoord(node);
             result.push_back(lRow);
           }

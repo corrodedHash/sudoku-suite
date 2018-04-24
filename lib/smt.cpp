@@ -1,5 +1,6 @@
 #include <z3++.h>
 #include <iostream>
+
 void
 solve() {
   z3::context c;
@@ -34,6 +35,7 @@ solve() {
     std::cout << v.name() << " = " << m.get_const_interp(v) << "\n";
   }
 }
+
 int
 main(int argc, char** args) {
   solve();

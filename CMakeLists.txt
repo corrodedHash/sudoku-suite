@@ -11,6 +11,7 @@ set(SUDOKU_ENABLE_TIDY OFF CACHE BOOL "Enable clang-tidy")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 set(CMAKE_CXX_STANDARD 17)
+
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /W4")
   # Need to make Visual C++ conform standard
@@ -31,12 +32,12 @@ else()
   string (APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer")
   #string (APPEND CMAKE_CXX_FLAGS " -flto=thin")
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined")
+  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fprofile-instr-generate -fcoverage-mapping")
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 
   if (SUDOKU_ENABLE_TIDY)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
   endif()
-
 endif()
 
 # Append system wide include directories
@@ -52,7 +53,7 @@ if (SUDOKU_ENABLE_TESTS)
 endif()
 
 if (SUDOKU_ENABLE_BENCHMARKS)
-  include( "${CMAKE_SOURCE_DIR}/cmake/ExternalGoogleBenchmarks.cmake" )
+  include( "ExternalGoogleBenchmarks" )
   add_subdirectory(benchmarks)
 endif()
 

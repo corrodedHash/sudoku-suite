@@ -1,6 +1,7 @@
 #include "catch.hpp"
 #include "DancingLinks.hpp"
 #include <algorithm>
+#include <iostream>
 
 TEST_CASE("Solver") {
   auto l = std::make_unique<DancingLinks::List>(3, 3);
@@ -14,11 +15,6 @@ TEST_CASE("Solver") {
 
   while (auto model = s.nextModel()) {
     REQUIRE(model->size() == 2);
-    std::cout << "Model ";
-    for (int x : *model) {
-      std::cout << x << " ";
-    }
-    std::cout << '\n';
     REQUIRE(std::find(model->begin(), model->end(), 1) != model->end());
     REQUIRE(std::find(model->begin(), model->end(), 2) != model->end());
   }
@@ -34,13 +30,7 @@ TEST_CASE("Big Solver") {
 
   DancingLinks::Solver s(std::move(l));
 
-  while (auto model = s.nextModel()) {
-    std::cout << "Model ";
-    for (int x : *model) {
-      std::cout << x << " ";
-    }
-    std::cout << '\n';
-  }
+  REQUIRE(s.nextModel());
 }
 
 TEST_CASE("List") {

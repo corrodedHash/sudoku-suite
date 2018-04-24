@@ -1,21 +1,21 @@
 #pragma once
 #include <array>
-#include <cassert>
 #include <memory>
 #include <stack>
 #include <vector>
-#include <iostream>
 #include <map>
 
 namespace DancingLinks {
-struct ListNode;
+class BaseNode;
 
-struct BaseNode;
+/// @brief Node in DancingLinks::List
 class ListNode {
 protected:
   bool Unlinked = true;
 
+  /// @brief Notify base nodes that this node was added to the list
   void registerBase();
+  /// @brief Notify base nodes that this node was removed from the list
   void unregisterBase();
   void registerNeighbors();
   void unregisterNeighbors();
@@ -31,6 +31,7 @@ public:
   virtual void link();
 };
 
+/// @brief Empty node at the beginning of each row/column
 class BaseNode : public ListNode {
 private:
   int Count;
@@ -86,20 +87,33 @@ public:
 
 class Solver {
   std::unique_ptr<List> List;
-  std::vector<ListNode*> Removed;
   ListNode* CurrentGuessedRow;
+  /// @brief ListNodes in the removed rows
+  std::vector<ListNode*> RemovedRows;
 
   void assumeRow(ListNode* row);
   void resetRow(ListNode* row);
-  ListNode* get(int id);
-  bool checkListEmptyColumn();
+  bool containsEmptyColumn();
+
+  /// @brief Remove newest assumption and reset the list
+  ///
+  /// @return True if the searchtree is now empty
+  bool backtrack();
+
+  /// @brief Add assumption and reduce list
+  ///
+  /// @param node The node in the assumed row
+  void deepen(ListNode* node);
 
 public:
   Solver(std::unique_ptr<struct List>&& list) : List(std::move(list)) {
     CurrentGuessedRow = List->getFirstRow();
   }
-  bool backtrack();
-  void deepen(ListNode* node);
+  /// @brief Calculate a solution for the given exact cover problem, which is
+  /// different from the previous solutions
+  ///
+  /// @return A vector of rows which are in the solution, or false if no
+  /// solution could be found
   std::optional<std::vector<int>> nextModel();
 };
 } // namespace DancingLinks

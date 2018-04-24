@@ -31,7 +31,7 @@ Field::setCellValue(int x, int y, int value) {
 }
 
 bool
-Field::isSolved() {
+Field::isSolved() const {
   for (auto x : Grid) {
     if (x == UnsetValue) {
       return false;

@@ -1,5 +1,7 @@
 #include "DancingLinks.hpp"
 #include <iomanip>
+#include <iostream>
+#include <cassert>
 
 namespace DancingLinks {
 List::List(int rowCount, int columnCount)
