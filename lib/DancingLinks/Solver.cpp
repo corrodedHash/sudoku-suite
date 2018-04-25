@@ -2,113 +2,78 @@
 #include <map>
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 
 namespace DancingLinks {
-void
-Solver::assumeRow(ListNode* row) {
-  List->unlinkRow(row);
-  for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
-       curColumn = curColumn->Right) {
-    List->unlinkColumn(curColumn);
-    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
-         curRow = curRow->Down) {
-      List->unlinkRow(curRow);
-    }
-  }
-}
-
-void
-Solver::resetRow(ListNode* row) {
-  List->linkRow(row);
-  for (ListNode* curColumn = row->Row->Right; curColumn != nullptr;
-       curColumn = curColumn->Right) {
-    List->linkColumn(curColumn);
-    for (ListNode* curRow = curColumn->Column->Down; curRow != nullptr;
-         curRow = curRow->Down) {
-      List->linkRow(curRow);
-    }
-  }
-}
+Solver::Solver(List exactCoverPuzzle)
+    : ExactCoverPuzzle(std::move(exactCoverPuzzle)) {}
 
 bool
+Solver::deepen() {
+  if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
+    return false;
+  }
+
+  for (Node* curNode = ExactCoverPuzzle.Header->Right;
+       curNode != ExactCoverPuzzle.Header; curNode = curNode->Right) {
+    if (curNode->Down == curNode) {
+      return false;
+    }
+  }
+
+  AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
+  ExactCoverPuzzle.coverColumn(AssumedNodes.back()->Column);
+
+  for (Node* curNode = AssumedNodes.back()->Right;
+       curNode != AssumedNodes.back(); curNode = curNode->Right) {
+    ExactCoverPuzzle.coverColumn(curNode->Column);
+  }
+
+  return true;
+}
+
+void
 Solver::backtrack() {
-  resetRow(RemovedRows.back());
-  CurrentGuessedRow = RemovedRows.back()->Down;
-  RemovedRows.pop_back();
-  return !(RemovedRows.empty() && CurrentGuessedRow == nullptr);
-}
+  while (!AssumedNodes.empty()) {
+    for (Node* curNode = AssumedNodes.back()->Left;
+         curNode != AssumedNodes.back(); curNode = curNode->Left) {
+      ExactCoverPuzzle.uncoverColumn(curNode->Column);
+    }
 
-void
-Solver::deepen(ListNode* node) {
-  RemovedRows.push_back(node);
-  assumeRow(node);
-  CurrentGuessedRow = List->getFirstRow();
-}
+    if (AssumedNodes.back()->Down == AssumedNodes.back()->Column) {
+      ExactCoverPuzzle.uncoverColumn(AssumedNodes.back()->Column);
+      AssumedNodes.pop_back();
+    } else {
 
-bool
-Solver::containsEmptyColumn() {
-  for (BaseNode* it = List->getFirstColumn(); it != nullptr;
-       it = static_cast<BaseNode*>(it->Right)) {
-    if (it->getCount() == 0) {
-      return true;
+      AssumedNodes.back() = AssumedNodes.back()->Down;
+
+      for (Node* curNode = AssumedNodes.back()->Right;
+           curNode != AssumedNodes.back(); curNode = curNode->Right) {
+        ExactCoverPuzzle.coverColumn(curNode->Column);
+      }
+
+      return;
     }
   }
-  return false;
+  Finished = true;
 }
 
 std::optional<std::vector<int>>
 Solver::nextModel() {
-  std::vector<ListNode*> lastVec;
-  while (true) {
-    if (containsEmptyColumn()) {
-      if (!backtrack()) {
-        return std::nullopt;
-      }
-    } else {
-      ListNode* next = CurrentGuessedRow;
-      if (next == nullptr) {
-        if (!backtrack()) {
-          return std::nullopt;
-        }
-      } else {
-        deepen(next);
-        if (List->isEmpty()) {
-          std::vector<int> result;
-          result.reserve(RemovedRows.size());
-          for (ListNode* node : RemovedRows) {
-            auto [lRow, lColumn] = List->getCoord(node);
-            result.push_back(lRow);
-          }
-          return result;
-        }
-      }
+  while (!Finished) {
+    while (deepen()) {
+      // Deepen as long as possible
     }
-    /*
-    int rowCount = 0;
-    for (ListNode* x = List->getFirstRow(); x != nullptr; x = x->Down)
-      ++rowCount;
-    if (rowCount < 40){
-      std::cout << Removed.size() << " " << rowCount << '\n';
-      //List->print();
+
+    if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
+      std::vector<int> result(AssumedNodes.size());
+      std::transform(AssumedNodes.begin(), AssumedNodes.end(), result.begin(),
+                     [](Node* node) { return node->RowIndex; });
+      backtrack();
+      return result;
     }
-    auto oldit = lastVec.begin();
-    auto newit = Removed.begin();
-    for (; ; ++oldit, ++newit) {
-      if (oldit == lastVec.end()){
-        assert(newit != Removed.end());
-        break;
-      }
-      if (newit == Removed.end()){
-        assert(CurrentGuessedRow == nullptr || CurrentGuessedRow > *oldit);
-        break;
-      }
-      if (*oldit < *newit){
-        break;
-      }
-      assert(*oldit == *newit);
-    }
-    lastVec = Removed;
-    */
+    backtrack();
   }
+  return std::nullopt;
 }
 } // namespace DancingLinks

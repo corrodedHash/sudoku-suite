@@ -4,14 +4,14 @@
 #include <iostream>
 
 TEST_CASE("Solver") {
-  auto l = std::make_unique<DancingLinks::List>(3, 3);
-  l->insertNode(0, 0);
-  l->insertNode(0, 2);
-  l->insertNode(1, 0);
-  l->insertNode(2, 1);
-  l->insertNode(2, 2);
+  DancingLinks::ListBuilder lBuilder;
+  lBuilder.insertNode(0, 0);
+  lBuilder.insertNode(0, 2);
+  lBuilder.insertNode(1, 0);
+  lBuilder.insertNode(2, 1);
+  lBuilder.insertNode(2, 2);
 
-  DancingLinks::Solver s(std::move(l));
+  DancingLinks::Solver s(lBuilder.finalize());
 
   while (auto model = s.nextModel()) {
     REQUIRE(model->size() == 2);
@@ -21,39 +21,36 @@ TEST_CASE("Solver") {
 }
 
 TEST_CASE("Big Solver") {
-  auto l = std::make_unique<DancingLinks::List>(100, 100);
+  DancingLinks::ListBuilder lBuilder;
   for (int i = 0; i < 99; ++i) {
-    l->insertNode(i, i);
-    l->insertNode(i, i + 1);
+    lBuilder.insertNode(i, i);
+    lBuilder.insertNode(i, i + 1);
   }
-  l->insertNode(99, 99);
+  lBuilder.insertNode(99, 99);
 
-  DancingLinks::Solver s(std::move(l));
+  DancingLinks::Solver s(lBuilder.finalize());
 
   REQUIRE(s.nextModel());
 }
 
 TEST_CASE("List") {
-  DancingLinks::List l(3, 1);
+  DancingLinks::ListBuilder lBuilder;
 
-  l.insertNode(0, 0);
-  l.insertNode(1, 0);
-  l.insertNode(2, 0);
+  lBuilder.insertNode(0, 0);
+  lBuilder.insertNode(1, 0);
+  lBuilder.insertNode(2, 0);
 
-  std::vector<DancingLinks::ListNode*> nodes;
+  DancingLinks::List l = lBuilder.finalize();
+
+  std::vector<DancingLinks::Node*> nodes;
   nodes.reserve(3);
-  nodes.push_back(l.getFirstColumn()->Down);
+  nodes.push_back(l.Header->Right->Down);
   nodes.push_back(nodes.back()->Down);
   nodes.push_back(nodes.back()->Down);
-  for (DancingLinks::ListNode* node : nodes) {
-    REQUIRE(node->Column == l.getFirstColumn());
+  for (DancingLinks::Node* node : nodes) {
+    REQUIRE(node->Column == l.Header->Right);
   }
   REQUIRE(nodes[1]->Up == nodes[0]);
   REQUIRE(nodes[2]->Up == nodes[1]);
   REQUIRE(nodes[2]->Down == nullptr);
-
-  nodes[1]->unlink();
-
-  REQUIRE(nodes[0]->Down == nodes[2]);
-  REQUIRE(nodes[2]->Up == nodes[0]);
 }
