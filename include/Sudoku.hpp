@@ -1,10 +1,10 @@
 #pragma once
-
-#include <utility>
-#include <tuple>
-#include <vector>
-#include <string>
 #include "DancingLinks.hpp"
+
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 namespace Sudoku {
 /// @brief Represents sudoku game field
@@ -26,16 +26,17 @@ public:
 
   /// @brief Constant representing the unknown value
   const int UnsetValue = 0;
-  const int MinNumber = 1;
-  /// @brief Calculates the biggest number that can be entered into a cell
-  int getMaxNumber() const;
-  int
-  getBlocksize() const {
-    return Blocksize;
-  };
 
-  int getCellValue(int x, int y) const;
-  void setCellValue(int x, int y, int value);
+  /// @brief Calculates the biggest number that can be entered into a cell
+  int Field::getMaxNumber() const { return Blocksize * Blocksize; }
+
+  int getBlocksize() const { return Blocksize; };
+
+  int Field::getCellValue(int x, int y) const { return Grid[getIndex(x, y)]; }
+
+  void Field::setCellValue(int x, int y, int value) {
+    Grid[getIndex(x, y)] = value;
+  }
 
   /// @brief Checks if every cell contains a non-unset value
   bool isSolved() const;
@@ -53,8 +54,7 @@ private:
   static std::pair<int, int> getDancingListSize(int blocksize);
 
 public:
-  static DancingLinks::List
-  toDancingLinksList(const Field& field);
+  static DancingLinks::List toDancingLinksList(const Field& field);
   static Field
   fromDancingLinksList(const std::vector<int> rowIndices, int blocksize);
 };

@@ -1,6 +1,7 @@
-#include "generator/fractalgen.h"
-#include <benchmark/benchmark.h>
 #include "config.h"
+#include "generator/fractalgen.h"
+
+#include <benchmark/benchmark.h>
 
 static void
 BM_Sierpinski(benchmark::State& state) {

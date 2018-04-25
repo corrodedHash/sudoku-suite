@@ -1,5 +1,5 @@
-#include "generator/fractalgen.h"
 #include "Exceptions.h"
+#include "generator/fractalgen.h"
 extern "C" int
 LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
   try {

@@ -1,12 +1,13 @@
 #include "DancingLinks.hpp"
-#include <map>
+
+#include <algorithm>
 #include <iomanip>
 #include <iostream>
-#include <algorithm>
+#include <map>
 
 namespace DancingLinks {
-Solver::Solver(List exactCoverPuzzle)
-    : ExactCoverPuzzle(std::move(exactCoverPuzzle)) {}
+Solver::Solver(List exactCoverPuzzle) :
+    ExactCoverPuzzle(std::move(exactCoverPuzzle)) {}
 
 bool
 Solver::deepen() {

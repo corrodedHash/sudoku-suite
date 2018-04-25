@@ -1,5 +1,6 @@
-#include "catch.hpp"
 #include "DancingLinks.hpp"
+#include "catch.hpp"
+
 #include <algorithm>
 #include <iostream>
 

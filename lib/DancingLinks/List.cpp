@@ -1,12 +1,13 @@
 #include "DancingLinks.hpp"
+
+#include <cassert>
 #include <iomanip>
 #include <iostream>
-#include <cassert>
 
 // Can be improved by not unlinking the main column
 namespace DancingLinks {
-List::List(std::vector<std::unique_ptr<Node>> nodes, Node* header)
-    : Nodes(std::move(nodes)), Header(header) {}
+List::List(std::vector<std::unique_ptr<Node>> nodes, Node* header) :
+    Nodes(std::move(nodes)), Header(header) {}
 
 void
 List::coverColumn(ColumnNode* columnNode) {

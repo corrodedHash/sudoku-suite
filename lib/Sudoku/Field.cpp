@@ -1,5 +1,6 @@
-#include <cassert>
 #include "Sudoku.hpp"
+
+#include <cassert>
 #include <sstream>
 
 namespace Sudoku {
@@ -9,25 +10,10 @@ Field::Field(int blocksize) {
 };
 
 int
-Field::getMaxNumber() const {
-  return Blocksize * Blocksize;
-}
-
-int
 Field::getIndex(int x, int y) const {
   assert(x < getMaxNumber());
   assert(y < getMaxNumber());
   return y * getMaxNumber() + x;
-}
-
-int
-Field::getCellValue(int x, int y) const {
-  return Grid[getIndex(x, y)];
-}
-
-void
-Field::setCellValue(int x, int y, int value) {
-  Grid[getIndex(x, y)] = value;
 }
 
 bool

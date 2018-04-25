@@ -1,4 +1,5 @@
 #include "Sudoku.hpp"
+
 #include <cassert>
 
 namespace Sudoku {
@@ -36,7 +37,7 @@ DLHelper::getDancingListSize(int blocksize) {
 DancingLinks::List
 DLHelper::toDancingLinksList(const Field& field) {
   auto [dlHeight, dlWidth] = getDancingListSize(field.getBlocksize());
-  DancingLinks::ListBuilder result; 
+  DancingLinks::ListBuilder result;
   int hBase = 0;
 
   // Each cell can only have one number
@@ -46,7 +47,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result.insertNode(getColId(row, col, number, field.getBlocksize()),
-                             hBase);
+                            hBase);
         }
       }
       ++hBase;
@@ -60,7 +61,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result.insertNode(getColId(row, col, number, field.getBlocksize()),
-                             hBase);
+                            hBase);
         }
       }
       ++hBase;
@@ -74,7 +75,7 @@ DLHelper::toDancingLinksList(const Field& field) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
           result.insertNode(getColId(row, col, number, field.getBlocksize()),
-                             hBase);
+                            hBase);
         }
       }
       ++hBase;
@@ -97,9 +98,9 @@ DLHelper::toDancingLinksList(const Field& field) {
                                    blockStartColumn + cellStartColumn) ==
                     number + 1) {
               result.insertNode(getColId(blockStartRow + cellStartRow,
-                                          blockStartColumn + cellStartColumn,
-                                          number, field.getBlocksize()),
-                                 hBase);
+                                         blockStartColumn + cellStartColumn,
+                                         number, field.getBlocksize()),
+                                hBase);
             }
           }
         }

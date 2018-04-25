@@ -1,5 +1,5 @@
-#include <z3++.h>
 #include <iostream>
+#include <z3++.h>
 
 void
 solve() {

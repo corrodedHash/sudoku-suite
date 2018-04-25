@@ -46,7 +46,7 @@ ListBuilder::insertNode(int row, int column) {
 }
 
 List
-ListBuilder::finalize(){
+ListBuilder::finalize() {
   return List(std::move(Nodes), Header);
 }
 } // namespace DancingLinks
