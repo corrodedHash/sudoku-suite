@@ -28,13 +28,13 @@ public:
   const int UnsetValue = 0;
 
   /// @brief Calculates the biggest number that can be entered into a cell
-  int Field::getMaxNumber() const { return Blocksize * Blocksize; }
+  int getMaxNumber() const { return Blocksize * Blocksize; }
 
   int getBlocksize() const { return Blocksize; };
 
-  int Field::getCellValue(int x, int y) const { return Grid[getIndex(x, y)]; }
+  int getCellValue(int x, int y) const { return Grid[getIndex(x, y)]; }
 
-  void Field::setCellValue(int x, int y, int value) {
+  void setCellValue(int x, int y, int value) {
     Grid[getIndex(x, y)] = value;
   }
 
