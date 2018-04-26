@@ -1,17 +1,17 @@
 cmake_minimum_required(VERSION 3.3.2)
+project(SudokuSuite LANGUAGES CXX DESCRIPTION "Program suite to generate and solve sudokus of any size")
 
 
 # Set cache options
-set(SUDOKU_ENABLE_TESTS OFF CACHE BOOL "Enable tests")
-set(SUDOKU_ENABLE_FUZZER OFF CACHE BOOL "Enable fuzzing")
-set(SUDOKU_ENABLE_BENCHMARKS OFF CACHE BOOL "Enable benchmarks")
-set(SUDOKU_ENABLE_TIDY OFF CACHE BOOL "Enable clang-tidy")
+set(${PROJECT_NAME}_ENABLE_TESTS OFF CACHE BOOL "Enable tests")
+set(${PROJECT_NAME}_ENABLE_FUZZER OFF CACHE BOOL "Enable fuzzing")
+set(${PROJECT_NAME}_ENABLE_BENCHMARKS OFF CACHE BOOL "Enable benchmarks")
+set(${PROJECT_NAME}_ENABLE_TIDY OFF CACHE BOOL "Enable clang-tidy")
 
-# Set compiler flags
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
 set(CMAKE_CXX_STANDARD 17)
 
+# Set compiler flags
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /W4")
   # Need to make Visual C++ conform standard
@@ -19,7 +19,7 @@ if(MSVC)
   # Default debug flags are OK
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
 else()
-  if (SUDOKU_ENABLE_FUZZER)
+  if (${PROJECT_NAME}_ENABLE_FUZZER)
     string( APPEND CMAKE_CXX_FLAGS " -fsanitize-coverage=trace-pc-guard -fsanitize=address,undefined")
     string( APPEND CMAKE_CXX_FLAGS " -fprofile-instr-generate -fcoverage-mapping")
   endif()
@@ -35,7 +35,7 @@ else()
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fprofile-instr-generate -fcoverage-mapping")
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 
-  if (SUDOKU_ENABLE_TIDY)
+  if (${PROJECT_NAME}_ENABLE_TIDY)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
   endif()
 endif()
@@ -47,17 +47,17 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 
 add_subdirectory(lib)
 
-if (SUDOKU_ENABLE_TESTS)
+if (${PROJECT_NAME}_ENABLE_TESTS)
   enable_testing()
   add_subdirectory(tests)
 endif()
 
-if (SUDOKU_ENABLE_BENCHMARKS)
+if (${PROJECT_NAME}_ENABLE_BENCHMARKS)
   include( "ExternalGoogleBenchmarks" )
   add_subdirectory(benchmarks)
 endif()
 
-if (SUDOKU_ENABLE_FUZZER)
+if (${PROJECT_NAME}_ENABLE_FUZZER)
   add_subdirectory(fuzzer)
 endif()
 
