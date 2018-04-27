@@ -53,5 +53,5 @@ TEST_CASE("List") {
   }
   REQUIRE(nodes[1]->Up == nodes[0]);
   REQUIRE(nodes[2]->Up == nodes[1]);
-  REQUIRE(nodes[2]->Down == nullptr);
+  REQUIRE(nodes[2]->Down == nodes[2]->Column);
 }

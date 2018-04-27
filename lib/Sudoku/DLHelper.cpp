@@ -4,7 +4,7 @@
 
 namespace Sudoku {
 int
-DLHelper::getColId(int row, int col, int number, int blocksize) {
+DLHelper::getRowId(int row, int col, int number, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   assert(row >= 0 && row < blocksize2P);
   assert(col >= 0 && col < blocksize2P);
@@ -46,7 +46,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -60,7 +60,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       for (int col = 0; col < field.getMaxNumber(); ++col) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -74,7 +74,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       for (int row = 0; row < field.getMaxNumber(); ++row) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getColId(row, col, number, field.getBlocksize()),
+          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
                             hBase);
         }
       }
@@ -97,7 +97,7 @@ DLHelper::toDancingLinksList(const Field& field) {
                 field.getCellValue(blockStartRow + cellStartRow,
                                    blockStartColumn + cellStartColumn) ==
                     number + 1) {
-              result.insertNode(getColId(blockStartRow + cellStartRow,
+              result.insertNode(getRowId(blockStartRow + cellStartRow,
                                          blockStartColumn + cellStartColumn,
                                          number, field.getBlocksize()),
                                 hBase);
@@ -112,7 +112,7 @@ DLHelper::toDancingLinksList(const Field& field) {
 }
 
 Field
-DLHelper::fromDancingLinksList(const std::vector<int> rowIndices,
+DLHelper::fromDancingLinksList(const std::vector<int>& rowIndices,
                                int blocksize) {
   Field field(blocksize);
   for (int entry : rowIndices) {

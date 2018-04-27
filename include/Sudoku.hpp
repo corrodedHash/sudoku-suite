@@ -49,13 +49,13 @@ public:
 /// representation
 class DLHelper {
 private:
-  static int getColId(int row, int col, int number, int blocksize);
+  static int getRowId(int row, int col, int number, int blocksize);
   static std::tuple<int, int, int> getSudokuPos(int rowIndex, int blocksize);
   static std::pair<int, int> getDancingListSize(int blocksize);
 
 public:
   static DancingLinks::List toDancingLinksList(const Field& field);
   static Field
-  fromDancingLinksList(const std::vector<int> rowIndices, int blocksize);
+  fromDancingLinksList(const std::vector<int>& rowIndices, int blocksize);
 };
 } // namespace Sudoku
