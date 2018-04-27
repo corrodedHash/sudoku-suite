@@ -57,6 +57,7 @@ public:
   fromDancingLinksList(const std::vector<int>& rowIndices, int blocksize);
 };
 
+/// @brief Sudoku solver class
 class Solver {
   DancingLinks::Solver PuzzleSolver;
   int Blocksize;
