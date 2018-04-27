@@ -34,9 +34,7 @@ public:
 
   int getCellValue(int x, int y) const { return Grid[getIndex(x, y)]; }
 
-  void setCellValue(int x, int y, int value) {
-    Grid[getIndex(x, y)] = value;
-  }
+  void setCellValue(int x, int y, int value) { Grid[getIndex(x, y)] = value; }
 
   /// @brief Checks if every cell contains a non-unset value
   bool isSolved() const;
@@ -57,5 +55,14 @@ public:
   static DancingLinks::List toDancingLinksList(const Field& field);
   static Field
   fromDancingLinksList(const std::vector<int>& rowIndices, int blocksize);
+};
+
+class Solver {
+  DancingLinks::Solver PuzzleSolver;
+  int Blocksize;
+
+public:
+  Solver(const Field& puzzle);
+  std::optional<Field> nextSolution();
 };
 } // namespace Sudoku
