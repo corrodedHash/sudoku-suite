@@ -6,6 +6,6 @@
 const int SudokuBlockSize = 3;
 int
 main(int /*argc*/, char** /*args*/) {
-  std::cout << Sudoku::Field::generate(SudokuBlockSize).print() << '\n';
+  std::cout << Sudoku::Field::generate(SudokuBlockSize).print();
   return 0;
 }

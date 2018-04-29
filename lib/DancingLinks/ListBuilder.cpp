@@ -11,11 +11,9 @@ ListBuilder::insertNode(int row, int column) {
   if (Column.size() <= column) {
     Column.reserve(column + 1);
     while (Column.size() <= column) {
-      ColumnNodes.emplace_back();
-      ColumnNode& NewColumnNode = ColumnNodes.back();
+      ColumnNode& NewColumnNode = ColumnNodes.emplace_back();
 
       Column.push_back(&NewColumnNode);
-
 
       NewColumnNode.Right = Header;
       NewColumnNode.Left = Header->Left;
@@ -28,8 +26,7 @@ ListBuilder::insertNode(int row, int column) {
     Row.resize(row + 1, nullptr);
   }
 
-  Nodes.emplace_back();
-  Node& NewNode = Nodes.back();
+  Node& NewNode = Nodes.emplace_back();
 
   if (Row[row] == nullptr) {
     Row[row] = &Nodes.back();
