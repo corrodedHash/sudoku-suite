@@ -24,9 +24,6 @@ class Field {
 public:
   Field(int blocksize);
 
-  /// @brief Constant representing the unknown value
-  const int UnsetValue = 0;
-
   /// @brief Calculates the biggest number that can be entered into a cell
   int getMaxNumber() const { return Blocksize * Blocksize; }
 
@@ -39,8 +36,13 @@ public:
   /// @brief Checks if every cell contains a non-unset value
   bool isSolved() const;
 
+  bool operator==(const Field& other);
+
   /// @brief Returns a string representation of sudoku field
   std::string print() const;
+
+  /// @brief Generate a sudoku puzzle
+  static Field generate(int blocksize);
 };
 
 /// @brief Helper class to translate sudoku to and from dancing links
@@ -66,4 +68,5 @@ public:
   Solver(const Field& puzzle);
   std::optional<Field> nextSolution();
 };
+
 } // namespace Sudoku

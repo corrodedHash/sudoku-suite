@@ -2,8 +2,8 @@
 
 namespace DancingLinks {
 ListBuilder::ListBuilder() {
-  Nodes.push_back(std::make_unique<Node>());
-  Header = Nodes.back().get();
+  Nodes.emplace_back();
+  Header = &(Nodes.back());
 }
 
 void
@@ -11,13 +11,16 @@ ListBuilder::insertNode(int row, int column) {
   if (Column.size() <= column) {
     Column.reserve(column + 1);
     while (Column.size() <= column) {
-      Nodes.push_back(std::make_unique<ColumnNode>());
-      Column.push_back(static_cast<ColumnNode*>(Nodes.back().get()));
+      ColumnNodes.emplace_back();
+      ColumnNode& NewColumnNode = ColumnNodes.back();
 
-      Nodes.back()->Right = Header;
-      Nodes.back()->Left = Header->Left;
-      Nodes.back()->Right->Left = Nodes.back().get();
-      Nodes.back()->Left->Right = Nodes.back().get();
+      Column.push_back(&NewColumnNode);
+
+
+      NewColumnNode.Right = Header;
+      NewColumnNode.Left = Header->Left;
+      NewColumnNode.Right->Left = &NewColumnNode;
+      NewColumnNode.Left->Right = &NewColumnNode;
     }
   }
 
@@ -25,28 +28,29 @@ ListBuilder::insertNode(int row, int column) {
     Row.resize(row + 1, nullptr);
   }
 
-  Nodes.push_back(std::make_unique<Node>());
+  Nodes.emplace_back();
+  Node& NewNode = Nodes.back();
 
   if (Row[row] == nullptr) {
-    Row[row] = Nodes.back().get();
+    Row[row] = &Nodes.back();
   } else {
-    Nodes.back()->Right = Row[row];
-    Nodes.back()->Left = Row[row]->Left;
-    Nodes.back()->Right->Left = Nodes.back().get();
-    Nodes.back()->Left->Right = Nodes.back().get();
+    NewNode.Right = Row[row];
+    NewNode.Left = Row[row]->Left;
+    NewNode.Right->Left = &NewNode;
+    NewNode.Left->Right = &NewNode;
   }
 
-  Nodes.back()->Down = Column[column];
-  Nodes.back()->Up = Column[column]->Up;
-  Nodes.back()->Down->Up = Nodes.back().get();
-  Nodes.back()->Up->Down = Nodes.back().get();
+  NewNode.Down = Column[column];
+  NewNode.Up = Column[column]->Up;
+  NewNode.Down->Up = &NewNode;
+  NewNode.Up->Down = &NewNode;
 
-  Nodes.back()->Column = Column[column];
-  Nodes.back()->RowIndex = row;
+  NewNode.Column = Column[column];
+  NewNode.RowIndex = row;
 }
 
 List
 ListBuilder::finalize() {
-  return List(std::move(Nodes), Header);
+  return List(std::move(Nodes), std::move(ColumnNodes), Header);
 }
 } // namespace DancingLinks

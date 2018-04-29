@@ -1,3 +1,7 @@
+project(external_googlebench)
+include(ExternalProject)
+find_package(Git REQUIRED)
+
 set(GOOGLEBENCH_EXTERNAL_ROOT ${CMAKE_BINARY_DIR}/externals/googlebench)
 set(GOOGLEBENCH_EXTERNAL_REPO "https://github.com/google/benchmark.git")
 

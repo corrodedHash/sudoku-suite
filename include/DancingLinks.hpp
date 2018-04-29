@@ -3,8 +3,8 @@
 #include <array>
 #include <map>
 #include <memory>
-#include <stack>
 #include <vector>
+#include <deque>
 
 namespace DancingLinks {
 class ColumnNode;
@@ -20,13 +20,12 @@ class ColumnNode : public Node {
 };
 
 class List {
-  std::vector<std::unique_ptr<Node>> Nodes;
+  std::deque<Node> Nodes;
+  std::deque<ColumnNode> ColumnNodes;
 
 public:
   Node* Header;
-  List(std::vector<std::unique_ptr<Node>> nodes, Node* header);
-  List(const List& other) = delete;
-  List(List&& other) = default;
+  List(std::deque<Node> nodes, std::deque<ColumnNode> columnNodes, Node* header);
   void coverColumn(ColumnNode* columnNode);
   void uncoverColumn(ColumnNode* columnNode);
 };
@@ -34,7 +33,8 @@ public:
 class ListBuilder {
   std::vector<ColumnNode*> Column;
   std::vector<Node*> Row;
-  std::vector<std::unique_ptr<Node>> Nodes;
+  std::deque<Node> Nodes;
+  std::deque<ColumnNode> ColumnNodes;
   Node* Header;
 
 public:

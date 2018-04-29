@@ -9,6 +9,10 @@ Field::Field(int blocksize) {
   Grid = std::vector<int>(getMaxNumber() * getMaxNumber());
 };
 
+bool Field::operator==(const Field& other){
+  return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) && (Grid == other.Grid);
+}
+
 int
 Field::getIndex(int x, int y) const {
   assert(x < getMaxNumber());
@@ -19,7 +23,7 @@ Field::getIndex(int x, int y) const {
 bool
 Field::isSolved() const {
   for (auto x : Grid) {
-    if (x == UnsetValue) {
+    if (x == 0) {
       return false;
     }
   }

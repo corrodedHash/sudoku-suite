@@ -31,7 +31,7 @@ else()
 
   string (APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer")
   #string (APPEND CMAKE_CXX_FLAGS " -flto=thin")
-  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined")
+  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=memory,undefined")
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fprofile-instr-generate -fcoverage-mapping")
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 
@@ -48,6 +48,7 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 add_subdirectory(lib)
 
 if (${PROJECT_NAME}_ENABLE_TESTS)
+  include( "ExternalCatch2" )
   enable_testing()
   add_subdirectory(tests)
 endif()
