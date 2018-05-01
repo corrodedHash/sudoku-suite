@@ -1,4 +1,3 @@
-project(external_catch2 CXX)
 include(ExternalProject)
 find_package(Git REQUIRED)
 

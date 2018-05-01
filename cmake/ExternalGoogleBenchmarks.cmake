@@ -1,4 +1,3 @@
-project(external_googlebench)
 include(ExternalProject)
 find_package(Git REQUIRED)
 

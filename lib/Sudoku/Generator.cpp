@@ -4,24 +4,22 @@
 #include <cstdlib>
 #include <ctime>
 
-namespace Sudoku {
+namespace Sudoku::Generator {
 Field
-getRandomFieldStart(int blocksize) {
+generateFieldStart(int blocksize) {
   Field result(blocksize);
   int maxNum = blocksize * blocksize;
   std::srand(std::time(nullptr));
   for (int row = 0; row < blocksize; ++row) {
     for (int column = 0; column < blocksize; ++column) {
       result.setCellValue(column * blocksize + (column + row) % blocksize,
-                          row * blocksize + column,
-                          (std::rand() % maxNum) + 1);
+                          row * blocksize + column, (std::rand() % maxNum) + 1);
     }
   }
   return result;
 }
 
-int
-countSetCells(const Field& field) {
+int static countSetCells(const Field& field) {
   int count = 0;
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int column = 0; column < field.getMaxNumber(); ++column) {
@@ -33,8 +31,7 @@ countSetCells(const Field& field) {
   return count;
 }
 
-Field
-getMedianField(const Field& lower, const Field& upper) {
+Field static getMedianField(const Field& lower, const Field& upper) {
   assert(lower.getBlocksize() == upper.getBlocksize());
 
   int lowerCount = countSetCells(lower);
@@ -61,8 +58,8 @@ getMedianField(const Field& lower, const Field& upper) {
 }
 
 Field
-Field::generate(int blocksize) {
-  Field lowerBound = getRandomFieldStart(blocksize);
+generate(int blocksize) {
+  Field lowerBound = generateFieldStart(blocksize);
   Solver sudokuSolver(lowerBound);
   auto result = sudokuSolver.nextSolution();
   assert(result);
@@ -81,4 +78,4 @@ Field::generate(int blocksize) {
     }
   }
 }
-} // namespace Sudoku
+} // namespace Sudoku::Generator

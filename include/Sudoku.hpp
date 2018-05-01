@@ -40,9 +40,6 @@ public:
 
   /// @brief Returns a string representation of sudoku field
   std::string print() const;
-
-  /// @brief Generate a sudoku puzzle
-  static Field generate(int blocksize);
 };
 
 /// @brief Helper class to translate sudoku to and from dancing links
@@ -68,5 +65,11 @@ public:
   Solver(const Field& puzzle);
   std::optional<Field> nextSolution();
 };
+
+namespace Generator {
+/// @brief Generate a sudoku puzzle
+Field generate(int blocksize);
+Field generateFieldStart(int blocksize);
+} // namespace Generator
 
 } // namespace Sudoku
