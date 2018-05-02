@@ -34,39 +34,43 @@ Field::isSolved() const {
 
 bool
 Field::isCorrect() const {
+  std::vector<bool> numbers(getMaxNumber(), false);
+  bool currentFlag = true;
   // Check rows
   for (int row = 0; row < getMaxNumber(); ++row) {
-    std::vector<bool> numbers(getMaxNumber(), false);
     for (int column = 0; column < getMaxNumber(); ++column) {
-      if (numbers[getCellValue(row, column)]) {
+      if (numbers[getCellValue(row, column)] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = true;
+      numbers[getCellValue(row, column)] = currentFlag;
     }
+    currentFlag = !currentFlag;
   }
 
+  // Check column
   for (int column = 0; column < getMaxNumber(); ++column) {
-    std::vector<bool> numbers(getMaxNumber(), false);
     for (int row = 0; row < getMaxNumber(); ++row) {
-      if (numbers[getCellValue(row, column)]) {
+      if (numbers[getCellValue(row, column)] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = true;
+      numbers[getCellValue(row, column)] = currentFlag;
     }
+    currentFlag = !currentFlag;
   }
 
+  // Check block
   for (int block = 0; block < getMaxNumber(); ++block) {
-    std::vector<bool> numbers(getMaxNumber(), false);
     for (int blockcell = 0; blockcell < getMaxNumber(); ++blockcell) {
       int row = (block / getBlocksize()) * getBlocksize() +
                 blockcell / getBlocksize();
       int column = (block % getBlocksize()) * getBlocksize() +
                    blockcell % getBlocksize();
-      if (numbers[getCellValue(row, column)]) {
+      if (numbers[getCellValue(row, column)] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = true;
+      numbers[getCellValue(row, column)] = currentFlag;
     }
+    currentFlag = !currentFlag;
   }
   return true;
 }

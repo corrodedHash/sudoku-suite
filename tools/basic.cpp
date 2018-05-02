@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-const int SudokuBlockSize = 2;
+const int SudokuBlockSize = 1;
 int
 main(int /*argc*/, char** /*args*/) {
   DancingLinks::Solver solver(
@@ -15,6 +15,5 @@ main(int /*argc*/, char** /*args*/) {
     char x;
     std::cin >> x;
   }
-  std::cout << "hola\n";
   return 0;
 }
