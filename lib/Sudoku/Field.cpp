@@ -9,8 +9,10 @@ Field::Field(int blocksize) {
   Grid = std::vector<int>(getMaxNumber() * getMaxNumber());
 };
 
-bool Field::operator==(const Field& other){
-  return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) && (Grid == other.Grid);
+bool
+Field::operator==(const Field& other) {
+  return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) &&
+         (Grid == other.Grid);
 }
 
 int
@@ -25,6 +27,45 @@ Field::isSolved() const {
   for (auto x : Grid) {
     if (x == 0) {
       return false;
+    }
+  }
+  return true;
+}
+
+bool
+Field::isCorrect() const {
+  // Check rows
+  for (int row = 0; row < getMaxNumber(); ++row) {
+    std::vector<bool> numbers(getMaxNumber(), false);
+    for (int column = 0; column < getMaxNumber(); ++column) {
+      if (numbers[getCellValue(row, column)]) {
+        return false;
+      }
+      numbers[getCellValue(row, column)] = true;
+    }
+  }
+
+  for (int column = 0; column < getMaxNumber(); ++column) {
+    std::vector<bool> numbers(getMaxNumber(), false);
+    for (int row = 0; row < getMaxNumber(); ++row) {
+      if (numbers[getCellValue(row, column)]) {
+        return false;
+      }
+      numbers[getCellValue(row, column)] = true;
+    }
+  }
+
+  for (int block = 0; block < getMaxNumber(); ++block) {
+    std::vector<bool> numbers(getMaxNumber(), false);
+    for (int blockcell = 0; blockcell < getMaxNumber(); ++blockcell) {
+      int row = (block / getBlocksize()) * getBlocksize() +
+                blockcell / getBlocksize();
+      int column = (block % getBlocksize()) * getBlocksize() +
+                   blockcell % getBlocksize();
+      if (numbers[getCellValue(row, column)]) {
+        return false;
+      }
+      numbers[getCellValue(row, column)] = true;
     }
   }
   return true;

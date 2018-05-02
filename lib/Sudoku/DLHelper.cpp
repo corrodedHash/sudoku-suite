@@ -1,9 +1,11 @@
 #include "Sudoku.hpp"
 
 #include <cassert>
+#include <iostream>
 
 namespace Sudoku {
-static int getRowId(int row, int col, int number, int blocksize) {
+static int
+getRowId(int row, int col, int number, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   assert(row >= 0 && row < blocksize2P);
   assert(col >= 0 && col < blocksize2P);
@@ -11,12 +13,13 @@ static int getRowId(int row, int col, int number, int blocksize) {
   return number + col * blocksize2P + row * blocksize2P * blocksize2P;
 }
 
-static std::tuple<int, int, int> getSudokuPos(DancingLinks::Node* rowIndex,
-                                              int blocksize) {
+static std::tuple<int, int, int>
+getSudokuPos(DancingLinks::Node* rowIndex, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   int blocksize4P = blocksize2P * blocksize2P;
   assert(rowIndex->Right->Right->Right->Right == rowIndex);
   DancingLinks::Node* firstEntry = nullptr;
+
   for (int i = 0; i < 3; ++i) {
     if (rowIndex->Column->Id < blocksize4P) {
       firstEntry = rowIndex;
@@ -25,11 +28,12 @@ static std::tuple<int, int, int> getSudokuPos(DancingLinks::Node* rowIndex,
     rowIndex = rowIndex->Right;
   }
   assert(firstEntry);
+
   int columnId = rowIndex->Column->Id;
   int row = columnId / blocksize2P;
-  columnId = columnId % blocksize2P;
-  int column = blocksize;
-  int number = firstEntry->Right->Column->Id % blocksize2P;
+  int column = columnId % blocksize2P;
+  int number = (firstEntry->Right->Right->Column->Id % blocksize2P) + 1;
+
   return std::make_tuple(row, column, number);
 }
 
@@ -79,7 +83,6 @@ DLHelper::toDancingLinksList(const Field& field) {
       }
     }
   }
-  result.print();
   return result.finalize();
 }
 
@@ -87,10 +90,13 @@ Field
 DLHelper::fromDancingLinksList(
     const std::vector<DancingLinks::Node*>& rowIndices, int blocksize) {
   Field field(blocksize);
+  assert(rowIndices.size() == blocksize * blocksize * blocksize * blocksize);
   for (DancingLinks::Node* entry : rowIndices) {
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
     field.setCellValue(cColumn, cRow, cNumber);
   }
+  assert(field.isSolved());
+  assert(field.isCorrect());
   return field;
 }
 } // namespace Sudoku

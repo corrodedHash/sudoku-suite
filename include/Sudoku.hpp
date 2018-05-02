@@ -36,6 +36,9 @@ public:
   /// @brief Checks if every cell contains a non-unset value
   bool isSolved() const;
 
+  /// @brief Checks that every row, column and block only has each number once
+  bool isCorrect() const;
+
   bool operator==(const Field& other);
 
   /// @brief Returns a string representation of sudoku field
