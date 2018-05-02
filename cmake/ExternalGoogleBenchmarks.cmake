@@ -6,7 +6,7 @@ set(GOOGLEBENCH_EXTERNAL_REPO "https://github.com/google/benchmark.git")
 
 ExternalProject_ADD(
   #--External-project-name------
-  googlebench
+  extlib_googlebench
   #--Core-directories-----------
   PREFIX             ${GOOGLEBENCH_EXTERNAL_ROOT}
   #--Download step--------------
@@ -32,8 +32,13 @@ ExternalProject_ADD(
   # INSTALL_COMMAND    ""
 )
 
-ExternalProject_Get_Property(googlebench INSTALL_DIR)
+ExternalProject_Get_Property(extlib_googlebench INSTALL_DIR)
+# This is pure sadness
+# The problem is that cmake cannot attribute the libbenchmark.a to the external project
+# So we have to create a stub, otherwise GoogleBench cannot find a rule to create it.
 
-set(GOOGLEBENCH_LIBS "${INSTALL_DIR}/lib")
-set(GOOGLEBENCH_INCLUDE "${INSTALL_DIR}/include")
-link_directories(${GOOGLEBENCH_LIBS})
+file(APPEND "${INSTALL_DIR}/lib/libbenchmark.a" "")
+add_library(GoogleBench INTERFACE)
+add_dependencies(GoogleBench extlib_googlebench)
+target_link_libraries(GoogleBench INTERFACE "${INSTALL_DIR}/lib/libbenchmark.a" pthread)
+target_include_directories(GoogleBench INTERFACE "${INSTALL_DIR}/include")

@@ -48,6 +48,7 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 add_subdirectory(lib)
 
 if (${PROJECT_NAME}_ENABLE_TESTS)
+message(STATUS ${PROJECT_NAME}_ENABLE_TESTS)
   include( "ExternalCatch2" )
   enable_testing()
   add_subdirectory(tests)
