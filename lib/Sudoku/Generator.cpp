@@ -1,5 +1,6 @@
 #include "Sudoku.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
@@ -19,7 +20,8 @@ generateFieldStart(int blocksize) {
   return result;
 }
 
-int static countSetCells(const Field& field) {
+static int
+countSetCells(const Field& field) {
   int count = 0;
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int column = 0; column < field.getMaxNumber(); ++column) {
@@ -31,7 +33,8 @@ int static countSetCells(const Field& field) {
   return count;
 }
 
-Field static getMedianField(const Field& lower, const Field& upper) {
+static Field
+getMedianField(const Field& lower, const Field& upper) {
   assert(lower.getBlocksize() == upper.getBlocksize());
 
   int lowerCount = countSetCells(lower);
@@ -63,13 +66,13 @@ generate(int blocksize) {
   Solver sudokuSolver(lowerBound);
   auto result = sudokuSolver.nextSolution();
   assert(result);
-  Field upperBound = *result;
+  Field upperBound = std::move(*result);
   while (true) {
     Field medianField = getMedianField(lowerBound, upperBound);
     if (medianField == upperBound) {
       return upperBound;
     }
-    sudokuSolver = Solver(medianField);
+    Solver loopSudokuSolver(medianField);
 
     // Check if the puzzle has a unique solution
     assert(sudokuSolver.nextSolution());

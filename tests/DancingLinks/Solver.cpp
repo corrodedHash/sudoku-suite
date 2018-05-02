@@ -12,7 +12,7 @@ SCENARIO("Solving a list", "[Solver]") {
     listBuilder.insertNode(1, 2);
     listBuilder.insertNode(2, 1);
     DancingLinks::List list = listBuilder.finalize();
-    DancingLinks::Solver listSolver(list);
+    DancingLinks::Solver listSolver(std::move(list));
     WHEN("Solving the first time") {
       auto result = listSolver.nextModel();
       THEN("Returns the predicted solution") {
