@@ -3,13 +3,14 @@
 #include <cassert>
 #include <iomanip>
 #include <iostream>
+#include <utility>
 
 // Can be improved by not unlinking the main column
 namespace DancingLinks {
-List::List(std::deque<Node> nodes, std::deque<ColumnNode> columnNodes,
+List::List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes,
            Node* header) :
-    Nodes(std::move(nodes)),
-    ColumnNodes(std::move(columnNodes)), Header(header) {}
+    Nodes(std::forward<std::deque<Node>>(nodes)),
+    ColumnNodes(std::forward<std::deque<ColumnNode>>(columnNodes)), Header(header) {}
 
 void
 List::coverColumn(ColumnNode* columnNode) {

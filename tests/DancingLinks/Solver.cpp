@@ -1,6 +1,8 @@
 #include "DancingLinks.hpp"
 #include "catch.hpp"
 
+#include <iostream>
+
 SCENARIO("Solving a list", "[Solver]") {
   GIVEN("A puzzle with a single solution") {
     DancingLinks::ListBuilder listBuilder;
@@ -23,6 +25,7 @@ SCENARIO("Solving a list", "[Solver]") {
     }
     WHEN("Solving the second time") {
       auto result = listSolver.nextModel();
+      result = listSolver.nextModel();
       THEN("Returns empty solution") { REQUIRE_FALSE(result); }
     }
   }

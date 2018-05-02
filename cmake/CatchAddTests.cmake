@@ -57,7 +57,7 @@ foreach(line ${output})
     "${prefix}${test}${suffix}"
     ${TEST_EXECUTOR}
     "${TEST_EXECUTABLE}"
-    "${test}"
+    "${line}"
     ${extra_args}
   )
   add_command(set_tests_properties

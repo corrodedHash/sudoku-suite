@@ -25,7 +25,7 @@ class List {
 
 public:
   Node* Header;
-  List(std::deque<Node> nodes, std::deque<ColumnNode> columnNodes, Node* header);
+  List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes, Node* header);
   void coverColumn(ColumnNode* columnNode);
   void uncoverColumn(ColumnNode* columnNode);
 };
