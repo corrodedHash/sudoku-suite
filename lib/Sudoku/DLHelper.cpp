@@ -27,6 +27,11 @@ DLHelper::getSudokuPos(int rowIndex, int blocksize) {
   return std::make_tuple(row, column, number);
 }
 
+static int
+getBlockId(int row, int column, int blocksize) {
+  return (row / blocksize) * blocksize + (column / blocksize);
+}
+
 std::pair<int, int>
 DLHelper::getDancingListSize(int blocksize) {
   return std::make_pair(blocksize * blocksize * blocksize * blocksize *
@@ -40,6 +45,30 @@ DLHelper::toDancingLinksList(const Field& field) {
   DancingLinks::ListBuilder result;
   int hBase = 0;
 
+  /*
+  int rowId = 0;
+  for (int row = 0; row < field.getMaxNumber(); ++row) {
+    for (int col = 0; col < field.getMaxNumber(); ++col) {
+      for (int number = 0; number < field.getMaxNumber(); ++number) {
+        // Each cell can only have one number
+        result.insertNode(rowId, row * field.getBlocksize() + col);
+
+        // Each row can only have each number once
+        result.insertNode(rowId, row * field.getBlocksize() + number +
+                                     field.getMaxNumber());
+        // Each column can only have each number once
+        result.insertNode(rowId, col * field.getBlocksize() + number +
+                                     2 * field.getMaxNumber());
+
+        // Each block can only have each number once
+        result.insertNode(rowId, getBlockId(row, col, field.getBlocksize()) *
+                                         field.getBlocksize() +
+                                     number + 3 * field.getMaxNumber());
+        ++rowId;
+      }
+    }
+  }
+  */
   // Each cell can only have one number
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int col = 0; col < field.getMaxNumber(); ++col) {

@@ -5,7 +5,6 @@
 #include <iostream>
 #include <utility>
 
-// Can be improved by not unlinking the main column
 namespace DancingLinks {
 List::List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes,
            Node* header) :
