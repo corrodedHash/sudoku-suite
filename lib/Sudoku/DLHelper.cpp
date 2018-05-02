@@ -3,8 +3,7 @@
 #include <cassert>
 
 namespace Sudoku {
-int
-DLHelper::getRowId(int row, int col, int number, int blocksize) {
+static int getRowId(int row, int col, int number, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   assert(row >= 0 && row < blocksize2P);
   assert(col >= 0 && col < blocksize2P);
@@ -12,18 +11,25 @@ DLHelper::getRowId(int row, int col, int number, int blocksize) {
   return number + col * blocksize2P + row * blocksize2P * blocksize2P;
 }
 
-std::tuple<int, int, int>
-DLHelper::getSudokuPos(int rowIndex, int blocksize) {
+static std::tuple<int, int, int> getSudokuPos(DancingLinks::Node* rowIndex,
+                                              int blocksize) {
   int blocksize2P = blocksize * blocksize;
   int blocksize4P = blocksize2P * blocksize2P;
-  int row = rowIndex / (blocksize4P);
-  rowIndex = rowIndex % (blocksize4P);
-  int column = rowIndex / (blocksize2P);
-  rowIndex = rowIndex % (blocksize2P);
-  int number = rowIndex;
-  assert(row < blocksize2P);
-  assert(column < blocksize2P);
-  assert(number < blocksize2P);
+  assert(rowIndex->Right->Right->Right->Right == rowIndex);
+  DancingLinks::Node* firstEntry = nullptr;
+  for (int i = 0; i < 3; ++i) {
+    if (rowIndex->Column->Id < blocksize4P) {
+      firstEntry = rowIndex;
+      break;
+    }
+    rowIndex = rowIndex->Right;
+  }
+  assert(firstEntry);
+  int columnId = rowIndex->Column->Id;
+  int row = columnId / blocksize2P;
+  columnId = columnId % blocksize2P;
+  int column = blocksize;
+  int number = firstEntry->Right->Column->Id % blocksize2P;
   return std::make_tuple(row, column, number);
 }
 
@@ -32,8 +38,7 @@ getBlockId(int row, int column, int blocksize) {
   return (row / blocksize) * blocksize + (column / blocksize);
 }
 
-std::pair<int, int>
-DLHelper::getDancingListSize(int blocksize) {
+std::pair<int, int> static getDancingListSize(int blocksize) {
   return std::make_pair(blocksize * blocksize * blocksize * blocksize *
                             blocksize * blocksize,
                         blocksize * blocksize * blocksize * blocksize * 4);
@@ -45,106 +50,44 @@ DLHelper::toDancingLinksList(const Field& field) {
   DancingLinks::ListBuilder result;
   int hBase = 0;
 
-  /*
   int rowId = 0;
   for (int row = 0; row < field.getMaxNumber(); ++row) {
     for (int col = 0; col < field.getMaxNumber(); ++col) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
-        // Each cell can only have one number
-        result.insertNode(rowId, row * field.getBlocksize() + col);
-
-        // Each row can only have each number once
-        result.insertNode(rowId, row * field.getBlocksize() + number +
-                                     field.getMaxNumber());
-        // Each column can only have each number once
-        result.insertNode(rowId, col * field.getBlocksize() + number +
-                                     2 * field.getMaxNumber());
-
-        // Each block can only have each number once
-        result.insertNode(rowId, getBlockId(row, col, field.getBlocksize()) *
-                                         field.getBlocksize() +
-                                     number + 3 * field.getMaxNumber());
-        ++rowId;
-      }
-    }
-  }
-  */
-  // Each cell can only have one number
-  for (int row = 0; row < field.getMaxNumber(); ++row) {
-    for (int col = 0; col < field.getMaxNumber(); ++col) {
-      for (int number = 0; number < field.getMaxNumber(); ++number) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
-                            hBase);
-        }
-      }
-      ++hBase;
-    }
-  }
+          // Each cell can only have one number
+          result.insertNode(rowId, row * field.getMaxNumber() + col);
 
-  // Each row can only have each number once
-  for (int row = 0; row < field.getMaxNumber(); ++row) {
-    for (int number = 0; number < field.getMaxNumber(); ++number) {
-      for (int col = 0; col < field.getMaxNumber(); ++col) {
-        if (field.getCellValue(row, col) == 0 ||
-            field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
-                            hBase);
-        }
-      }
-      ++hBase;
-    }
-  }
+          // Each row can only have each number once
+          result.insertNode(rowId,
+                            row * field.getMaxNumber() + number +
+                                field.getMaxNumber() * field.getMaxNumber());
+          // Each column can only have each number once
+          result.insertNode(rowId, col * field.getMaxNumber() + number +
+                                       2 * field.getMaxNumber() *
+                                           field.getMaxNumber());
 
-  // Each column can only have each number once
-  for (int col = 0; col < field.getMaxNumber(); ++col) {
-    for (int number = 0; number < field.getMaxNumber(); ++number) {
-      for (int row = 0; row < field.getMaxNumber(); ++row) {
-        if (field.getCellValue(row, col) == 0 ||
-            field.getCellValue(row, col) == number + 1) {
-          result.insertNode(getRowId(row, col, number, field.getBlocksize()),
-                            hBase);
+          // Each block can only have each number once
+          result.insertNode(rowId, getBlockId(row, col, field.getBlocksize()) *
+                                           field.getMaxNumber() +
+                                       number +
+                                       3 * field.getMaxNumber() *
+                                           field.getMaxNumber());
+          ++rowId;
         }
-      }
-      ++hBase;
-    }
-  }
-
-  // Each block can only have each number once
-  for (int blockStartRow = 0; blockStartRow < field.getMaxNumber();
-       blockStartRow += field.getBlocksize()) {
-    for (int blockStartColumn = 0; blockStartColumn < field.getMaxNumber();
-         blockStartColumn += field.getBlocksize()) {
-      for (int number = 0; number < field.getMaxNumber(); ++number) {
-        for (int cellStartRow = 0; cellStartRow < field.getBlocksize();
-             ++cellStartRow) {
-          for (int cellStartColumn = 0; cellStartColumn < field.getBlocksize();
-               ++cellStartColumn) {
-            if (field.getCellValue(blockStartRow + cellStartRow,
-                                   blockStartColumn + cellStartColumn) == 0 ||
-                field.getCellValue(blockStartRow + cellStartRow,
-                                   blockStartColumn + cellStartColumn) ==
-                    number + 1) {
-              result.insertNode(getRowId(blockStartRow + cellStartRow,
-                                         blockStartColumn + cellStartColumn,
-                                         number, field.getBlocksize()),
-                                hBase);
-            }
-          }
-        }
-        ++hBase;
       }
     }
   }
+  result.print();
   return result.finalize();
 }
 
 Field
-DLHelper::fromDancingLinksList(const std::vector<int>& rowIndices,
-                               int blocksize) {
+DLHelper::fromDancingLinksList(
+    const std::vector<DancingLinks::Node*>& rowIndices, int blocksize) {
   Field field(blocksize);
-  for (int entry : rowIndices) {
+  for (DancingLinks::Node* entry : rowIndices) {
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
     field.setCellValue(cColumn, cRow, cNumber);
   }

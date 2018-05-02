@@ -1,5 +1,8 @@
 #include "DancingLinks.hpp"
 
+#include <cassert>
+#include <iostream>
+
 namespace DancingLinks {
 ListBuilder::ListBuilder() {
   Nodes.emplace_back();
@@ -15,6 +18,7 @@ ListBuilder::insertNode(int row, int column) {
 
       Column.push_back(&NewColumnNode);
 
+      NewColumnNode.Id = ColumnNodes.size() - 1;
       NewColumnNode.Right = Header;
       NewColumnNode.Left = Header->Left;
       NewColumnNode.Right->Left = &NewColumnNode;
@@ -29,7 +33,7 @@ ListBuilder::insertNode(int row, int column) {
   Node& NewNode = Nodes.emplace_back();
 
   if (Row[row] == nullptr) {
-    Row[row] = &Nodes.back();
+    Row[row] = &NewNode;
   } else {
     NewNode.Right = Row[row];
     NewNode.Left = Row[row]->Left;
@@ -44,6 +48,22 @@ ListBuilder::insertNode(int row, int column) {
 
   NewNode.Column = Column[column];
   NewNode.RowIndex = row;
+}
+
+void
+ListBuilder::print() {
+  for (Node* row : Row) {
+    for (int i = 0; i < Column.size(); ++i) {
+      if (i == row->Column->Id) {
+        std::cout << "X";
+        row = row->Right;
+      } else {
+        std::cout << " ";
+        //assert(row->Column->Id > i);
+      }
+    }
+    std::cout << '\n';
+  }
 }
 
 List

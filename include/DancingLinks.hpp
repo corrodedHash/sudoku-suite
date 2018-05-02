@@ -8,15 +8,15 @@
 
 namespace DancingLinks {
 class ColumnNode;
-class Node {
-public:
+struct Node {
   Node *Left = this, *Right = this, *Up = this, *Down = this;
   ColumnNode* Column;
   int RowIndex;
 };
 
-class ColumnNode : public Node {
+struct ColumnNode : public Node {
   int Count;
+  int Id;
 };
 
 class List {
@@ -41,6 +41,7 @@ public:
   ListBuilder();
 
   void insertNode(int row, int column);
+  void print();
   List finalize();
 };
 
@@ -53,6 +54,6 @@ class Solver {
 
 public:
   Solver(List exactCoverPuzzle);
-  std::optional<std::vector<int>> nextModel();
+  std::optional<std::vector<Node*>> nextModel();
 };
 } // namespace DancingLinks

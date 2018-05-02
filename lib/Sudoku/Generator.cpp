@@ -70,6 +70,8 @@ generate(int blocksize) {
       return upperBound;
     }
     sudokuSolver = Solver(medianField);
+
+    // Check if the puzzle has a unique solution
     assert(sudokuSolver.nextSolution());
     if (sudokuSolver.nextSolution()) {
       lowerBound = medianField;

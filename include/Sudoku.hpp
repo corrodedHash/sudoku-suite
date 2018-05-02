@@ -45,15 +45,11 @@ public:
 /// @brief Helper class to translate sudoku to and from dancing links
 /// representation
 class DLHelper {
-private:
-  static int getRowId(int row, int col, int number, int blocksize);
-  static std::tuple<int, int, int> getSudokuPos(int rowIndex, int blocksize);
-  static std::pair<int, int> getDancingListSize(int blocksize);
-
 public:
   static DancingLinks::List toDancingLinksList(const Field& field);
   static Field
-  fromDancingLinksList(const std::vector<int>& rowIndices, int blocksize);
+  fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
+                       int blocksize);
 };
 
 /// @brief Sudoku solver class

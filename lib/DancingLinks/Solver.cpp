@@ -59,7 +59,7 @@ Solver::backtrack() {
   Finished = true;
 }
 
-std::optional<std::vector<int>>
+std::optional<std::vector<Node*>>
 Solver::nextModel() {
   while (!Finished) {
     while (deepen()) {
@@ -67,9 +67,7 @@ Solver::nextModel() {
     }
 
     if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
-      std::vector<int> result(AssumedNodes.size());
-      std::transform(AssumedNodes.begin(), AssumedNodes.end(), result.begin(),
-                     [](Node* node) { return node->RowIndex; });
+      auto result = AssumedNodes;
       backtrack();
       return result;
     }
