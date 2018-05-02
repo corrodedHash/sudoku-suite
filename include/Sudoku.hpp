@@ -45,15 +45,13 @@ public:
   std::string print() const;
 };
 
-/// @brief Helper class to translate sudoku to and from dancing links
+/// @brief Helper functions to translate sudoku to and from dancing links
 /// representation
-class DLHelper {
-public:
-  static DancingLinks::List toDancingLinksList(const Field& field);
-  static Field
-  fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
-                       int blocksize);
-};
+namespace DLHelper {
+DancingLinks::List toDancingLinksList(const Field& field);
+Field fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
+                           int blocksize);
+}; // namespace DLHelper
 
 /// @brief Sudoku solver class
 class Solver {
@@ -62,12 +60,16 @@ class Solver {
 
 public:
   Solver(const Field& puzzle);
+
+  /// @brief Returns a solution to the puzzle that has not yet been returned
   std::optional<Field> nextSolution();
 };
 
 namespace Generator {
 /// @brief Generate a sudoku puzzle
 Field generate(int blocksize);
+
+/// @brief Generate an uncommitting sudoku puzzle
 Field generateFieldStart(int blocksize);
 } // namespace Generator
 
