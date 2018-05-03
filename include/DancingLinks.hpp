@@ -69,8 +69,8 @@ class Solver {
   List ExactCoverPuzzle;
   std::vector<Node*> AssumedNodes;
   bool Finished = false;
+  void deepen();
   void backtrack();
-  bool deepen();
 
 public:
   Solver(List exactCoverPuzzle);

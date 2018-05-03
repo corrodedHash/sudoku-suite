@@ -2,7 +2,7 @@
 #include "catch.hpp"
 #include <sstream>
 
-SCENARIO("Building A Correct List", "[List]") {
+SCENARIO("Using A Correct List", "[List]") {
   GIVEN("A constructed list") {
     DancingLinks::ListBuilder listBuilder;
     listBuilder.insertNode(0, 0);
@@ -56,6 +56,7 @@ SCENARIO("Building A Correct List", "[List]") {
       }
     }
   }
+
   GIVEN("A constructed list with an empty row"){ 
     DancingLinks::ListBuilder listBuilder;
     listBuilder.insertNode(1, 1);

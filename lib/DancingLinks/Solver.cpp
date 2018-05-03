@@ -9,28 +9,30 @@ namespace DancingLinks {
 Solver::Solver(List exactCoverPuzzle) :
     ExactCoverPuzzle(std::move(exactCoverPuzzle)) {}
 
-bool
+void
 Solver::deepen() {
-  if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
-    return false;
-  }
+  while (true) {
+    // Stop deepening if solution found
+    if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
+      return;
+    }
 
-  for (Node* curNode = ExactCoverPuzzle.Header->Right;
-       curNode != ExactCoverPuzzle.Header; curNode = curNode->Right) {
-    if (curNode->Down == curNode) {
-      return false;
+    // Stop deepening if guessed wrong
+    for (Node* curNode = ExactCoverPuzzle.Header->Right;
+         curNode != ExactCoverPuzzle.Header; curNode = curNode->Right) {
+      if (curNode->Down == curNode) {
+        return;
+      }
+    }
+
+    AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
+    ExactCoverPuzzle.coverColumn(AssumedNodes.back()->Column);
+
+    for (Node* curNode = AssumedNodes.back()->Right;
+         curNode != AssumedNodes.back(); curNode = curNode->Right) {
+      ExactCoverPuzzle.coverColumn(curNode->Column);
     }
   }
-
-  AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
-  ExactCoverPuzzle.coverColumn(AssumedNodes.back()->Column);
-
-  for (Node* curNode = AssumedNodes.back()->Right;
-       curNode != AssumedNodes.back(); curNode = curNode->Right) {
-    ExactCoverPuzzle.coverColumn(curNode->Column);
-  }
-
-  return true;
 }
 
 void
@@ -61,16 +63,17 @@ Solver::backtrack() {
 
 std::optional<std::vector<Node*>>
 Solver::nextModel() {
+  if (!Finished &&
+      (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header)) {
+    backtrack();
+  }
   while (!Finished) {
-    while (deepen()) {
-      // Deepen as long as possible
-    }
+    deepen();
 
     if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
-      auto result = AssumedNodes;
-      backtrack();
-      return result;
+      return AssumedNodes;
     }
+
     backtrack();
   }
   return std::nullopt;
