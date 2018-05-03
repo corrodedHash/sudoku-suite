@@ -41,8 +41,10 @@ public:
 
   bool operator==(const Field& other);
 
-  /// @brief Returns a string representation of sudoku field
-  std::string print() const;
+  /// @brief Print a string representation of sudoku field to stream
+  ///
+  /// @param stream Stream to print to
+  void print(std::ostream& stream) const;
 };
 
 /// @brief Helper functions to translate sudoku to and from dancing links

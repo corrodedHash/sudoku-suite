@@ -51,18 +51,27 @@ ListBuilder::insertNode(int row, int column) {
 }
 
 void
-ListBuilder::print() {
+ListBuilder::print(std::ostream& stream) {
+  constexpr char hitChar = 'X';
+  constexpr char missChar = ' ';
   for (Node* row : Row) {
+    if (row == nullptr) {
+      for (int i = 0; i < Column.size(); ++i) {
+        stream << missChar;
+      }
+      stream << '\n';
+      continue;
+    }
+    assert(row->Left->Column->Id >= row->Left->Column->Id);
     for (int i = 0; i < Column.size(); ++i) {
       if (i == row->Column->Id) {
-        std::cout << "X";
+        stream << hitChar;
         row = row->Right;
       } else {
-        std::cout << " ";
-        //assert(row->Column->Id > i);
+        stream << missChar;
       }
     }
-    std::cout << '\n';
+    stream << '\n';
   }
 }
 

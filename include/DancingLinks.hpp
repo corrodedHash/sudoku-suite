@@ -61,7 +61,7 @@ public:
   /// @return The created list
   List finalize();
 
-  void print();
+  void print(std::ostream& stream);
 };
 
 /// @brief Solver for ExactCover problem in a DancingLinks List

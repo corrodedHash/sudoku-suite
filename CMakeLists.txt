@@ -32,6 +32,7 @@ else()
   string (APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer")
   #string (APPEND CMAKE_CXX_FLAGS " -flto=thin")
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined")
+  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize-address-use-after-scope")
   string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fprofile-instr-generate -fcoverage-mapping")
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
 

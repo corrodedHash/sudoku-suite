@@ -13,8 +13,8 @@ main(int argc, char** args) {
       Sudoku::DLHelper::toDancingLinksList(Sudoku::Field(SudokuBlockSize)));
 
   while (auto model = solver.nextModel()) {
-    std::cout << Sudoku::DLHelper::fromDancingLinksList(*model, SudokuBlockSize)
-                     .print();
+    Sudoku::DLHelper::fromDancingLinksList(*model, SudokuBlockSize)
+        .print(std::cout);
     std::cout << '\n';
     char x;
     std::cin >> x;

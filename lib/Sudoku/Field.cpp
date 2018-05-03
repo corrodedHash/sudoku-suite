@@ -75,18 +75,16 @@ Field::isCorrect() const {
   return true;
 }
 
-std::string
-Field::print() const {
+void
+Field::print(std::ostream& stream) const {
   int curColumn = 0;
-  std::stringstream result;
   for (auto cell : Grid) {
-    result << cell << " ";
+    stream << cell << " ";
     if (++curColumn >= getMaxNumber()) {
-      result << '\n';
+      stream << '\n';
       curColumn = 0;
     }
   }
-  return result.str();
 }
 
 } // namespace Sudoku
