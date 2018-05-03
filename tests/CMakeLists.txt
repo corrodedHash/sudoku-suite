@@ -1,3 +1,4 @@
+include( "ExternalCatch2" )
 include( "Catch" )
 
 set (TEST_SOURCES "")

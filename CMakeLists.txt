@@ -46,23 +46,20 @@ include_directories("${CMAKE_SOURCE_DIR}/include")
 ### END SETUP ###
 
 add_subdirectory(lib)
+add_subdirectory(tools)
 
 if (${PROJECT_NAME}_ENABLE_TESTS)
-  include( "ExternalCatch2" )
   enable_testing()
   add_subdirectory(tests)
 endif()
 
 if (${PROJECT_NAME}_ENABLE_BENCHMARKS)
-  include( "ExternalGoogleBenchmarks" )
   add_subdirectory(benchmarks)
 endif()
 
 if (${PROJECT_NAME}_ENABLE_FUZZER)
   add_subdirectory(fuzzer)
 endif()
-
-add_subdirectory(tools)
 
 ### END SOURCE FILES ###
 
