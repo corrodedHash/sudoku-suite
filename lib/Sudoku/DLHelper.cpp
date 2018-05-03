@@ -4,13 +4,16 @@
 #include <iostream>
 
 namespace Sudoku {
-static int
-getRowId(int row, int col, int number, int blocksize) {
-  int blocksize2P = blocksize * blocksize;
-  assert(row >= 0 && row < blocksize2P);
-  assert(col >= 0 && col < blocksize2P);
-  assert(number >= 0 && number < blocksize2P);
-  return number + col * blocksize2P + row * blocksize2P * blocksize2P;
+
+static DancingLinks::Node*
+getRowStart(DancingLinks::Node* cell) {
+  DancingLinks::Node* firstEntry = nullptr;
+  while (true) {
+    if (cell->Left->Column->Id > cell->Column->Id) {
+      return cell;
+    }
+    cell = cell->Left;
+  }
 }
 
 static std::tuple<int, int, int>
@@ -18,21 +21,13 @@ getSudokuPos(DancingLinks::Node* rowIndex, int blocksize) {
   int blocksize2P = blocksize * blocksize;
   int blocksize4P = blocksize2P * blocksize2P;
   assert(rowIndex->Right->Right->Right->Right == rowIndex);
-  DancingLinks::Node* firstEntry = nullptr;
 
-  for (int i = 0; i < 3; ++i) {
-    if (rowIndex->Column->Id < blocksize4P) {
-      firstEntry = rowIndex;
-      break;
-    }
-    rowIndex = rowIndex->Right;
-  }
-  assert(firstEntry);
+  DancingLinks::Node* firstEntry = getRowStart(rowIndex);
+  assert(firstEntry->Column->Id < blocksize4P);
 
-  int columnId = rowIndex->Column->Id;
-  int row = columnId / blocksize2P;
-  int column = columnId % blocksize2P;
-  int number = (firstEntry->Right->Right->Column->Id % blocksize2P) + 1;
+  int row = rowIndex->Column->Id / blocksize2P;
+  int column = rowIndex->Column->Id % blocksize2P;
+  int number = (firstEntry->Right->Column->Id % blocksize2P) + 1;
 
   return std::make_tuple(row, column, number);
 }
@@ -65,10 +60,10 @@ DLHelper::toDancingLinksList(const Field& field) {
 
           // Each row can only have each number once
           result.insertNode(rowId,
-                            row * field.getMaxNumber() + number +
+                            col * field.getMaxNumber() + number +
                                 field.getMaxNumber() * field.getMaxNumber());
           // Each column can only have each number once
-          result.insertNode(rowId, col * field.getMaxNumber() + number +
+          result.insertNode(rowId, row * field.getMaxNumber() + number +
                                        2 * field.getMaxNumber() *
                                            field.getMaxNumber());
 

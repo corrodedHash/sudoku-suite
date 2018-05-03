@@ -19,10 +19,7 @@ ListBuilder::insertNode(int row, int column) {
       Column.push_back(&NewColumnNode);
 
       NewColumnNode.Id = ColumnNodes.size() - 1;
-      NewColumnNode.Right = Header;
-      NewColumnNode.Left = Header->Left;
-      NewColumnNode.Right->Left = &NewColumnNode;
-      NewColumnNode.Left->Right = &NewColumnNode;
+      NewColumnNode.linkHorizontally(Header->Left, Header);
     }
   }
 
@@ -35,19 +32,12 @@ ListBuilder::insertNode(int row, int column) {
   if (Row[row] == nullptr) {
     Row[row] = &NewNode;
   } else {
-    NewNode.Right = Row[row];
-    NewNode.Left = Row[row]->Left;
-    NewNode.Right->Left = &NewNode;
-    NewNode.Left->Right = &NewNode;
+    NewNode.linkHorizontally(Row[row]->Left, Row[row]);
   }
 
-  NewNode.Down = Column[column];
-  NewNode.Up = Column[column]->Up;
-  NewNode.Down->Up = &NewNode;
-  NewNode.Up->Down = &NewNode;
+  NewNode.linkVertically(Column[column]->Up, Column[column]);
 
   NewNode.Column = Column[column];
-  NewNode.RowIndex = row;
 }
 
 void
@@ -55,16 +45,8 @@ ListBuilder::print(std::ostream& stream) {
   constexpr char hitChar = 'X';
   constexpr char missChar = ' ';
   for (Node* row : Row) {
-    if (row == nullptr) {
-      for (int i = 0; i < Column.size(); ++i) {
-        stream << missChar;
-      }
-      stream << '\n';
-      continue;
-    }
-    assert(row->Left->Column->Id >= row->Left->Column->Id);
     for (int i = 0; i < Column.size(); ++i) {
-      if (i == row->Column->Id) {
+      if ((row != nullptr) && (i == row->Column->Id)) {
         stream << hitChar;
         row = row->Right;
       } else {

@@ -1,3 +1,3 @@
-add_library(DancingLinks List.cpp ListBuilder.cpp Solver.cpp)
+add_library(DancingLinks List.cpp ListBuilder.cpp Solver.cpp Node.cpp)
 target_include_directories(DancingLinks PUBLIC ${CMAKE_SOURCE_DIR}/include)
 

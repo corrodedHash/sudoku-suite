@@ -12,17 +12,8 @@ Solver::Solver(List exactCoverPuzzle) :
 void
 Solver::deepen() {
   while (true) {
-    // Stop deepening if solution found
-    if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
+    if (ExactCoverPuzzle.isEmpty() || ExactCoverPuzzle.containsEmptyColumn()) {
       return;
-    }
-
-    // Stop deepening if guessed wrong
-    for (Node* curNode = ExactCoverPuzzle.Header->Right;
-         curNode != ExactCoverPuzzle.Header; curNode = curNode->Right) {
-      if (curNode->Down == curNode) {
-        return;
-      }
     }
 
     AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
@@ -47,9 +38,7 @@ Solver::backtrack() {
       ExactCoverPuzzle.uncoverColumn(AssumedNodes.back()->Column);
       AssumedNodes.pop_back();
     } else {
-
       AssumedNodes.back() = AssumedNodes.back()->Down;
-
       for (Node* curNode = AssumedNodes.back()->Right;
            curNode != AssumedNodes.back(); curNode = curNode->Right) {
         ExactCoverPuzzle.coverColumn(curNode->Column);
@@ -63,15 +52,13 @@ Solver::backtrack() {
 
 std::optional<std::vector<Node*>>
 Solver::nextModel() {
-  if (!Finished &&
-      (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header)) {
-    backtrack();
-  }
   while (!Finished) {
     deepen();
 
-    if (ExactCoverPuzzle.Header->Right == ExactCoverPuzzle.Header) {
-      return AssumedNodes;
+    if (ExactCoverPuzzle.isEmpty()) {
+      auto result = AssumedNodes;
+      backtrack();
+      return result;
     }
 
     backtrack();

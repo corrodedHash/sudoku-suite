@@ -12,7 +12,9 @@ class ColumnNode;
 struct Node {
   Node *Left = this, *Right = this, *Up = this, *Down = this;
   ColumnNode* Column;
-  int RowIndex;
+
+  void linkHorizontally(Node* left, Node* right);
+  void linkVertically(Node* up, Node* down);
 };
 
 /// @brief First node in a column of a DancingLinks list
@@ -38,8 +40,12 @@ public:
        Node* header);
   List(const List& other) = delete;
   List(List&& other) = default;
+
   void coverColumn(ColumnNode* columnNode);
   void uncoverColumn(ColumnNode* columnNode);
+
+  bool containsEmptyColumn();
+  bool isEmpty();
 };
 
 /// @brief Builder for List
@@ -69,6 +75,7 @@ class Solver {
   List ExactCoverPuzzle;
   std::vector<Node*> AssumedNodes;
   bool Finished = false;
+
   void deepen();
   void backtrack();
 
