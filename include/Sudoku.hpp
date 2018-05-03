@@ -62,9 +62,12 @@ public:
   Solver(const Field& puzzle);
 
   /// @brief Returns a solution to the puzzle that has not yet been returned
+  ///
+  /// @return Either a completed sudoku field, or nullopt
   std::optional<Field> nextSolution();
 };
 
+/// @brief Generation functions for sudoku puzzles
 namespace Generator {
 /// @brief Generate a sudoku puzzle
 Field generate(int blocksize);

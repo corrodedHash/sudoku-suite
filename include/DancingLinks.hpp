@@ -23,11 +23,12 @@ struct ColumnNode : public Node {
 
 /// @brief Circular DancingLinks list
 class List {
-  std::deque<Node> Nodes;
-  std::deque<ColumnNode> ColumnNodes;
+  const std::deque<Node> Nodes;
+  const std::deque<ColumnNode> ColumnNodes;
 
 public:
   Node* const Header;
+
   /// @brief Constructor that is used by ListBuilder
   ///
   /// @param nodes Collection of internal list nodes
@@ -41,6 +42,7 @@ public:
   void uncoverColumn(ColumnNode* columnNode);
 };
 
+/// @brief Builder for List
 class ListBuilder {
   std::vector<ColumnNode*> Column;
   std::vector<Node*> Row;
@@ -62,6 +64,7 @@ public:
   void print();
 };
 
+/// @brief Solver for ExactCover problem in a DancingLinks List
 class Solver {
   List ExactCoverPuzzle;
   std::vector<Node*> AssumedNodes;
@@ -72,6 +75,9 @@ class Solver {
 public:
   Solver(List exactCoverPuzzle);
 
+  /// @brief Returns a solution to the puzzle that has not yet been returned
+  ///
+  /// @return Either a list of nodes representing each row, or nullopt
   std::optional<std::vector<Node*>> nextModel();
 };
 } // namespace DancingLinks
