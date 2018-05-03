@@ -23,8 +23,8 @@ struct ColumnNode : public Node {
 
 /// @brief Circular DancingLinks list
 class List {
-  const std::deque<Node> Nodes;
-  const std::deque<ColumnNode> ColumnNodes;
+  std::deque<Node> Nodes;
+  std::deque<ColumnNode> ColumnNodes;
 
 public:
   Node* const Header;
