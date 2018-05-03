@@ -37,7 +37,8 @@ getBlockId(int row, int column, int blocksize) {
   return (row / blocksize) * blocksize + (column / blocksize);
 }
 
-std::pair<int, int> static getDancingListSize(int blocksize) {
+static std::pair<int, int>
+getDancingListSize(int blocksize) {
   return std::make_pair(blocksize * blocksize * blocksize * blocksize *
                             blocksize * blocksize,
                         blocksize * blocksize * blocksize * blocksize * 4);
