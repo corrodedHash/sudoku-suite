@@ -1,28 +1,17 @@
 #include "DancingLinks.hpp"
 #include "catch.hpp"
 
-#include <iostream>
-
-SCENARIO("Solving a list", "[Solver]") {
-  GIVEN("A puzzle with a single solution") {
-    DancingLinks::ListBuilder listBuilder;
-    listBuilder.insertNode(0, 0);
-    listBuilder.insertNode(0, 2);
-    listBuilder.insertNode(1, 0);
-    listBuilder.insertNode(1, 1);
-    listBuilder.insertNode(2, 1);
-    DancingLinks::Solver listSolver(listBuilder.finalize());
-    WHEN("Solving the first time") {
-      auto result = listSolver.nextModel();
-      THEN("Returns the predicted solution") {
-        REQUIRE(result);
-        REQUIRE(result->size() == 2);
-      }
-    }
-    WHEN("Solving the second time") {
-      auto result = listSolver.nextModel();
-      result = listSolver.nextModel();
-      THEN("Returns empty solution") { REQUIRE_FALSE(result); }
-    }
-  }
+TEST_CASE("Solving a list", "[List][List Solver]") {
+  DancingLinks::ListBuilder listBuilder;
+  listBuilder.insertNode(0, 0);
+  listBuilder.insertNode(0, 2);
+  listBuilder.insertNode(1, 0);
+  listBuilder.insertNode(1, 1);
+  listBuilder.insertNode(2, 1);
+  DancingLinks::Solver listSolver(listBuilder.finalize());
+  auto result = listSolver.nextModel();
+  REQUIRE(result);
+  REQUIRE(result->size() == 2);
+  result = listSolver.nextModel();
+  REQUIRE_FALSE(result);
 }

@@ -39,7 +39,7 @@ public:
   /// @brief Checks that every row, column and block only has each number once
   bool isCorrect() const;
 
-  bool operator==(const Field& other);
+  bool operator==(const Field& other) const;
 
   /// @brief Print a string representation of sudoku field to stream
   ///

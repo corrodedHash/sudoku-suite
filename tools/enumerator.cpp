@@ -9,12 +9,11 @@ main(int argc, char** args) {
   if (argc >= 2) {
     SudokuBlockSize = std::stoi(args[1]);
   }
-  DancingLinks::Solver solver(
-      Sudoku::DLHelper::toDancingLinksList(Sudoku::Field(SudokuBlockSize)));
 
-  while (auto model = solver.nextModel()) {
-    Sudoku::DLHelper::fromDancingLinksList(*model, SudokuBlockSize)
-        .print(std::cout);
+  Sudoku::Solver solver(Sudoku::Generator::generate(3));
+
+  while (auto model = solver.nextSolution()) {
+    model->print(std::cout);
     std::cout << '\n';
     char x;
     std::cin >> x;

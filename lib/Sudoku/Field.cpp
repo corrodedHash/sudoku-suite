@@ -10,7 +10,7 @@ Field::Field(int blocksize) {
 };
 
 bool
-Field::operator==(const Field& other) {
+Field::operator==(const Field& other) const{
   return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) &&
          (Grid == other.Grid);
 }
