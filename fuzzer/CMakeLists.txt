@@ -1,10 +1,12 @@
 add_executable(fuzzer main.cpp)
 
+target_compile_options(fuzzer PRIVATE "-fsanitize=fuzzer,address,undefined")
+
+target_link_libraries(fuzzer PRIVATE Sudoku "-fsanitize=fuzzer,address,undefined")
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/corpus)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/crashes)
-
-target_link_libraries(fuzzer lib_core ${CMAKE_CURRENT_SOURCE_DIR}/libclang_rt.fuzzer-x86_64.a pthread rt)
 
 add_custom_target(fuzz ./fuzzer corpus examples crashes DEPENDS fuzzer)
 add_custom_command(OUTPUT default.profdata

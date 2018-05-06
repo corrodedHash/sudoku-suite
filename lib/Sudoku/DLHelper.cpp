@@ -5,29 +5,15 @@
 
 namespace Sudoku {
 
-static DancingLinks::Node*
-getRowStart(DancingLinks::Node* cell) {
-  DancingLinks::Node* firstEntry = nullptr;
-  while (true) {
-    if (cell->Left->Column->Id > cell->Column->Id) {
-      return cell;
-    }
-    cell = cell->Left;
-  }
-}
-
 static std::tuple<int, int, int>
 getSudokuPos(DancingLinks::Node* rowIndex, int blocksize) {
   int blocksize2P = blocksize * blocksize;
-  int blocksize4P = blocksize2P * blocksize2P;
   assert(rowIndex->Right->Right->Right->Right == rowIndex);
-
-  DancingLinks::Node* firstEntry = getRowStart(rowIndex);
-  assert(firstEntry->Column->Id < blocksize4P);
+  assert(rowIndex->Column->Id < blocksize2P * blocksize2P);
 
   int row = rowIndex->Column->Id / blocksize2P;
   int column = rowIndex->Column->Id % blocksize2P;
-  int number = (firstEntry->Right->Column->Id % blocksize2P) + 1;
+  int number = (rowIndex->Right->Column->Id % blocksize2P) + 1;
 
   return std::make_tuple(row, column, number);
 }

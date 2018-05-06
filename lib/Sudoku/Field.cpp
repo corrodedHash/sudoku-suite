@@ -1,6 +1,7 @@
 #include "Sudoku.hpp"
 
 #include <cassert>
+#include <iomanip>
 #include <sstream>
 
 namespace Sudoku {
@@ -10,7 +11,7 @@ Field::Field(int blocksize) {
 };
 
 bool
-Field::operator==(const Field& other) const{
+Field::operator==(const Field& other) const {
   return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) &&
          (Grid == other.Grid);
 }
@@ -78,8 +79,9 @@ Field::isCorrect() const {
 void
 Field::print(std::ostream& stream) const {
   int curColumn = 0;
+  int padSize = std::to_string(getMaxNumber()).size();
   for (auto cell : Grid) {
-    stream << cell << " ";
+    stream << std::setw(padSize) <<std::setfill(' ') << cell << " ";
     if (++curColumn >= getMaxNumber()) {
       stream << '\n';
       curColumn = 0;

@@ -10,7 +10,7 @@ main(int argc, char** args) {
     SudokuBlockSize = std::stoi(args[1]);
   }
 
-  Sudoku::Solver solver(Sudoku::Generator::generate(3));
+  Sudoku::Solver solver((Sudoku::Field(SudokuBlockSize)));
 
   while (auto model = solver.nextSolution()) {
     model->print(std::cout);

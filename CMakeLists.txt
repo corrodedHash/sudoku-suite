@@ -11,6 +11,8 @@ set(${PROJECT_NAME}_ENABLE_TIDY OFF CACHE BOOL "Enable clang-tidy")
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 set(CMAKE_CXX_STANDARD 17)
 
+add_library(GeneralConfig INTERFACE)
+
 # Set compiler flags
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /W4")
@@ -19,22 +21,28 @@ if(MSVC)
   # Default debug flags are OK
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
 else()
-  if (${PROJECT_NAME}_ENABLE_FUZZER)
-    string( APPEND CMAKE_CXX_FLAGS " -fsanitize-coverage=trace-pc-guard")
-    string( APPEND CMAKE_CXX_FLAGS " -fprofile-instr-generate -fcoverage-mapping")
-  endif()
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    string (APPEND CMAKE_CXX_FLAGS " -fcolor-diagnostics")
+    target_compile_options(GeneralConfig INTERFACE "-fcolor-diagnostics")
   else()
     message(WARNING "Not compiling with clang, disabling colored diagnostics")
   endif()
 
-  string (APPEND CMAKE_CXX_FLAGS " -fno-omit-frame-pointer")
-  #string (APPEND CMAKE_CXX_FLAGS " -flto=thin")
-  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize=address,undefined")
-  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fsanitize-address-use-after-scope")
-  string (APPEND CMAKE_CXX_FLAGS_DEBUG " -fprofile-instr-generate -fcoverage-mapping")
+  target_compile_options(GeneralConfig INTERFACE "-fno-omit-frame-pointer")
+  if("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
+    target_compile_options(GeneralConfig INTERFACE "-fsanitize=address,undefined"
+      "-fsanitize-address-use-after-scope"
+      "-fprofile-instr-generate" "-fcoverage-mapping")
+    target_link_libraries(GeneralConfig INTERFACE "-fsanitize=address,undefined"
+      "-fsanitize-address-use-after-scope"
+      "-fprofile-instr-generate" "-fcoverage-mapping")
+  endif()
   string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
+
+  if (${PROJECT_NAME}_ENABLE_FUZZER)
+    target_compile_options(GeneralConfig INTERFACE "-fsanitize=fuzzer-no-link,address,undefined"
+      "-fsanitize-address-use-after-scope")
+    target_link_libraries(GeneralConfig INTERFACE "-fsanitize=fuzzer-no-link,address,undefined")
+  endif()
 
   if (${PROJECT_NAME}_ENABLE_TIDY)
     set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
