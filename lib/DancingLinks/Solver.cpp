@@ -11,11 +11,7 @@ Solver::Solver(List exactCoverPuzzle) :
 
 void
 Solver::deepen() {
-  while (true) {
-    if (ExactCoverPuzzle.isEmpty() || ExactCoverPuzzle.containsEmptyColumn()) {
-      return;
-    }
-
+  while (!ExactCoverPuzzle.isEmpty() && !ExactCoverPuzzle.containsEmptyColumn()) {
     AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
     ExactCoverPuzzle.coverColumn(AssumedNodes.back()->Column);
 

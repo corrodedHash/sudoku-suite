@@ -26,7 +26,7 @@ struct ColumnNode : public Node {
 
 class RowExcludingRightIterator {
 private:
-  Node* startNode;
+  Node* StartNode;
 
 public:
   using iterator_category = std::forward_iterator_tag;
@@ -35,25 +35,25 @@ public:
   using reference = Node&;
   using difference_type = long;
 
-  RowExcludingRightIterator(Node* node) : startNode(node->Right) {}
+  RowExcludingRightIterator(Node* node) : StartNode(node->Right) {}
 
   RowExcludingRightIterator& operator++() {
-    startNode = startNode->Right;
+    StartNode = StartNode->Right;
     return *this;
   }
   RowExcludingRightIterator operator++(int) {
     RowExcludingRightIterator buffer = *this;
-    startNode = startNode->Right;
+    StartNode = StartNode->Right;
     return buffer;
   }
 
-  pointer operator->() const { return startNode; }
-  reference operator*() const { return *startNode; }
+  pointer operator->() const { return StartNode; }
+  reference operator*() const { return *StartNode; }
 
-  bool operator==(const RowExcludingRightIterator& other) {
-    return other.startNode == startNode;
+  bool operator==(const RowExcludingRightIterator& other) const {
+    return other.StartNode == StartNode;
   }
-  bool operator!=(const RowExcludingRightIterator& other) {
+  bool operator!=(const RowExcludingRightIterator& other) const {
     return !(*this == other);
   }
 };
@@ -73,15 +73,15 @@ struct std::iterator_traits<DancingLinks::RowExcludingRightIterator> {
 
 namespace DancingLinks {
 class RowExcludingRightView {
-  Node* startNode;
+  Node* StartNode;
 
 public:
-  RowExcludingRightView(Node* node) : startNode(node) {}
+  RowExcludingRightView(Node* node) : StartNode(node) {}
   RowExcludingRightIterator begin() {
-    return RowExcludingRightIterator(startNode);
+    return RowExcludingRightIterator(StartNode);
   }
   RowExcludingRightIterator end() {
-    return RowExcludingRightIterator(startNode->Left);
+    return RowExcludingRightIterator(StartNode->Left);
   }
 };
 
