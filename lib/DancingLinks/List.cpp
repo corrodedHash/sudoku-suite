@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <iostream>
 #include <utility>
+#include <algorithm>
 
 namespace DancingLinks {
 List::List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes,
@@ -44,18 +45,9 @@ List::uncoverColumn(ColumnNode* columnNode) {
 
 bool
 List::containsEmptyColumn() {
-  /*
   RowExcludingRightView rowView(Header);
   return std::any_of(std::begin(rowView), std::end(rowView),
                      [](Node* node) { return node->Down == node; });
-                     */
-  for (Node* curNode = Header->Right; curNode != Header;
-       curNode = curNode->Right) {
-    if (curNode->Down == curNode) {
-      return true;
-    }
-  }
-  return false;
 }
 
 bool

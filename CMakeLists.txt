@@ -28,6 +28,11 @@ else()
   endif()
 
   target_compile_options(GeneralConfig INTERFACE "-fno-omit-frame-pointer")
+  #target_compile_options(GeneralConfig INTERFACE "-fsave-optimization-record")
+  #target_compile_options(GeneralConfig INTERFACE "-Rpass-missed")
+  target_compile_options(GeneralConfig INTERFACE "-Rpass")
+  #target_compile_options(GeneralConfig INTERFACE "-save-temps=obj" "-masm=intel" "-fverbose-asm")
+  #target_link_libraries(GeneralConfig INTERFACE "-save-temps=obj" "-masm=intel" "-fverbose-asm")
   if("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
     target_compile_options(GeneralConfig INTERFACE "-fsanitize=address,undefined"
       "-fsanitize-address-use-after-scope"
@@ -36,7 +41,13 @@ else()
       "-fsanitize-address-use-after-scope"
       "-fprofile-instr-generate" "-fcoverage-mapping")
   endif()
-  string (APPEND CMAKE_CXX_FLAGS_RELEASE " -Ofast -mtune=native -march=native")
+  if("${CMAKE_BUILD_TYPE}" STREQUAL "RELEASE")
+    message(STATUS "Compiling with release")
+    target_compile_options(GeneralConfig INTERFACE "-Ofast" "-mtune=native" "-march=native")
+    target_link_libraries(GeneralConfig INTERFACE "-Ofast" "-mtune=native" "-march=native")
+    target_compile_options(GeneralConfig INTERFACE "-flto")
+    target_link_libraries(GeneralConfig INTERFACE "-flto")
+  endif()
 
   if (${PROJECT_NAME}_ENABLE_FUZZER)
     target_compile_options(GeneralConfig INTERFACE "-fsanitize=fuzzer-no-link,address,undefined"
