@@ -27,12 +27,7 @@ else()
     message(WARNING "Not compiling with clang, disabling colored diagnostics")
   endif()
 
-  target_compile_options(GeneralConfig INTERFACE "-fno-omit-frame-pointer")
-  #target_compile_options(GeneralConfig INTERFACE "-fsave-optimization-record")
-  #target_compile_options(GeneralConfig INTERFACE "-Rpass-missed")
-  target_compile_options(GeneralConfig INTERFACE "-Rpass")
-  #target_compile_options(GeneralConfig INTERFACE "-save-temps=obj" "-masm=intel" "-fverbose-asm")
-  #target_link_libraries(GeneralConfig INTERFACE "-save-temps=obj" "-masm=intel" "-fverbose-asm")
+  target_compile_options(GeneralConfig INTERFACE "-fno-omit-frame-pointer" "-fsave-optimization-record")
   if("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
     target_compile_options(GeneralConfig INTERFACE "-fsanitize=address,undefined"
       "-fsanitize-address-use-after-scope"

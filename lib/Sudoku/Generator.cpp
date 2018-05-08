@@ -67,20 +67,23 @@ generate(int blocksize) {
   auto result = sudokuSolver.nextSolution();
   assert(result);
   Field upperBound = std::move(*result);
-  while (true) {
+  for (int i = 0; i < blocksize * blocksize * blocksize * blocksize; ++i) {
     Field medianField = getMedianField(lowerBound, upperBound);
+    assert(!(medianField == lowerBound));
     if (medianField == upperBound) {
       return upperBound;
     }
     Solver loopSudokuSolver(medianField);
 
     // Check if the puzzle has a unique solution
-    assert(loopSudokuSolver.nextSolution());
+    auto firstSolution = loopSudokuSolver.nextSolution();
+    assert(firstSolution);
     if (loopSudokuSolver.nextSolution()) {
       lowerBound = medianField;
     } else {
       upperBound = medianField;
     }
   }
+  throw std::logic_error("Couldn't generate field");
 }
 } // namespace Sudoku::Generator

@@ -3,6 +3,7 @@
 #include <cassert>
 #include <iomanip>
 #include <sstream>
+#include <algorithm>
 
 namespace Sudoku {
 Field::Field(int blocksize) {
@@ -25,12 +26,8 @@ Field::getIndex(int x, int y) const {
 
 bool
 Field::isSolved() const {
-  for (auto x : Grid) {
-    if (x == 0) {
-      return false;
-    }
-  }
-  return true;
+  return std::none_of(std::begin(Grid), std::end(Grid),
+                      [](auto x) { return x == 0; });
 }
 
 bool
@@ -81,7 +78,7 @@ Field::print(std::ostream& stream) const {
   int curColumn = 0;
   int padSize = std::to_string(getMaxNumber()).size();
   for (auto cell : Grid) {
-    stream << std::setw(padSize) <<std::setfill(' ') << cell << " ";
+    stream << std::setw(padSize) << std::setfill(' ') << cell << " ";
     if (++curColumn >= getMaxNumber()) {
       stream << '\n';
       curColumn = 0;

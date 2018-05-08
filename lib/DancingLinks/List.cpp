@@ -47,7 +47,7 @@ bool
 List::containsEmptyColumn() {
   RowExcludingRightView rowView(Header);
   return std::any_of(std::begin(rowView), std::end(rowView),
-                     [](Node* node) { return node->Down == node; });
+                     [](const Node& node) { return node.Down == &node; });
 }
 
 bool

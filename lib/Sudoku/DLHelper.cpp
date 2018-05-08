@@ -33,7 +33,7 @@ getDancingListSize(int blocksize) {
 DancingLinks::List
 DLHelper::toDancingLinksList(const Field& field) {
   auto [dlHeight, dlWidth] = getDancingListSize(field.getBlocksize());
-  DancingLinks::ListBuilder result;
+  DancingLinks::ListBuilder result(dlHeight, dlWidth);
   int hBase = 0;
 
   int rowId = 0;
@@ -65,6 +65,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       }
     }
   }
+  //result.print(std::cout);
   return result.finalize();
 }
 

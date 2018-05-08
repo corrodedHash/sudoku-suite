@@ -4,9 +4,22 @@
 #include <iostream>
 
 namespace DancingLinks {
-ListBuilder::ListBuilder() {
-  Nodes.emplace_back();
-  Header = &(Nodes.back());
+ListBuilder::ListBuilder() { Header = &(Nodes.emplace_back()); }
+
+ListBuilder::ListBuilder(int rowCount, int columnCount) {
+  Header = &(Nodes.emplace_back());
+
+  Row.reserve(rowCount);
+  Column.reserve(columnCount);
+
+  while (Column.size() < columnCount) {
+    ColumnNode& NewColumnNode = ColumnNodes.emplace_back();
+
+    Column.push_back(&NewColumnNode);
+
+    NewColumnNode.Id = ColumnNodes.size() - 1;
+    NewColumnNode.linkHorizontally(Header->Left, Header);
+  }
 }
 
 void

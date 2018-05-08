@@ -29,10 +29,14 @@ private:
   Node* startNode;
 
 public:
-  RowExcludingRightIterator(Node* node) :
-      startNode(node->Right) {}
+  using iterator_category = std::forward_iterator_tag;
+  using value_type = Node;
+  using pointer = Node*;
+  using reference = Node&;
+  using difference_type = long;
 
-  Node* operator*() const { return startNode; }
+  RowExcludingRightIterator(Node* node) : startNode(node->Right) {}
+
   RowExcludingRightIterator& operator++() {
     startNode = startNode->Right;
     return *this;
@@ -42,7 +46,9 @@ public:
     startNode = startNode->Right;
     return buffer;
   }
-  Node* operator->() const { return startNode; }
+
+  pointer operator->() const { return startNode; }
+  reference operator*() const { return *startNode; }
 
   bool operator==(const RowExcludingRightIterator& other) {
     return other.startNode == startNode;
@@ -56,7 +62,13 @@ public:
 
 template <>
 struct std::iterator_traits<DancingLinks::RowExcludingRightIterator> {
-  using iterator_category = std::forward_iterator_tag;
+  using iterator_category =
+      DancingLinks::RowExcludingRightIterator::iterator_category;
+  using value_type = DancingLinks::RowExcludingRightIterator::value_type;
+  using pointer = DancingLinks::RowExcludingRightIterator::pointer;
+  using reference = DancingLinks::RowExcludingRightIterator::reference;
+  using difference_type =
+      DancingLinks::RowExcludingRightIterator::difference_type;
 };
 
 namespace DancingLinks {
@@ -108,6 +120,7 @@ class ListBuilder {
 
 public:
   ListBuilder();
+  ListBuilder(int rowCount, int columnCount);
 
   /// @brief Add a node into the list. Must build from top left to bottom right.
   void insertNode(int row, int column);
