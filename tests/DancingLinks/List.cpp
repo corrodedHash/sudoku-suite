@@ -1,5 +1,6 @@
-#include "DancingLinks.hpp"
-#include "catch.hpp"
+#include "DancingLinks/ListBuilder.hpp"
+#include <catch.hpp>
+
 #include <sstream>
 
 SCENARIO("Using A Correct List", "[List]") {
@@ -35,7 +36,7 @@ SCENARIO("Using A Correct List", "[List]") {
     WHEN("Printing the list") {
       std::stringstream list_representation;
       listBuilder.print(list_representation);
-      THEN("Presentation is correct"){
+      THEN("Presentation is correct") {
         char hitChar = 'X';
         char missChar = ' ';
         char currentChar;
@@ -57,13 +58,13 @@ SCENARIO("Using A Correct List", "[List]") {
     }
   }
 
-  GIVEN("A constructed list with an empty row"){ 
+  GIVEN("A constructed list with an empty row") {
     DancingLinks::ListBuilder listBuilder;
     listBuilder.insertNode(1, 1);
-    WHEN("Printing the list"){
+    WHEN("Printing the list") {
       std::stringstream list_representation;
       listBuilder.print(list_representation);
-      THEN("Presentation is correct"){
+      THEN("Presentation is correct") {
         char hitChar = 'X';
         char missChar = ' ';
         char currentChar;

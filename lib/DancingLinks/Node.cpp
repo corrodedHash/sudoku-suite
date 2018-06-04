@@ -1,4 +1,4 @@
-#include "DancingLinks.hpp"
+#include "DancingLinks/Node.hpp"
 
 namespace DancingLinks {
   void Node::linkHorizontally(Node* left, Node* right) {

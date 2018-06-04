@@ -1,6 +1,7 @@
-#include "DancingLinks.hpp"
-#include "catch.hpp"
+#include "DancingLinks/ListBuilder.hpp"
+#include "DancingLinks/RowIterator.hpp"
 
+#include <catch.hpp>
 #include <iostream>
 
 TEST_CASE("Node iterator") {

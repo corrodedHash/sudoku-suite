@@ -1,4 +1,5 @@
 #include "Sudoku.hpp"
+#include "DancingLinks/ListBuilder.hpp"
 
 #include <cassert>
 #include <iostream>

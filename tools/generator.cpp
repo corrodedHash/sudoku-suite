@@ -1,4 +1,3 @@
-#include "DancingLinks.hpp"
 #include "Sudoku.hpp"
 
 #include <iostream>

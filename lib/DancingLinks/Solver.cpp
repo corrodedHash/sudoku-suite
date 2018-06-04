@@ -1,4 +1,4 @@
-#include "DancingLinks.hpp"
+#include "DancingLinks/Solver.hpp"
 
 #include <algorithm>
 #include <iomanip>

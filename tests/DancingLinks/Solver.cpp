@@ -1,5 +1,8 @@
-#include "DancingLinks.hpp"
-#include "catch.hpp"
+#include "DancingLinks/Solver.hpp"
+
+#include "DancingLinks/ListBuilder.hpp"
+
+#include <catch.hpp>
 
 TEST_CASE("Solving a list", "[List][List Solver]") {
   DancingLinks::ListBuilder listBuilder;

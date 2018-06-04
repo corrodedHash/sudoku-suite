@@ -1,5 +1,6 @@
 #pragma once
-#include "DancingLinks.hpp"
+#include "DancingLinks/List.hpp"
+#include "DancingLinks/Solver.hpp"
 
 #include <string>
 #include <tuple>

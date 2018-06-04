@@ -21,4 +21,4 @@ ExternalProject_Add(
 ExternalProject_Get_Property(extlib_catch2 source_dir)
 add_library(Catch2 INTERFACE)
 add_dependencies(Catch2 extlib_catch2)
-target_include_directories(Catch2 INTERFACE ${source_dir}/single_include)
+target_include_directories(Catch2 SYSTEM INTERFACE ${source_dir}/single_include)
