@@ -2,31 +2,32 @@
 #include "DancingLinks/Node.hpp"
 
 namespace DancingLinks {
-template <Node* Node::*Next, bool Excluding>
-class LineIteratorImpl;
 
 template <Node* Node::*Next>
-class LineIteratorImpl<Next, true> {
+class LineIterator{
 private:
   Node* StartNode;
+  bool JustStarted;
 
 public:
-  using iterator = LineIteratorImpl<Next, true>;
+  using iterator = LineIterator;
   using iterator_category = std::forward_iterator_tag;
   using value_type = Node;
   using pointer = Node*;
   using reference = Node&;
   using difference_type = long;
 
-  LineIteratorImpl(Node* node) : StartNode(node->*Next) {}
+  LineIterator(Node* node, bool justStarted) :
+      StartNode(node), JustStarted(justStarted) {}
 
   iterator& operator++() {
     StartNode = StartNode->*Next;
+    JustStarted = false;
     return *this;
   }
   iterator operator++(int) {
     iterator buffer = *this;
-    StartNode = StartNode->*Next;
+    ++(*this);
     return buffer;
   }
 
@@ -34,38 +35,48 @@ public:
   reference operator*() const { return *StartNode; }
 
   bool operator==(const iterator& other) const {
-    return other.StartNode == StartNode;
+    return other.StartNode == StartNode && other.JustStarted == JustStarted;
   }
   bool operator!=(const iterator& other) const { return !(*this == other); }
 };
 
-using RowExcludingRightIterator = LineIteratorImpl<&Node::Right, true>;
-using ColumnExcludingDownIterator = LineIteratorImpl<&Node::Down, true>;
+using RowIterator = LineIterator<&Node::Right>;
+using ColumnIterator = LineIterator<&Node::Down>;
 
 } // namespace DancingLinks
 
-template <auto A, auto B>
-struct std::iterator_traits<DancingLinks::LineIteratorImpl<A, B>> {
-  using iterator_category =
-      typename DancingLinks::LineIteratorImpl<A, B>::iterator_category;
-  using value_type = typename DancingLinks::LineIteratorImpl<A, B>::value_type;
-  using pointer = typename DancingLinks::LineIteratorImpl<A, B>::pointer;
-  using reference = typename DancingLinks::LineIteratorImpl<A, B>::reference;
-  using difference_type =
-      typename DancingLinks::LineIteratorImpl<A, B>::difference_type;
+template <auto A>
+struct std::iterator_traits<DancingLinks::LineIterator<A>> {
+  using iterator_name = typename DancingLinks::LineIterator<A>;
+  using iterator_category = typename iterator_name::iterator_category;
+  using value_type = typename iterator_name::value_type;
+  using pointer = typename iterator_name::pointer;
+  using reference = typename iterator_name::reference;
+  using difference_type = typename iterator_name::difference_type;
 };
 
 namespace DancingLinks {
-class RowExcludingRightView {
+template <Node* Node::*Previous, Node* Node::*Next, bool Excluding>
+class LineView {
   Node* StartNode;
 
 public:
-  RowExcludingRightView(Node* node) : StartNode(node) {}
-  RowExcludingRightIterator begin() {
-    return RowExcludingRightIterator(StartNode);
+  LineView(Node* node) : StartNode(node) {}
+  using iterator_type = LineIterator<Next>;
+
+  iterator_type begin() {
+    if constexpr (Excluding) {
+      return iterator_type(StartNode->*Next, false);
+    } else {
+      return iterator_type(StartNode, true);
+    }
   }
-  RowExcludingRightIterator end() {
-    return RowExcludingRightIterator(StartNode->Left);
-  }
+  iterator_type end() { return iterator_type(StartNode, false); }
 };
+
+using RowExcludingView = LineView<&Node::Left, &Node::Right, true>;
+using RowIncludingView = LineView<&Node::Left, &Node::Right, false>;
+using ColumnExcludingView = LineView<&Node::Up, &Node::Down, true>; 
+using ColumnIncludingView = LineView<&Node::Up, &Node::Down, false>; 
+
 } // namespace DancingLinks

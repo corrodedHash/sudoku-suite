@@ -13,13 +13,13 @@ TEST_CASE("Node iterator") {
   listBuilder.insertNode(2, 1);
   listBuilder.print(std::cout);
   DancingLinks::List list = listBuilder.finalize();
-  DancingLinks::RowExcludingRightView rowView(list.Header->Right->Down);
-  DancingLinks::RowExcludingRightIterator rowIterator(rowView.begin());
+  DancingLinks::RowExcludingView rowView(list.Header->Right->Down);
+  auto rowIterator(rowView.begin());
   REQUIRE(rowIterator->Column->Id == 2);
   REQUIRE((*rowIterator).Column->Id == 2);
   REQUIRE((rowIterator++)->Column->Id == 2);
   REQUIRE(rowIterator == rowView.end());
 
-  rowView = DancingLinks::RowExcludingRightView(list.Header->Right->Down);
+  rowView = DancingLinks::RowExcludingView(list.Header->Right->Down);
   REQUIRE(++rowView.begin() == rowView.end());
 }
