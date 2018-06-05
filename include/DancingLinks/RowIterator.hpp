@@ -4,13 +4,12 @@
 namespace DancingLinks {
 
 template <Node* Node::*Next>
-class LineIterator{
+class LineIterator {
 private:
   Node* StartNode;
   bool JustStarted;
 
 public:
-  using iterator = LineIterator;
   using iterator_category = std::forward_iterator_tag;
   using value_type = Node;
   using pointer = Node*;
@@ -20,13 +19,13 @@ public:
   LineIterator(Node* node, bool justStarted) :
       StartNode(node), JustStarted(justStarted) {}
 
-  iterator& operator++() {
+  LineIterator& operator++() {
     StartNode = StartNode->*Next;
     JustStarted = false;
     return *this;
   }
-  iterator operator++(int) {
-    iterator buffer = *this;
+  LineIterator operator++(int) {
+    LineIterator buffer = *this;
     ++(*this);
     return buffer;
   }
@@ -34,14 +33,11 @@ public:
   pointer operator->() const { return StartNode; }
   reference operator*() const { return *StartNode; }
 
-  bool operator==(const iterator& other) const {
+  bool operator==(const LineIterator& other) const {
     return other.StartNode == StartNode && other.JustStarted == JustStarted;
   }
-  bool operator!=(const iterator& other) const { return !(*this == other); }
+  bool operator!=(const LineIterator& other) const { return !(*this == other); }
 };
-
-using RowIterator = LineIterator<&Node::Right>;
-using ColumnIterator = LineIterator<&Node::Down>;
 
 } // namespace DancingLinks
 
@@ -72,11 +68,23 @@ public:
     }
   }
   iterator_type end() { return iterator_type(StartNode, false); }
+
+  iterator_type rbegin() {
+    return iterator_type(StartNode->*Previous, !Excluding);
+  }
+
+  iterator_type rend() { 
+    if constexpr (Excluding) {
+      return iterator_type(StartNode, false);
+    } else {
+      return iterator_type(StartNode->*Previous, false);
+    }
+}
 };
 
 using RowExcludingView = LineView<&Node::Left, &Node::Right, true>;
 using RowIncludingView = LineView<&Node::Left, &Node::Right, false>;
-using ColumnExcludingView = LineView<&Node::Up, &Node::Down, true>; 
-using ColumnIncludingView = LineView<&Node::Up, &Node::Down, false>; 
+using ColumnExcludingView = LineView<&Node::Up, &Node::Down, true>;
+using ColumnIncludingView = LineView<&Node::Up, &Node::Down, false>;
 
 } // namespace DancingLinks
