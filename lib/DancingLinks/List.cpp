@@ -3,10 +3,6 @@
 #include "DancingLinks/RowIterator.hpp"
 
 #include <algorithm>
-#include <cassert>
-#include <iomanip>
-#include <iostream>
-#include <utility>
 
 namespace DancingLinks {
 List::List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes,
@@ -20,15 +16,12 @@ List::coverColumn(ColumnNode* columnNode) {
   columnNode->Left->Right = columnNode->Right;
   columnNode->Right->Left = columnNode->Left;
   ColumnExcludingView columnView(columnNode);
-  std::for_each(std::begin(columnView), std::end(columnView),
-                [](Node& rowNode) {
-                  RowExcludingView rowView(&rowNode);
-                  std::for_each(std::begin(rowView), std::end(rowView),
-                                [](Node& cellNode) {
-                                  cellNode.Up->Down = cellNode.Down;
-                                  cellNode.Down->Up = cellNode.Up;
-                                });
-                });
+  for (Node& rowNode : ColumnExcludingView(columnNode)) {
+    for (Node& cellNode : RowExcludingView(&rowNode)) {
+      cellNode.Up->Down = cellNode.Down;
+      cellNode.Down->Up = cellNode.Up;
+    }
+  }
 }
 
 void
