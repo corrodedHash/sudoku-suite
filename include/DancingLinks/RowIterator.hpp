@@ -59,6 +59,7 @@ class LineView {
 public:
   LineView(Node* node) : StartNode(node) {}
   using iterator_type = LineIterator<Next>;
+  using reverse_iterator_type = LineIterator<Previous>;
 
   iterator_type begin() {
     if constexpr (Excluding) {
@@ -69,15 +70,15 @@ public:
   }
   iterator_type end() { return iterator_type(StartNode, false); }
 
-  iterator_type rbegin() {
-    return iterator_type(StartNode->*Previous, !Excluding);
+  reverse_iterator_type rbegin() {
+    return reverse_iterator_type(StartNode->*Previous, !Excluding);
   }
 
-  iterator_type rend() { 
+  reverse_iterator_type rend() { 
     if constexpr (Excluding) {
-      return iterator_type(StartNode, false);
+      return reverse_iterator_type(StartNode, false);
     } else {
-      return iterator_type(StartNode->*Previous, false);
+      return reverse_iterator_type(StartNode->*Previous, false);
     }
 }
 };

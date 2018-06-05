@@ -19,28 +19,30 @@ void
 List::coverColumn(ColumnNode* columnNode) {
   columnNode->Left->Right = columnNode->Right;
   columnNode->Right->Left = columnNode->Left;
-  for (Node* mainColumnEntry = columnNode->Down; mainColumnEntry != columnNode;
-       mainColumnEntry = mainColumnEntry->Down) {
-    for (Node* currentRowEntry = mainColumnEntry->Right;
-         currentRowEntry != mainColumnEntry;
-         currentRowEntry = currentRowEntry->Right) {
-      currentRowEntry->Up->Down = currentRowEntry->Down;
-      currentRowEntry->Down->Up = currentRowEntry->Up;
-    }
-  }
+  ColumnExcludingView columnView(columnNode);
+  std::for_each(std::begin(columnView), std::end(columnView),
+                [](Node& rowNode) {
+                  RowExcludingView rowView(&rowNode);
+                  std::for_each(std::begin(rowView), std::end(rowView),
+                                [](Node& cellNode) {
+                                  cellNode.Up->Down = cellNode.Down;
+                                  cellNode.Down->Up = cellNode.Up;
+                                });
+                });
 }
 
 void
 List::uncoverColumn(ColumnNode* columnNode) {
-  for (Node* mainColumnEntry = columnNode->Up; mainColumnEntry != columnNode;
-       mainColumnEntry = mainColumnEntry->Up) {
-    for (Node* currentRowEntry = mainColumnEntry->Left;
-         currentRowEntry != mainColumnEntry;
-         currentRowEntry = currentRowEntry->Left) {
-      currentRowEntry->Down->Up = currentRowEntry;
-      currentRowEntry->Up->Down = currentRowEntry;
-    }
-  }
+  ColumnExcludingView columnView(columnNode);
+  std::for_each(std::rbegin(columnView), std::rend(columnView),
+                [](Node& rowNode) {
+                  RowExcludingView rowView(&rowNode);
+                  std::for_each(std::rbegin(rowView), std::rend(rowView),
+                                [](Node& cellNode) {
+                                  cellNode.Down->Up = &cellNode;
+                                  cellNode.Up->Down = &cellNode;
+                                });
+                });
   columnNode->Right->Left = columnNode;
   columnNode->Left->Right = columnNode;
 }
