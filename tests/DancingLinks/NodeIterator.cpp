@@ -11,7 +11,6 @@ TEST_CASE("Node iterator") {
   listBuilder.insertNode(1, 0);
   listBuilder.insertNode(1, 1);
   listBuilder.insertNode(2, 1);
-  listBuilder.print(std::cout);
   DancingLinks::List list = listBuilder.finalize();
   DancingLinks::RowExcludingView rowView(list.Header->Right->Down);
   auto rowIterator(rowView.begin());

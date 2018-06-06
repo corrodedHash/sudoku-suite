@@ -1,9 +1,6 @@
 #include "DancingLinks/Solver.hpp"
 
 #include <algorithm>
-#include <iomanip>
-#include <iostream>
-#include <map>
 
 namespace DancingLinks {
 Solver::Solver(List exactCoverPuzzle) :
