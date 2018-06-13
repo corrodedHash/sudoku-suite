@@ -2,7 +2,7 @@ add_executable(fuzzer main.cpp)
 
 target_compile_options(fuzzer PRIVATE "-fsanitize=fuzzer,address,undefined")
 
-target_link_libraries(fuzzer PRIVATE Sudoku "-fsanitize=fuzzer,address,undefined")
+target_link_libraries(fuzzer PRIVATE Sudoku GeneralConfig "-fsanitize=fuzzer,address,undefined")
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/corpus)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/examples)
