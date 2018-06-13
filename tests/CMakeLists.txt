@@ -5,6 +5,6 @@ set (TEST_SOURCES "")
 add_subdirectory(DancingLinks)
 add_subdirectory(Sudoku)
 add_executable(testing main.cpp ${TEST_SOURCES})
-target_link_libraries(testing PRIVATE GeneralConfig Sudoku Catch2)
+target_link_libraries(testing PRIVATE GeneralConfig Sudoku Catch2::Catch)
 
 catch_discover_tests(testing)
