@@ -67,7 +67,8 @@ generate(int blocksize) {
   auto result = sudokuSolver.nextSolution();
   assert(result);
   Field upperBound = std::move(*result);
-  for (int i = 0; i < blocksize * blocksize * blocksize * blocksize; ++i) {
+  for (int i = 0; true; ++i) {
+    assert(i < blocksize * blocksize * blocksize * blocksize);
     Field medianField = getMedianField(lowerBound, upperBound);
     assert(medianField != lowerBound);
     if (medianField == upperBound) {
@@ -84,6 +85,5 @@ generate(int blocksize) {
       upperBound = medianField;
     }
   }
-  throw std::logic_error("Couldn't generate field");
 }
 } // namespace Sudoku::Generator
