@@ -41,6 +41,7 @@ public:
   bool isCorrect() const;
 
   bool operator==(const Field& other) const;
+  bool operator!=(const Field& other) const { return !(*this == other); }
 
   /// @brief Print a string representation of sudoku field to stream
   ///

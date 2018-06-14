@@ -69,7 +69,7 @@ generate(int blocksize) {
   Field upperBound = std::move(*result);
   for (int i = 0; i < blocksize * blocksize * blocksize * blocksize; ++i) {
     Field medianField = getMedianField(lowerBound, upperBound);
-    assert(!(medianField == lowerBound));
+    assert(medianField != lowerBound);
     if (medianField == upperBound) {
       return upperBound;
     }
