@@ -3,8 +3,9 @@
 
 #include <deque>
 
-/// @brief Circular DancingLinks list
 namespace DancingLinks {
+
+/// @brief Circular DancingLinks list
 class List {
   std::deque<Node> Nodes;
   std::deque<ColumnNode> ColumnNodes;

@@ -3,6 +3,7 @@
 
 namespace DancingLinks {
 
+/// @brief Iterator which is part of LineView
 template <Node* Node::*Next>
 class LineIterator {
 private:
@@ -52,6 +53,8 @@ struct std::iterator_traits<DancingLinks::LineIterator<A>> {
 };
 
 namespace DancingLinks {
+
+/// @brief View of row or column of a DancingLinks List
 template <Node* Node::*Previous, Node* Node::*Next, bool Excluding>
 class LineView {
   Node* StartNode;
@@ -74,13 +77,13 @@ public:
     return reverse_iterator_type(StartNode->*Previous, !Excluding);
   }
 
-  reverse_iterator_type rend() { 
+  reverse_iterator_type rend() {
     if constexpr (Excluding) {
       return reverse_iterator_type(StartNode, false);
     } else {
       return reverse_iterator_type(StartNode->*Previous, false);
     }
-}
+  }
 };
 
 using RowExcludingView = LineView<&Node::Left, &Node::Right, true>;

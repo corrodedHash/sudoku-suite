@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.3.2)
 project(SudokuSuite LANGUAGES CXX DESCRIPTION "Program suite to generate and solve sudokus of any size")
+set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # Set cache options
 set(${PROJECT_NAME}_TESTS OFF CACHE BOOL "Enable tests")
@@ -11,10 +13,6 @@ set(${PROJECT_NAME}_SANITIZER_ADDRESS OFF CACHE BOOL "Enable ASAN")
 set(${PROJECT_NAME}_SANITIZER_MEMORY OFF CACHE BOOL "Enable MSAN")
 set(${PROJECT_NAME}_SANITIZER_UB OFF CACHE BOOL "Enable UBSAN")
 set(${PROJECT_NAME}_COVERAGE OFF CACHE BOOL "Enable coverage mapping")
-
-
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-set(CMAKE_CXX_STANDARD 17)
 
 include( "GeneralConfig" )
 

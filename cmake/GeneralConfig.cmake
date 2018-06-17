@@ -23,9 +23,11 @@ else()
     if(${${PROJECT_NAME}_SANITIZER_ADDRESS})
       list(APPEND SANITIZER_LIST "address")
       target_compile_options(GeneralConfig INTERFACE
-        "-fsanitize-address-use-after-scope")
+        "-fsanitize-address-use-after-scope"
+        "-fno-optimize-sibling-calls")
       target_link_libraries(GeneralConfig INTERFACE
-        "-fsanitize-address-use-after-scope")
+        "-fsanitize-address-use-after-scope"
+        "-fno-optimize-sibling-calls")
     endif()
 
     if(${${PROJECT_NAME}_SANITIZER_UB})
