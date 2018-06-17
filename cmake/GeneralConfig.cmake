@@ -1,10 +1,5 @@
 add_library(GeneralConfig INTERFACE)
 
-set(${PROJECT_NAME}_SANITIZER_ADDRESS OFF)
-set(${PROJECT_NAME}_SANITIZER_MEMORY ON)
-set(${PROJECT_NAME}_SANITIZER_UB OFF)
-set(${PROJECT_NAME}_COVERAGE OFF)
-
 # Set compiler flags
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++latest /W4")
@@ -61,7 +56,7 @@ else()
 
     endif()
 
-    if (${PROJECT_NAME}_ENABLE_FUZZER)
+    if (${PROJECT_NAME}_FUZZER)
 
       list(APPEND SANITIZER_LIST "fuzzer-no-link")
       string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
