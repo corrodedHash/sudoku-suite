@@ -1,5 +1,5 @@
 #include "DancingLinks/ListBuilder.hpp"
-#include "DancingLinks/RowIterator.hpp"
+#include "DancingLinks/LineIterator.hpp"
 
 #include <catch.hpp>
 #include <iostream>

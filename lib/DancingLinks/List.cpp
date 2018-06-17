@@ -1,6 +1,6 @@
 #include "DancingLinks/List.hpp"
 
-#include "DancingLinks/RowIterator.hpp"
+#include "DancingLinks/LineIterator.hpp"
 
 #include <algorithm>
 
