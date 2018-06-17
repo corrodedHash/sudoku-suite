@@ -23,6 +23,10 @@ if (${PROJECT_NAME}_ENABLE_TESTS)
   add_subdirectory(tests)
 endif()
 
+if (${PROJECT_NAME}_ENABLE_TIDY)
+  set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
+endif()
+
 if (${PROJECT_NAME}_ENABLE_BENCHMARKS)
   add_subdirectory(benchmarks)
 endif()
