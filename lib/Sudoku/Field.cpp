@@ -1,9 +1,10 @@
 #include "Sudoku.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
-#include <algorithm>
 
 namespace Sudoku {
 Field::Field(int blocksize) {
@@ -34,13 +35,17 @@ bool
 Field::isCorrect() const {
   std::vector<bool> numbers(getMaxNumber(), false);
   bool currentFlag = true;
+  if (!isSolved()) {
+    std::cout << "Warning: checked unsolved puzzle\n";
+    return false;
+  }
   // Check rows
   for (int row = 0; row < getMaxNumber(); ++row) {
     for (int column = 0; column < getMaxNumber(); ++column) {
-      if (numbers[getCellValue(row, column)] == currentFlag) {
+      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = currentFlag;
     }
     currentFlag = !currentFlag;
   }
@@ -48,10 +53,10 @@ Field::isCorrect() const {
   // Check column
   for (int column = 0; column < getMaxNumber(); ++column) {
     for (int row = 0; row < getMaxNumber(); ++row) {
-      if (numbers[getCellValue(row, column)] == currentFlag) {
+      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = currentFlag;
     }
     currentFlag = !currentFlag;
   }
@@ -63,10 +68,10 @@ Field::isCorrect() const {
                 blockcell / getBlocksize();
       int column = (block % getBlocksize()) * getBlocksize() +
                    blockcell % getBlocksize();
-      if (numbers[getCellValue(row, column)] == currentFlag) {
+      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
         return false;
       }
-      numbers[getCellValue(row, column)] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = currentFlag;
     }
     currentFlag = !currentFlag;
   }

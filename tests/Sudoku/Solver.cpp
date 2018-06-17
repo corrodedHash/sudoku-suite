@@ -22,7 +22,7 @@ TEST_CASE("Detecting incorrect puzzles") {
   Sudoku::Field sudokuPuzzle(2);
     for (int row = 0; row < 4; ++row) {
       for (int col = 0; col < 4; ++col) {
-        sudokuPuzzle.setCellValue(row, col, col);
+        sudokuPuzzle.setCellValue(row, col, col + 1);
       }
     }
     REQUIRE_FALSE(sudokuPuzzle.isCorrect());
@@ -31,7 +31,7 @@ TEST_CASE("Detecting incorrect puzzles") {
   Sudoku::Field sudokuPuzzle(2);
     for (int col = 0; col < 4; ++col) {
       for (int row = 0; row < 4; ++row) {
-        sudokuPuzzle.setCellValue(row, col, row);
+        sudokuPuzzle.setCellValue(row, col, row + 1);
       }
     }
     REQUIRE_FALSE(sudokuPuzzle.isCorrect());
