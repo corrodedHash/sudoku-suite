@@ -1,24 +1,20 @@
 #include "Sudoku.hpp"
 
 #include <benchmark/benchmark.h>
+#include <iostream>
 
 static Sudoku::Field
-getField() {
-  Sudoku::Field field(3);
-  field.setCellValue(0, 0, 1);
-  field.setCellValue(1, 4, 1);
-  field.setCellValue(2, 8, 1);
-  field.setCellValue(3, 1, 1);
-  field.setCellValue(4, 5, 1);
-  field.setCellValue(5, 6, 1);
-  field.setCellValue(6, 2, 1);
-  field.setCellValue(7, 3, 1);
-  field.setCellValue(8, 7, 1);
+getField(int size) {
+  Sudoku::Field field(size);
+  for (int row = 0; row < size * size; ++row){
+    int column = (row % size) * size + (row / size);
+    field.setCellValue(row, column, 1);
+  }
   return field;
 }
 static void
 BM_SudokuSolver_Solving(benchmark::State& state) {
-  Sudoku::Field field = getField();
+  Sudoku::Field field = getField(state.range(0));
   for (auto _ : state) {
     state.PauseTiming();
     Sudoku::Solver solver(field);
@@ -29,7 +25,7 @@ BM_SudokuSolver_Solving(benchmark::State& state) {
 
 static void
 BM_SudokuSolver_Generation(benchmark::State& state) {
-  Sudoku::Field field = getField();
+  Sudoku::Field field = getField(state.range(0));
   for (auto _ : state) {
     Sudoku::Solver solver(field);
   }
@@ -37,13 +33,13 @@ BM_SudokuSolver_Generation(benchmark::State& state) {
 
 static void
 BM_SudokuSolver_Whole(benchmark::State& state) {
-  Sudoku::Field field = getField();
+  Sudoku::Field field = getField(state.range(0));
   for (auto _ : state) {
     Sudoku::Solver solver(field);
     solver.nextSolution();
   }
 }
 
-BENCHMARK(BM_SudokuSolver_Solving);
-BENCHMARK(BM_SudokuSolver_Generation);
-BENCHMARK(BM_SudokuSolver_Whole);
+BENCHMARK(BM_SudokuSolver_Solving)->Arg(3)->Arg(4);
+BENCHMARK(BM_SudokuSolver_Generation)->Arg(3)->Arg(4)->Arg(5)->Arg(6);
+BENCHMARK(BM_SudokuSolver_Whole)->Arg(3)->Arg(4);

@@ -35,7 +35,6 @@ DancingLinks::List
 DLHelper::toDancingLinksList(const Field& field) {
   auto [dlHeight, dlWidth] = getDancingListSize(field.getBlocksize());
   DancingLinks::ListBuilder result(dlHeight, dlWidth);
-  int hBase = 0;
 
   int rowId = 0;
   for (int row = 0; row < field.getMaxNumber(); ++row) {
@@ -43,6 +42,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       for (int number = 0; number < field.getMaxNumber(); ++number) {
         if (field.getCellValue(row, col) == 0 ||
             field.getCellValue(row, col) == number + 1) {
+
           // Each cell can only have one number
           result.insertNode(rowId, row * field.getMaxNumber() + col);
 
@@ -50,6 +50,7 @@ DLHelper::toDancingLinksList(const Field& field) {
           result.insertNode(rowId,
                             col * field.getMaxNumber() + number +
                                 field.getMaxNumber() * field.getMaxNumber());
+
           // Each column can only have each number once
           result.insertNode(rowId, row * field.getMaxNumber() + number +
                                        2 * field.getMaxNumber() *
