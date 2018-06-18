@@ -26,10 +26,6 @@ if (${PROJECT_NAME}_TESTS)
   add_subdirectory(tests)
 endif()
 
-if (${PROJECT_NAME}_TIDY)
-  set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
-endif()
-
 if (${PROJECT_NAME}_BENCHMARKS)
   add_subdirectory(benchmarks)
 endif()
@@ -39,6 +35,10 @@ if (${PROJECT_NAME}_FUZZER)
 endif()
 
 ### END SOURCE FILES ###
+
+if (${PROJECT_NAME}_TIDY)
+  set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
+endif()
 
 # Add doxygen target
 find_package(Doxygen)

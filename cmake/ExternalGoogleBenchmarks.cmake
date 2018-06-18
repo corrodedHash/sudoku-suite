@@ -36,10 +36,10 @@ if (NOT benchmark_FOUND)
     )
 
   ExternalProject_Get_Property(extlib_googlebench INSTALL_DIR)
+
   # This is pure sadness
   # The problem is that cmake cannot attribute the libbenchmark.a to the external project
   # So we have to create a stub, otherwise GoogleBench cannot find a rule to create it.
-
   file(APPEND "${INSTALL_DIR}/lib/libbenchmark.a" "")
   add_library(benchmark::benchmark INTERFACE IMPORTED)
   add_dependencies(benchmark::benchmark extlib_googlebench)

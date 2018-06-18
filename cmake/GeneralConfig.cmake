@@ -34,18 +34,14 @@ else()
     endif()
 
     if(${${PROJECT_NAME}_SANITIZER_MEMORY})
+      include("ExternalMsanLibcxx")
+      target_link_libraries(GeneralConfig INTERFACE libcxx::msanlibcxx)
+
       list(APPEND SANITIZER_LIST "memory")
-      target_include_directories(GeneralConfig SYSTEM INTERFACE
-        "${CMAKE_BINARY_DIR}/msan_llvm/build/include"
-        "${CMAKE_BINARY_DIR}/msan_llvm/build/include/c++/v1")
       target_compile_options(GeneralConfig INTERFACE
-        "-stdlib=libc++"
         "-fsanitize-memory-track-origins")
       target_link_libraries(GeneralConfig INTERFACE
-        "-stdlib=libc++"
-        "-fsanitize-memory-track-origins"
-        "${CMAKE_BINARY_DIR}/msan_llvm/build/lib/libc++.so"
-        "${CMAKE_BINARY_DIR}/msan_llvm/build/lib/libc++abi.so")
+        "-fsanitize-memory-track-origins")
     endif()
 
     if(${PROJECT_NAME}_COVERAGE)
