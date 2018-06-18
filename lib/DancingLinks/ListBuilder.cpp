@@ -1,41 +1,34 @@
 #include "DancingLinks/ListBuilder.hpp"
 
+#include <algorithm>
+#include <cassert>
+
 namespace DancingLinks {
 ListBuilder::ListBuilder() { Header = &(Nodes.emplace_back()); }
 
 ListBuilder::ListBuilder(int rowCount, int columnCount) {
   Header = &(Nodes.emplace_back());
 
-  Row.reserve(rowCount);
+  ColumnNodes.resize(columnCount);
+
+  Row.resize(rowCount, nullptr);
   Column.reserve(columnCount);
 
-  while (Column.size() < columnCount) {
-    ColumnNode& NewColumnNode = ColumnNodes.emplace_back();
+  std::transform(std::begin(ColumnNodes), std::end(ColumnNodes),
+                 std::back_inserter(Column), [](auto& node) { return &node; });
 
-    Column.push_back(&NewColumnNode);
-
-    NewColumnNode.Id = ColumnNodes.size() - 1;
-    NewColumnNode.linkHorizontally(Header->Left, Header);
+  int current_id = 0;
+  for (auto& node : ColumnNodes) {
+    node.linkHorizontally(Header->Left, Header);
+    node.Id = current_id;
+    ++current_id;
   }
 }
 
 void
 ListBuilder::insertNode(int row, int column) {
-  if (Column.size() <= column) {
-    Column.reserve(column + 1);
-    while (Column.size() <= column) {
-      ColumnNode& NewColumnNode = ColumnNodes.emplace_back();
-
-      Column.push_back(&NewColumnNode);
-
-      NewColumnNode.Id = ColumnNodes.size() - 1;
-      NewColumnNode.linkHorizontally(Header->Left, Header);
-    }
-  }
-
-  if (Row.size() <= row) {
-    Row.resize(row + 1, nullptr);
-  }
+  assert(Row.size() > row);
+  assert(Column.size() > column);
 
   Node& NewNode = Nodes.emplace_back();
 

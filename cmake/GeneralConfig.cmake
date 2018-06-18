@@ -8,7 +8,6 @@ if(MSVC)
   # Default debug flags are OK
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /O2")
 else()
-
   if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     target_compile_options(GeneralConfig INTERFACE "-fcolor-diagnostics")
   else()

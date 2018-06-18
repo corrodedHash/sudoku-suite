@@ -5,7 +5,7 @@
 
 SCENARIO("Using A Correct List", "[List]") {
   GIVEN("A constructed list") {
-    DancingLinks::ListBuilder listBuilder;
+    DancingLinks::ListBuilder listBuilder(3, 3);
     listBuilder.insertNode(0, 0);
     listBuilder.insertNode(0, 1);
     listBuilder.insertNode(1, 0);
@@ -59,7 +59,7 @@ SCENARIO("Using A Correct List", "[List]") {
   }
 
   GIVEN("A constructed list with an empty row") {
-    DancingLinks::ListBuilder listBuilder;
+    DancingLinks::ListBuilder listBuilder(2, 2);
     listBuilder.insertNode(1, 1);
     WHEN("Printing the list") {
       std::stringstream list_representation;

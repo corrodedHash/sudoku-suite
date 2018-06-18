@@ -1,5 +1,5 @@
-#include "Sudoku.hpp"
 #include "DancingLinks/ListBuilder.hpp"
+#include "Sudoku.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -67,7 +67,7 @@ DLHelper::toDancingLinksList(const Field& field) {
       }
     }
   }
-  //result.print(std::cout);
+  // result.print(std::cout);
   return result.finalize();
 }
 

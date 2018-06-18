@@ -5,7 +5,7 @@
 #include <iostream>
 
 TEST_CASE("Row excluding iterator") {
-  DancingLinks::ListBuilder listBuilder;
+  DancingLinks::ListBuilder listBuilder(3, 3);
   listBuilder.insertNode(0, 0);
   listBuilder.insertNode(0, 2);
   listBuilder.insertNode(1, 0);
@@ -24,7 +24,7 @@ TEST_CASE("Row excluding iterator") {
 }
 
 TEST_CASE("Row including Reverse iterator") {
-  DancingLinks::ListBuilder listBuilder;
+  DancingLinks::ListBuilder listBuilder(3, 3);
   listBuilder.insertNode(0, 0);
   listBuilder.insertNode(0, 2);
   listBuilder.insertNode(1, 0);

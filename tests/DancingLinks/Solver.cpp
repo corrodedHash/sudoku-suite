@@ -5,7 +5,7 @@
 #include <catch.hpp>
 
 TEST_CASE("Solving a list", "[List][List Solver]") {
-  DancingLinks::ListBuilder listBuilder;
+  DancingLinks::ListBuilder listBuilder(3, 3);
   listBuilder.insertNode(0, 0);
   listBuilder.insertNode(0, 2);
   listBuilder.insertNode(1, 0);
