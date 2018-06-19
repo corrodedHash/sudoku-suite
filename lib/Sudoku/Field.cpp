@@ -82,7 +82,7 @@ Field::correct() const {
 int
 Field::filledCellCount() const {
   return std::count_if(std::begin(Grid), std::end(Grid),
-                [](auto x) { return x == 0; });
+                [](auto x) { return x != 0; });
 }
 
 void
