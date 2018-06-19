@@ -13,12 +13,6 @@ private:
   bool JustStarted;
 
 public:
-  using iterator_category = std::forward_iterator_tag;
-  using value_type = Node;
-  using pointer = Node*;
-  using reference = Node&;
-  using difference_type = long;
-
   LineIterator(Node* node, bool justStarted) :
       StartNode(node), JustStarted(justStarted) {}
 
@@ -33,8 +27,8 @@ public:
     return buffer;
   }
 
-  pointer operator->() const { return StartNode; }
-  reference operator*() const { return *StartNode; }
+  Node* operator->() const { return StartNode; }
+  Node& operator*() const { return *StartNode; }
 
   bool operator==(const LineIterator& other) const {
     return other.StartNode == StartNode && other.JustStarted == JustStarted;
@@ -46,12 +40,11 @@ public:
 
 template <auto A>
 struct std::iterator_traits<DancingLinks::LineIterator<A>> {
-  using iterator_name = typename DancingLinks::LineIterator<A>;
-  using iterator_category = typename iterator_name::iterator_category;
-  using value_type = typename iterator_name::value_type;
-  using pointer = typename iterator_name::pointer;
-  using reference = typename iterator_name::reference;
-  using difference_type = typename iterator_name::difference_type;
+  using iterator_category = std::forward_iterator_tag;
+  using value_type = DancingLinks::Node;
+  using pointer = DancingLinks::Node*;
+  using reference = DancingLinks::Node&;
+  using difference_type = long;
 };
 
 namespace DancingLinks {
