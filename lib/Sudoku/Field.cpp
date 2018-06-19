@@ -28,17 +28,16 @@ Field::getIndex(int x, int y) const {
 }
 
 bool
-Field::isSolved() const {
+Field::filled() const {
   return std::none_of(std::begin(Grid), std::end(Grid),
                       [](auto x) { return x == 0; });
 }
 
 bool
-Field::isCorrect() const {
+Field::correct() const {
   std::vector<bool> numbers(getMaxNumber(), false);
   bool currentFlag = true;
-  if (!isSolved()) {
-    std::cout << "Warning: checked unsolved puzzle\n";
+  if (!filled()) {
     return false;
   }
   // Check rows
@@ -78,6 +77,12 @@ Field::isCorrect() const {
     currentFlag = !currentFlag;
   }
   return true;
+}
+
+int
+Field::filledCellCount() const {
+  return std::count_if(std::begin(Grid), std::end(Grid),
+                [](auto x) { return x == 0; });
 }
 
 void

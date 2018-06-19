@@ -10,12 +10,11 @@
 
 TEST_CASE("Solving a puzzle") {
   Sudoku::Field sudokuPuzzle = Sudoku::Generator::generate(3);
-  REQUIRE_FALSE(sudokuPuzzle.isSolved());
+  REQUIRE_FALSE(sudokuPuzzle.filled());
   Sudoku::Solver sudokuSolver(sudokuPuzzle);
   auto sudokuResult = sudokuSolver.nextSolution();
   REQUIRE(sudokuResult);
-  REQUIRE(sudokuResult->isSolved());
-  REQUIRE(sudokuResult->isCorrect());
+  REQUIRE(sudokuResult->correct());
   REQUIRE_FALSE(sudokuPuzzle == *sudokuResult);
   sudokuResult = sudokuSolver.nextSolution();
   REQUIRE_FALSE(sudokuResult);
@@ -29,7 +28,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, col + 1);
       }
     }
-    REQUIRE_FALSE(sudokuPuzzle.isCorrect());
+    REQUIRE_FALSE(sudokuPuzzle.correct());
   }
   SECTION("Detect incorrect column") {
     Sudoku::Field sudokuPuzzle(2);
@@ -38,7 +37,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, row + 1);
       }
     }
-    REQUIRE_FALSE(sudokuPuzzle.isCorrect());
+    REQUIRE_FALSE(sudokuPuzzle.correct());
   }
   SECTION("Detect incorrect block") {
     Sudoku::Field sudokuPuzzle(3);
@@ -52,7 +51,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, values.at(row * 9 + col));
       }
     }
-    REQUIRE_FALSE(sudokuPuzzle.isCorrect());
+    REQUIRE_FALSE(sudokuPuzzle.correct());
   }
 }
 

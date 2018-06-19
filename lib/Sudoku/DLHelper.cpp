@@ -86,8 +86,7 @@ DLHelper::fromDancingLinksList(
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
     field.setCellValue(cColumn, cRow, cNumber);
   }
-  assert(field.isSolved());
-  assert(field.isCorrect());
+  assert(field.correct());
   return field;
 }
 } // namespace Sudoku

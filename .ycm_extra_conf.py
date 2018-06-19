@@ -95,17 +95,19 @@ def GetCompilationInfoForFile( filename ):
   # corresponding source file, if any. If one exists, the flags for that file
   # should be good enough.
   if IsHeaderFile( filename ):
-    replacement_file = os.path.join(os.path.dirname(
-        os.path.abspath(__file__)), "tools/ycm_helper.cpp")
+    #relpath = os.path.relpath(filename, os.path.dirname(os.path.abspath(__file__)))
+    #replacement_file = os.path.join(os.path.dirname(
+    #    os.path.abspath(__file__)), relpath)
+    #replacement_file = str.replace(replacement_file, "include", "lib", 1)
+    #replacement_file = os.path.splitext(replacement_file)[0] + ".cpp"
+    replacement_file = "tools/ycm_helper.cpp"
     if os.path.exists( replacement_file ):
       replacement_file = os.path.abspath(replacement_file)
       compilation_info = database.GetCompilationInfoForFile(
         replacement_file )
       if compilation_info.compiler_flags_:
         return compilation_info
-    return None
-  return database.GetCompilationInfoForFile( filename )
-
+    raise NameError(replacement_file)
 
 def FlagsForFile( filename, **kwargs ):
   if not database:

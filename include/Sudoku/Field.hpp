@@ -31,10 +31,13 @@ public:
   void setCellValue(int x, int y, int value) { Grid[getIndex(x, y)] = value; }
 
   /// @brief Checks if every cell contains a non-unset value
-  bool isSolved() const;
+  bool filled() const;
 
-  /// @brief Checks that every row, column and block only has each number once
-  bool isCorrect() const;
+  /// @brief Checks that every row, column and block only has each number once and is filled
+  bool correct() const;
+
+  /// @return Amount of cells that are not 0
+  int filledCellCount() const;
 
   bool operator==(const Field& other) const;
   bool operator!=(const Field& other) const { return !(*this == other); }

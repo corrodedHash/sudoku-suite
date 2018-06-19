@@ -6,8 +6,5 @@ namespace Sudoku {
 namespace Generator {
 /// @brief Generate a sudoku puzzle
 Field generate(int blocksize);
-
-/// @brief Generate an uncommitting sudoku puzzle
-Field generateFieldStart(int blocksize);
 } // namespace Generator
 } // namespace Sudoku

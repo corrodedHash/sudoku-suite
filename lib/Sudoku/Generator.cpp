@@ -10,7 +10,7 @@
 #include <utility>
 
 namespace Sudoku::Generator {
-Field
+static Field
 generateFieldStart(int blocksize) {
   Field result(blocksize);
   int maxNum = blocksize * blocksize;
@@ -24,29 +24,15 @@ generateFieldStart(int blocksize) {
   return result;
 }
 
-static int
-countSetCells(const Field& field) {
-  int count = 0;
-  for (int row = 0; row < field.getMaxNumber(); ++row) {
-    for (int column = 0; column < field.getMaxNumber(); ++column) {
-      if (field.getCellValue(column, row) > 0) {
-        ++count;
-      }
-    }
-  }
-  return count;
-}
-
 static Field
 getMedianField(const Field& lower, const Field& upper) {
   assert(lower.getBlocksize() == upper.getBlocksize());
 
-  int lowerCount = countSetCells(lower);
-  int upperCount = countSetCells(upper);
+  int lowerCount = lower.filledCellCount();
+  int upperCount = upper.filledCellCount();
   int resultDelta = (upperCount - lowerCount) / 2;
 
   assert(lowerCount <= upperCount);
-  assert(resultDelta >= 0);
 
   Field result = upper;
   for (int row = 0; row < upper.getMaxNumber(); ++row) {
@@ -89,5 +75,13 @@ generate(int blocksize) {
       upperBound = medianField;
     }
   }
+}
+
+Field generateRandom(int blocksize){
+
+}
+
+Field generateStraight(int blocksize){
+
 }
 } // namespace Sudoku::Generator
