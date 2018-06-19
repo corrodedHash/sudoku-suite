@@ -1,4 +1,5 @@
-#include "Sudoku.hpp"
+#include "Sudoku/Field.hpp"
+#include "Sudoku/Solver.hpp"
 
 extern "C" int
 LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {

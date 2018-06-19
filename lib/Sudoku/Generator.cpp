@@ -1,4 +1,6 @@
-#include "Sudoku.hpp"
+#include "Sudoku/Generator.hpp"
+
+#include "Sudoku/Solver.hpp"
 
 #include <algorithm>
 #include <cassert>

@@ -1,4 +1,6 @@
-#include "Sudoku.hpp"
+#include "Sudoku/Field.hpp"
+#include "Sudoku/Solver.hpp"
+#include "Sudoku/Generator.hpp"
 #include <catch.hpp>
 
 #include <iostream>

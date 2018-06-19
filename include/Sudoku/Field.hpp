@@ -1,10 +1,5 @@
 #pragma once
-#include "DancingLinks/List.hpp"
-#include "DancingLinks/Solver.hpp"
-
-#include <string>
-#include <tuple>
-#include <utility>
+#include <ostream>
 #include <vector>
 
 namespace Sudoku {
@@ -48,36 +43,4 @@ public:
   /// @param stream Stream to print to
   void print(std::ostream& stream) const;
 };
-
-/// @brief Helper functions to translate sudoku to and from dancing links
-/// representation
-namespace DLHelper {
-DancingLinks::List toDancingLinksList(const Field& field);
-Field fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
-                           int blocksize);
-}; // namespace DLHelper
-
-/// @brief Sudoku solver class
-class Solver {
-  DancingLinks::Solver PuzzleSolver;
-  int Blocksize;
-
-public:
-  Solver(const Field& puzzle);
-
-  /// @brief Returns a solution to the puzzle that has not yet been returned
-  ///
-  /// @return Either a completed sudoku field, or nullopt
-  std::optional<Field> nextSolution();
-};
-
-/// @brief Generation functions for sudoku puzzles
-namespace Generator {
-/// @brief Generate a sudoku puzzle
-Field generate(int blocksize);
-
-/// @brief Generate an uncommitting sudoku puzzle
-Field generateFieldStart(int blocksize);
-} // namespace Generator
-
 } // namespace Sudoku
