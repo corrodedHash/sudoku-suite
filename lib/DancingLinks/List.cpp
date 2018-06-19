@@ -1,8 +1,12 @@
 #include "DancingLinks/List.hpp"
 
 #include "DancingLinks/LineIterator.hpp"
+#include "DancingLinks/Node.hpp"
 
 #include <algorithm>
+#include <deque>
+#include <iterator>
+#include <utility>
 
 namespace DancingLinks {
 List::List(std::deque<Node>&& nodes, std::deque<ColumnNode>&& columnNodes,

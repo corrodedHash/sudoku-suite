@@ -1,6 +1,8 @@
 #pragma once
 #include "DancingLinks/Node.hpp"
 
+#include <iterator>
+
 namespace DancingLinks {
 
 /// @brief Iterator which is part of LineView

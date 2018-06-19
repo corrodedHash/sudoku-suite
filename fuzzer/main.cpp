@@ -1,3 +1,7 @@
+#include <bits/stdint-uintn.h>
+#include <stddef.h>
+#include <optional>
+
 #include "Sudoku/Field.hpp"
 #include "Sudoku/Solver.hpp"
 

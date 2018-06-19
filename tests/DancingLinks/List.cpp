@@ -1,7 +1,11 @@
-#include "DancingLinks/ListBuilder.hpp"
-#include <catch.hpp>
+#include "DancingLinks/List.hpp"
 
+#include "DancingLinks/ListBuilder.hpp"
+#include "DancingLinks/Node.hpp"
+
+#include <catch.hpp>
 #include <sstream>
+#include <string>
 
 SCENARIO("Using A Correct List", "[List]") {
   GIVEN("A constructed list") {

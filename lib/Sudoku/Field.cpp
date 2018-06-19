@@ -4,7 +4,9 @@
 #include <cassert>
 #include <iomanip>
 #include <iostream>
-#include <sstream>
+#include <iterator>
+#include <string>
+#include <vector>
 
 namespace Sudoku {
 Field::Field(int blocksize) {

@@ -1,6 +1,9 @@
+#include "Sudoku/Field.hpp"
 #include "Sudoku/Solver.hpp"
 
 #include <iostream>
+#include <optional>
+#include <string>
 
 int
 main(int argc, char** args) {

@@ -1,10 +1,14 @@
 #include "Sudoku/DLHelper.hpp"
 
+#include "DancingLinks/List.hpp"
 #include "DancingLinks/ListBuilder.hpp"
+#include "DancingLinks/Node.hpp"
+#include "Sudoku/Field.hpp"
 
 #include <cassert>
-#include <iostream>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 namespace Sudoku {
 

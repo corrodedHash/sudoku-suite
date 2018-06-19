@@ -1,11 +1,13 @@
 #include "Sudoku/Generator.hpp"
 
+#include "Sudoku/Field.hpp"
 #include "Sudoku/Solver.hpp"
 
-#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
+#include <optional>
+#include <utility>
 
 namespace Sudoku::Generator {
 Field

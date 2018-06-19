@@ -1,5 +1,6 @@
 #pragma once
 #include "DancingLinks/List.hpp"
+#include "DancingLinks/Node.hpp"
 
 #include <deque>
 #include <ostream>

@@ -2,12 +2,13 @@
 #include "DancingLinks/List.hpp"
 
 #include <optional>
-#include <ostream>
 #include <vector>
 
 namespace DancingLinks {
 
 /// @brief Solver for ExactCover problem in a DancingLinks List
+struct Node;
+
 class Solver {
   List ExactCoverPuzzle;
   std::vector<Node*> AssumedNodes;

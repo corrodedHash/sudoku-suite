@@ -1,5 +1,7 @@
 #include "Sudoku/Generator.hpp"
 
+#include "Sudoku/Field.hpp"
+
 #include <iostream>
 
 const int SudokuBlockSize = 3;

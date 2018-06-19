@@ -1,7 +1,15 @@
 #include "DancingLinks/ListBuilder.hpp"
 
+#include "DancingLinks/List.hpp"
+#include "DancingLinks/Node.hpp"
+
 #include <algorithm>
 #include <cassert>
+#include <deque>
+#include <iterator>
+#include <ostream>
+#include <utility>
+#include <vector>
 
 namespace DancingLinks {
 ListBuilder::ListBuilder() { Header = &(Nodes.emplace_back()); }

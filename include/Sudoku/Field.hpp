@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+#include <utility>
 #include <vector>
 
 namespace Sudoku {

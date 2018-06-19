@@ -1,8 +1,9 @@
-#include "DancingLinks/ListBuilder.hpp"
 #include "DancingLinks/LineIterator.hpp"
+#include "DancingLinks/List.hpp"
+#include "DancingLinks/ListBuilder.hpp"
+#include "DancingLinks/Node.hpp"
 
 #include <catch.hpp>
-#include <iostream>
 
 TEST_CASE("Row excluding iterator") {
   DancingLinks::ListBuilder listBuilder(3, 3);

@@ -1,5 +1,7 @@
 #include "Sudoku/Solver.hpp"
+
 #include "Sudoku/DLHelper.hpp"
+
 namespace Sudoku {
 Solver::Solver(const Field& puzzle) :
     PuzzleSolver(DancingLinks::Solver(DLHelper::toDancingLinksList(puzzle))),

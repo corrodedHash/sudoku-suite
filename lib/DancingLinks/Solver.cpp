@@ -1,6 +1,11 @@
 #include "DancingLinks/Solver.hpp"
 
-#include <algorithm>
+#include "DancingLinks/List.hpp"
+#include "DancingLinks/Node.hpp"
+
+#include <optional>
+#include <utility>
+#include <vector>
 
 namespace DancingLinks {
 Solver::Solver(List exactCoverPuzzle) :
@@ -8,7 +13,8 @@ Solver::Solver(List exactCoverPuzzle) :
 
 void
 Solver::deepen() {
-  while (!ExactCoverPuzzle.isEmpty() && !ExactCoverPuzzle.containsEmptyColumn()) {
+  while (!ExactCoverPuzzle.isEmpty() &&
+         !ExactCoverPuzzle.containsEmptyColumn()) {
     AssumedNodes.push_back(ExactCoverPuzzle.Header->Right->Down);
     ExactCoverPuzzle.coverColumn(AssumedNodes.back()->Column);
 

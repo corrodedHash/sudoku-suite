@@ -1,8 +1,12 @@
 #pragma once
-#include "Sudoku/Field.hpp"
 #include "DancingLinks/List.hpp"
+#include "Sudoku/Field.hpp"
 
 #include <vector>
+
+namespace DancingLinks {
+struct Node;
+} // namespace DancingLinks
 
 namespace Sudoku {
 /// @brief Helper functions to translate sudoku to and from dancing links
