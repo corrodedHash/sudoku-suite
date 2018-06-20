@@ -1,4 +1,4 @@
-find_package(benchmark)
+find_package(benchmark QUIET)
 
 if (NOT benchmark_FOUND)
   include(ExternalProject)

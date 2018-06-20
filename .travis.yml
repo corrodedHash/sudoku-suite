@@ -14,7 +14,7 @@ install:
 
 script: 
   - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_SANITIZER_ADDRESS=ON -DSudokuSuite_SANITIZER_UB=ON -DSudokuSuite_TESTS=ON ..
+  - cmake -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_SANITIZER_ADDRESS=ON -DSudokuSuite_SANITIZER_UB=ON -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
   - cd tests
   - ./testing
   - gcov-5 -n -o . testing > /dev/null; 
