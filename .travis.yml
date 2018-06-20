@@ -27,8 +27,8 @@ install:
 script:
   - mkdir build && cd build
   - cmake -version
-  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
-  - ninja
+  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_TESTS=ON -DSudokuSuite_GCOV=ON "-DCMAKE_CXX_FLAGS=-std=c++1z" ..
+  - ninja -v
   - cd tests
   - ./testing
   - gcov-5 -n -o . testing > /dev/null;
