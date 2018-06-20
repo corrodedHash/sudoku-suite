@@ -10,6 +10,25 @@ addons:
     packages:
      - ninja-build
        #- clang
+       #
+matrix:
+  include:
+    # Clang 6.0
+    - env: COMPILER=clang++-6.0 BUILD_TYPE=Debug
+      addons: &clang60
+        apt:
+          packages:
+            - clang-6.0
+            - g++-7
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-6.0
+            - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-6.0 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+
+    # GCC 7
+    - env: COMPILER=g++-7 BUILD_TYPE=Debug
+      addons: *gcc7
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -20,19 +39,18 @@ before_install:
   - echo $PATH 
 
 install:
-  - sudo apt-get install -qq g++-5
-    # Codecov
-  - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
+  - export CXX=${COMPILER}
+  - ${CXX} --version
 
 script:
   - mkdir build && cd build
   - cmake -version
-  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_TESTS=ON -DSudokuSuite_GCOV=ON "-DCMAKE_CXX_FLAGS=-std=c++1z" ..
+  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=${COMPILER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DSudokuSuite_TESTS=ON -DSudokuSuite_GCOV=ON  ..
   - ninja -v
   - cd tests
   - ./testing
-  - gcov-5 -n -o . testing > /dev/null;
   - codecov
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
