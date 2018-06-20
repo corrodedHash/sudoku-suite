@@ -19,7 +19,7 @@ before_install:
   - sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
 
 install:
-  #- sudo apt-get install -qq g++-5
+  - sudo apt-get install -qq g++-5
     # Codecov
   - sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-5 90
 
