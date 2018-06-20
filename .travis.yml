@@ -27,7 +27,7 @@ install:
 script:
   - mkdir build && cd build
   - cmake -version
-  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_SANITIZER_ADDRESS=ON -DSudokuSuite_SANITIZER_UB=ON -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
+  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
   - ninja
   - cd tests
   - ./testing
