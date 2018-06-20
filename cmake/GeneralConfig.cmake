@@ -50,12 +50,18 @@ else()
   endif()
 
   if(${PROJECT_NAME}_COVERAGE)
-
     target_compile_options(GeneralConfig INTERFACE
       "-fprofile-instr-generate" "-fcoverage-mapping")
     target_link_libraries(GeneralConfig INTERFACE
       "-fprofile-instr-generate" "-fcoverage-mapping")
 
+  endif()
+
+  if(${PROJECT_NAME}_GCOV)
+    target_compile_options(GeneralConfig INTERFACE
+      "-fprofile-arcs" "-ftest-coverage")
+    target_link_libraries(GeneralConfig INTERFACE
+      "-fprofile-arcs" "-ftest-coverage")
   endif()
 
   if (${PROJECT_NAME}_FUZZER)
