@@ -21,10 +21,11 @@ if (NOT Catch2_FOUND)
     )
 
   # Expose required variable (CATCH_INCLUDE_DIR) to parent scope
-  ExternalProject_Get_Property(extlib_catch2 source_dir)
+  ExternalProject_Get_Property(extlib_catch2 SOURCE_DIR)
   add_library(Catch2::Catch INTERFACE IMPORTED)
+  file(MAKE_DIRECTORY "${SOURCE_DIR}/single_include")
   add_dependencies(Catch2::Catch extlib_catch2)
-  target_include_directories(Catch2::Catch SYSTEM INTERFACE ${source_dir}/single_include)
+  target_include_directories(Catch2::Catch SYSTEM INTERFACE ${SOURCE_DIR}/single_include)
 else()
   message(STATUS "Using system Catch2")
 endif()
