@@ -86,12 +86,13 @@ else()
 
   else()
 
-    string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
-    target_compile_options(GeneralConfig INTERFACE
-      "-fsanitize=${SANITIZER_STRING}")
-    target_link_libraries(GeneralConfig INTERFACE
-      "-fsanitize=${SANITIZER_STRING}")
-
+    if ( SANITIZER_LIST )
+      string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
+      target_compile_options(GeneralConfig INTERFACE
+        "-fsanitize=${SANITIZER_STRING}")
+      target_link_libraries(GeneralConfig INTERFACE
+        "-fsanitize=${SANITIZER_STRING}")
+    endif()
   endif()
 
 
