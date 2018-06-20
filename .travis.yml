@@ -17,7 +17,7 @@ before_install:
   - sudo pip install codecov
   - wget -O cmake.sh https://cmake.org/files/v3.11/cmake-3.11.3-Linux-x86_64.sh
   - sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
-  - ls -lR /usr/local
+  - echo $PATH 
 
 install:
   - sudo apt-get install -qq g++-5
@@ -27,7 +27,7 @@ install:
 script:
   - mkdir build && cd build
   - cmake -version
-  - /usr/local/cmake/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_SANITIZER_ADDRESS=ON -DSudokuSuite_SANITIZER_UB=ON -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
+  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=g++-5 -DCMAKE_BUILD_TYPE=DEBUG -DSudokuSuite_SANITIZER_ADDRESS=ON -DSudokuSuite_SANITIZER_UB=ON -DSudokuSuite_TESTS=ON .. -DSudokuSuite_GCOV=ON
   - ninja
   - cd tests
   - ./testing
