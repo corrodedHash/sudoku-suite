@@ -14,6 +14,7 @@ set(${PROJECT_NAME}_SANITIZER_MEMORY OFF CACHE BOOL "Enable MSAN, clones and bui
 set(${PROJECT_NAME}_SANITIZER_UB OFF CACHE BOOL "Enable UBSAN")
 set(${PROJECT_NAME}_COVERAGE OFF CACHE BOOL "Enable coverage mapping")
 set(${PROJECT_NAME}_GCOV OFF CACHE BOOL "Enable gcov coverage mapping")
+set(${PROJECT_NAME}_USE_LLD OFF CACHE BOOL "Use llvm linker (only with clang)")
 
 include( "GeneralConfig" )
 

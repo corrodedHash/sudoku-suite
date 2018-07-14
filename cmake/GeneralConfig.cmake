@@ -57,6 +57,17 @@ else()
 
   endif()
 
+  if(${PROJECT_NAME}_USE_LLD)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+      target_link_libraries(GeneralConfig INTERFACE
+        "-fuse-ld=lld")
+      target_link_libraries(GeneralConfig INTERFACE
+        "-Wl,--threads")
+    else()
+      message(WARNING "Won't use lld with clang")
+    endif()
+  endif()
+
   if(${PROJECT_NAME}_GCOV)
     target_compile_options(GeneralConfig INTERFACE
       "-fprofile-arcs" "-ftest-coverage")
