@@ -1,16 +1,16 @@
 #include "Sudoku/Generator.hpp"
-
-#include "Sudoku/Field.hpp"
-#include "Sudoku/Solver.hpp"
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <optional>
-#include <random>
-#include <utility>
+#include <algorithm>          // for shuffle
+#include <cassert>            // for assert
+#include <cstdlib>            // for rand, srand
+#include <ctime>              // for time
+#include <iterator>           // for begin, end
+#include <numeric>            // for iota
+#include <optional>           // for optional
+#include <random>             // for random_device, mt19937
+#include <utility>            // for move
+#include <vector>             // for vector
+#include "Sudoku/Field.hpp"   // for Field
+#include "Sudoku/Solver.hpp"  // for Solver
 
 namespace Sudoku::Generator {
 static Field
