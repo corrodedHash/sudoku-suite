@@ -3,7 +3,7 @@
 #include "DancingLinks/ListBuilder.hpp"
 #include "DancingLinks/Node.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <sstream>
 #include <string>
 

@@ -3,7 +3,7 @@
 #include "DancingLinks/ListBuilder.hpp"
 #include "DancingLinks/Node.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 TEST_CASE("Row excluding iterator") {
   DancingLinks::ListBuilder listBuilder(3, 3);

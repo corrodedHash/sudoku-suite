@@ -3,7 +3,7 @@
 #include "Sudoku/Field.hpp"
 #include "Sudoku/Generator.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 #include <optional>
 #include <sstream>
 #include <vector>

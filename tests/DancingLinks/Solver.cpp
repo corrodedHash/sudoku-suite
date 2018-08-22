@@ -2,7 +2,7 @@
 
 #include "DancingLinks/ListBuilder.hpp"
 
-#include <catch.hpp>
+#include <catch2/catch.hpp>
 
 TEST_CASE("Solving a list", "[List][List Solver]") {
   DancingLinks::ListBuilder listBuilder(3, 3);
