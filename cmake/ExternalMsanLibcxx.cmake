@@ -28,6 +28,8 @@ set_source_files_properties(
   )
 
 add_library(libcxx::msanlibcxx INTERFACE IMPORTED)
+file( APPEND "${INSTALL_DIR}/lib/libc++abi.so" "" )
+file( APPEND "${INSTALL_DIR}/lib/libc++.so" "" )
 add_dependencies(libcxx::msanlibcxx extlib_msanlibcxx_6_0)
 
 target_link_libraries(libcxx::msanlibcxx INTERFACE
