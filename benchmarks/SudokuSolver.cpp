@@ -1,4 +1,5 @@
-#include "Sudoku.hpp"
+#include "Sudoku/Field.hpp"
+#include "Sudoku/Solver.hpp"
 
 #include <benchmark/benchmark.h>
 #include <iostream>

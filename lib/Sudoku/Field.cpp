@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cassert>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
 #include <string>
 #include <vector>
@@ -36,29 +37,32 @@ bool
 Field::correct() const {
   std::vector<bool> numbers(getMaxNumber(), false);
   bool currentFlag = true;
-  if (!filled()) {
-    return false;
-  }
   // Check rows
   for (int row = 0; row < getMaxNumber(); ++row) {
     for (int column = 0; column < getMaxNumber(); ++column) {
-      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
+      if (getCellValue(row, column) == 0) {
+        continue;
+      }
+      if (numbers.at(getCellValue(row, column) - 1) == true) {
         return false;
       }
-      numbers[getCellValue(row, column) - 1] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = true;
     }
-    currentFlag = !currentFlag;
+    std::fill(std::begin(numbers), std::end(numbers), false);
   }
 
   // Check column
   for (int column = 0; column < getMaxNumber(); ++column) {
     for (int row = 0; row < getMaxNumber(); ++row) {
-      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
+      if (getCellValue(row, column) == 0) {
+        continue;
+      }
+      if (numbers.at(getCellValue(row, column) - 1) == true) {
         return false;
       }
-      numbers[getCellValue(row, column) - 1] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = true;
     }
-    currentFlag = !currentFlag;
+    std::fill(std::begin(numbers), std::end(numbers), false);
   }
 
   // Check block
@@ -68,12 +72,15 @@ Field::correct() const {
                 blockcell / getBlocksize();
       int column = (block % getBlocksize()) * getBlocksize() +
                    blockcell % getBlocksize();
-      if (numbers[getCellValue(row, column) - 1] == currentFlag) {
+      if (getCellValue(row, column) == 0) {
+        continue;
+      }
+      if (numbers.at(getCellValue(row, column) - 1) == true) {
         return false;
       }
-      numbers[getCellValue(row, column) - 1] = currentFlag;
+      numbers[getCellValue(row, column) - 1] = true;
     }
-    currentFlag = !currentFlag;
+    std::fill(std::begin(numbers), std::end(numbers), false);
   }
   return true;
 }
@@ -81,7 +88,7 @@ Field::correct() const {
 int
 Field::filledCellCount() const {
   return std::count_if(std::begin(Grid), std::end(Grid),
-                [](auto x) { return x != 0; });
+                       [](auto x) { return x != 0; });
 }
 
 void

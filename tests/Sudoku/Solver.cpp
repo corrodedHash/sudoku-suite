@@ -7,14 +7,17 @@
 #include <optional>
 #include <sstream>
 #include <vector>
+#include <iostream>
 
 TEST_CASE("Solving a puzzle") {
   Sudoku::Field sudokuPuzzle = Sudoku::Generator::generate(3);
   REQUIRE_FALSE(sudokuPuzzle.filled());
+  REQUIRE(sudokuPuzzle.correct());
   Sudoku::Solver sudokuSolver(sudokuPuzzle);
   auto sudokuResult = sudokuSolver.nextSolution();
   REQUIRE(sudokuResult);
   REQUIRE(sudokuResult->correct());
+  REQUIRE(sudokuResult->filled());
   REQUIRE_FALSE(sudokuPuzzle == *sudokuResult);
   sudokuResult = sudokuSolver.nextSolution();
   REQUIRE_FALSE(sudokuResult);
@@ -28,6 +31,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, col + 1);
       }
     }
+    REQUIRE(sudokuPuzzle.filled());
     REQUIRE_FALSE(sudokuPuzzle.correct());
   }
   SECTION("Detect incorrect column") {
@@ -37,6 +41,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, row + 1);
       }
     }
+    REQUIRE(sudokuPuzzle.filled());
     REQUIRE_FALSE(sudokuPuzzle.correct());
   }
   SECTION("Detect incorrect block") {
@@ -51,6 +56,7 @@ TEST_CASE("Detecting incorrect puzzles") {
         sudokuPuzzle.setCellValue(row, col, values.at(row * 9 + col));
       }
     }
+    REQUIRE(sudokuPuzzle.filled());
     REQUIRE_FALSE(sudokuPuzzle.correct());
   }
 }

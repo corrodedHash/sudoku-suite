@@ -10,7 +10,7 @@ class Field {
   /// unknown value
   std::vector<int> Grid;
 
-  /// @brief How many cells are in a block / in a row / column
+  /// @brief How many cells are in a block / row / column
   int Blocksize;
 
   /// @brief Maps a coordinate on the sudoku field to the index of Grid vector

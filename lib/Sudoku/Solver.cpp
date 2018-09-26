@@ -2,10 +2,14 @@
 
 #include "Sudoku/DLHelper.hpp"
 
+#include <cassert>
+
 namespace Sudoku {
 Solver::Solver(const Field& puzzle) :
     PuzzleSolver(DancingLinks::Solver(DLHelper::toDancingLinksList(puzzle))),
-    Blocksize(puzzle.getBlocksize()) {}
+    Blocksize(puzzle.getBlocksize()) {
+  assert(puzzle.correct());
+}
 
 std::optional<Field>
 Solver::nextSolution() {
