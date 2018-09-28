@@ -73,7 +73,6 @@ DLHelper::toDancingLinksList(const Field& field) {
       }
     }
   }
-  // result.print(std::cout);
   return result.finalize();
 }
 

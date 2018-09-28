@@ -16,6 +16,11 @@ set(${PROJECT_NAME}_COVERAGE OFF CACHE BOOL "Enable coverage mapping")
 set(${PROJECT_NAME}_GCOV OFF CACHE BOOL "Enable gcov coverage mapping")
 set(${PROJECT_NAME}_USE_LLD OFF CACHE BOOL "Use llvm linker (only with clang)")
 
+if (${PROJECT_NAME}_TIDY)
+  set(CMAKE_CXX_CLANG_TIDY clang-tidy checks=*)
+endif()
+
+
 include( "GeneralConfig" )
 
 ### END SETUP ###
@@ -37,10 +42,6 @@ if (${PROJECT_NAME}_FUZZER)
 endif()
 
 ### END SOURCE FILES ###
-
-if (${PROJECT_NAME}_TIDY)
-  set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=bugprone-*,clang-analyzer-*,-clang-analyzer-deadcode.DeadStores,misc-*,modernize-*,performance-*,readability-*")
-endif()
 
 # Add doxygen target
 find_package(Doxygen QUIET)

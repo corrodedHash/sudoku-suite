@@ -1,5 +1,5 @@
 #include <bits/stdint-uintn.h>
-#include <stddef.h>
+#include <cstddef>
 #include <optional>
 
 #include "Sudoku/Field.hpp"

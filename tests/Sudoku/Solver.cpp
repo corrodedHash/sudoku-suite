@@ -1,13 +1,12 @@
-#include "Sudoku/Solver.hpp"
+#include <catch2/catch.hpp>
+#include <iostream>
+#include <optional>
+#include <vector>
+#include <sstream>
 
 #include "Sudoku/Field.hpp"
 #include "Sudoku/Generator.hpp"
-
-#include <catch2/catch.hpp>
-#include <optional>
-#include <sstream>
-#include <vector>
-#include <iostream>
+#include "Sudoku/Solver.hpp"
 
 TEST_CASE("Solving a puzzle") {
   Sudoku::Field sudokuPuzzle = Sudoku::Generator::generate(3);

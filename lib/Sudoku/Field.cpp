@@ -1,12 +1,12 @@
-#include "Sudoku/Field.hpp"
-
 #include <algorithm>
 #include <cassert>
 #include <iomanip>
-#include <iostream>
 #include <iterator>
+#include <ostream>
 #include <string>
 #include <vector>
+
+#include "Sudoku/Field.hpp"
 
 namespace Sudoku {
 Field::Field(int blocksize) {
@@ -43,7 +43,7 @@ Field::correct() const {
       if (getCellValue(row, column) == 0) {
         continue;
       }
-      if (numbers.at(getCellValue(row, column) - 1) == true) {
+      if (numbers.at(getCellValue(row, column) - 1)) {
         return false;
       }
       numbers[getCellValue(row, column) - 1] = true;
@@ -57,7 +57,7 @@ Field::correct() const {
       if (getCellValue(row, column) == 0) {
         continue;
       }
-      if (numbers.at(getCellValue(row, column) - 1) == true) {
+      if (numbers.at(getCellValue(row, column) - 1)) {
         return false;
       }
       numbers[getCellValue(row, column) - 1] = true;
@@ -75,7 +75,7 @@ Field::correct() const {
       if (getCellValue(row, column) == 0) {
         continue;
       }
-      if (numbers.at(getCellValue(row, column) - 1) == true) {
+      if (numbers.at(getCellValue(row, column) - 1)) {
         return false;
       }
       numbers[getCellValue(row, column) - 1] = true;
