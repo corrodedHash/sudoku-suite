@@ -57,17 +57,6 @@ else()
 
   endif()
 
-  if(${PROJECT_NAME}_USE_LLD)
-    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-      target_link_libraries(GeneralConfig INTERFACE
-        "-fuse-ld=lld")
-      target_link_libraries(GeneralConfig INTERFACE
-        "-Wl,--threads")
-    else()
-      message(WARNING "Won't use lld with clang")
-    endif()
-  endif()
-
   if(${PROJECT_NAME}_GCOV)
     target_compile_options(GeneralConfig INTERFACE
       "-fprofile-arcs" "-ftest-coverage")
@@ -75,36 +64,39 @@ else()
       "-fprofile-arcs" "-ftest-coverage")
   endif()
 
-  if (${PROJECT_NAME}_FUZZER)
+  if(${PROJECT_NAME}_USE_LLD)
+    if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+      target_link_libraries(GeneralConfig INTERFACE
+        "-fuse-ld=lld")
+      target_link_libraries(GeneralConfig INTERFACE
+        "-Wl,--threads")
+    else()
+      message(WARNING "Won't use lld without clang")
+    endif()
+  endif()
 
+  if (${PROJECT_NAME}_FUZZER)
     list(APPEND SANITIZER_LIST "fuzzer-no-link")
+  endif()
+
+  if ( SANITIZER_LIST )
     string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
     target_compile_options(GeneralConfig INTERFACE
       "-fsanitize=${SANITIZER_STRING}")
     target_link_libraries(GeneralConfig INTERFACE
       "-fsanitize=${SANITIZER_STRING}")
-
-    add_library(FuzzerConfig INTERFACE)
-    target_link_libraries(FuzzerConfig INTERFACE GeneralConfig)
-
-    list(REMOVE_ITEM SANITIZER_LIST "fuzzer-no-link")
-    list(APPEND SANITIZER_LIST "fuzzer")
-    string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
-    target_compile_options(FuzzerConfig INTERFACE
-      "-fsanitize=${SANITIZER_STRING}")
-    target_link_libraries(FuzzerConfig INTERFACE
-      "-fsanitize=${SANITIZER_STRING}")
-
-  else()
-
-    if ( SANITIZER_LIST )
-      string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
-      target_compile_options(GeneralConfig INTERFACE
-        "-fsanitize=${SANITIZER_STRING}")
-      target_link_libraries(GeneralConfig INTERFACE
-        "-fsanitize=${SANITIZER_STRING}")
-    endif()
   endif()
+
+  add_library(FuzzerConfig INTERFACE)
+  target_link_libraries(FuzzerConfig INTERFACE GeneralConfig)
+
+  list(REMOVE_ITEM SANITIZER_LIST "fuzzer-no-link")
+  list(APPEND SANITIZER_LIST "fuzzer")
+  string(REPLACE ";" "," SANITIZER_STRING "${SANITIZER_LIST}" )
+  target_compile_options(FuzzerConfig INTERFACE
+    "-fsanitize=${SANITIZER_STRING},fuzzer")
+  target_link_libraries(FuzzerConfig INTERFACE
+    "-fsanitize=${SANITIZER_STRING},fuzzer")
 
 
   if("${CMAKE_BUILD_TYPE}" STREQUAL "DEBUG")
