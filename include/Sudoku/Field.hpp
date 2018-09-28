@@ -41,6 +41,15 @@ public:
   /// @brief Checks if every cell contains a non-unset value
   bool filled() const;
 
+  /// @brief Checks that every row only has each number once
+  bool rowsCorrect() const;
+
+  /// @brief Checks that every column only has each number once
+  bool columnsCorrect() const;
+
+  /// @brief Checks that every block only has each number once
+  bool blocksCorrect() const;
+
   /// @brief Checks that every row, column and block only has each number once
   /// and is filled
   bool correct() const;

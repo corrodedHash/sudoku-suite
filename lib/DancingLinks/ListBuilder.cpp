@@ -57,7 +57,7 @@ ListBuilder::print(std::ostream& stream) {
   constexpr char missChar = ' ';
   for (Node* row : Row) {
     for (std::size_t i = 0; i < Column.size(); ++i) {
-      assert(row->Column->Id >= 0);
+      assert(row == nullptr || row->Column->Id >= 0);
       if ((row != nullptr) && (i == static_cast<std::size_t>(row->Column->Id))) {
         stream << hitChar;
         row = row->Right;

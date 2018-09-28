@@ -33,9 +33,8 @@ Field::filled() const {
 }
 
 bool
-Field::correct() const {
+Field::rowsCorrect() const {
   std::vector<bool> numbers(getMaxNumber(), false);
-  // Check rows
   for (int row = 0; row < getMaxNumber(); ++row) {
     for (int column = 0; column < getMaxNumber(); ++column) {
       if (getCellValue(row, column) == 0) {
@@ -48,8 +47,12 @@ Field::correct() const {
     }
     std::fill(std::begin(numbers), std::end(numbers), false);
   }
+  return true;
+}
 
-  // Check column
+bool
+Field::columnsCorrect() const {
+  std::vector<bool> numbers(getMaxNumber(), false);
   for (int column = 0; column < getMaxNumber(); ++column) {
     for (int row = 0; row < getMaxNumber(); ++row) {
       if (getCellValue(row, column) == 0) {
@@ -62,8 +65,12 @@ Field::correct() const {
     }
     std::fill(std::begin(numbers), std::end(numbers), false);
   }
+  return true;
+}
 
-  // Check block
+bool
+Field::blocksCorrect() const {
+  std::vector<bool> numbers(getMaxNumber(), false);
   for (int block = 0; block < getMaxNumber(); ++block) {
     for (int blockcell = 0; blockcell < getMaxNumber(); ++blockcell) {
       int row = (block / getBlocksize()) * getBlocksize() +
@@ -81,6 +88,11 @@ Field::correct() const {
     std::fill(std::begin(numbers), std::end(numbers), false);
   }
   return true;
+}
+
+bool
+Field::correct() const {
+  return rowsCorrect() && columnsCorrect() && blocksCorrect();
 }
 
 int
