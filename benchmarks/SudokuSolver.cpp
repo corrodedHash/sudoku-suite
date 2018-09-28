@@ -2,7 +2,6 @@
 #include "Sudoku/Solver.hpp"
 
 #include <benchmark/benchmark.h>
-#include <iostream>
 
 static Sudoku::Field
 getField(int size) {

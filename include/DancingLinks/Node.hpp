@@ -1,6 +1,6 @@
 #pragma once
 namespace DancingLinks {
-class ColumnNode;
+struct ColumnNode;
 /// @brief Node in a DancingLinks list
 struct Node {
   Node *Left = this, *Right = this, *Up = this, *Down = this;

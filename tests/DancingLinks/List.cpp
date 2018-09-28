@@ -43,7 +43,6 @@ SCENARIO("Using A Correct List", "[List]") {
       THEN("Presentation is correct") {
         char hitChar = 'X';
         char missChar = ' ';
-        char currentChar;
         std::stringstream expected_representation;
         expected_representation << hitChar;
         expected_representation << hitChar;
@@ -71,7 +70,6 @@ SCENARIO("Using A Correct List", "[List]") {
       THEN("Presentation is correct") {
         char hitChar = 'X';
         char missChar = ' ';
-        char currentChar;
         std::stringstream expected_representation;
         expected_representation << missChar;
         expected_representation << missChar;

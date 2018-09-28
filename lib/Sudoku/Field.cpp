@@ -1,3 +1,5 @@
+#include "Sudoku/Field.hpp"
+
 #include <algorithm>
 #include <cassert>
 #include <iomanip>
@@ -6,13 +8,10 @@
 #include <string>
 #include <vector>
 
-#include "Sudoku/Field.hpp"
-
 namespace Sudoku {
-Field::Field(int blocksize) {
-  Blocksize = blocksize;
-  Grid = std::vector<int>(getMaxNumber() * getMaxNumber());
-};
+Field::Field(int blocksize) :
+    Blocksize(blocksize),
+    Grid(std::vector<int>(getMaxNumber() * getMaxNumber())){};
 
 bool
 Field::operator==(const Field& other) const {
@@ -36,7 +35,6 @@ Field::filled() const {
 bool
 Field::correct() const {
   std::vector<bool> numbers(getMaxNumber(), false);
-  bool currentFlag = true;
   // Check rows
   for (int row = 0; row < getMaxNumber(); ++row) {
     for (int column = 0; column < getMaxNumber(); ++column) {

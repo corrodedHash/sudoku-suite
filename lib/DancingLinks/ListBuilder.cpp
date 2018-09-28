@@ -33,8 +33,10 @@ ListBuilder::ListBuilder(int rowCount, int columnCount) {
 
 void
 ListBuilder::insertNode(int row, int column) {
-  assert(Row.size() > row);
-  assert(Column.size() > column);
+  assert(row >= 0);
+  assert(column >= 0);
+  assert(Row.size() > static_cast<size_t>(row));
+  assert(Column.size() > static_cast<size_t>(column));
 
   Node& NewNode = Nodes.emplace_back();
 
@@ -54,8 +56,9 @@ ListBuilder::print(std::ostream& stream) {
   constexpr char hitChar = 'X';
   constexpr char missChar = ' ';
   for (Node* row : Row) {
-    for (int i = 0; i < Column.size(); ++i) {
-      if ((row != nullptr) && (i == row->Column->Id)) {
+    for (size_t i = 0; i < Column.size(); ++i) {
+      assert(row->Column->Id >= 0);
+      if ((row != nullptr) && (i == static_cast<size_t>(row->Column->Id))) {
         stream << hitChar;
         row = row->Right;
       } else {

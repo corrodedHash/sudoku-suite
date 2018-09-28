@@ -10,9 +10,9 @@ LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
   if (Size < 1) {
     return 0 ;
   }
-  int blocksize = (Data[0] % 3) + 1;
+  size_t blocksize = (Data[0] % 3) + 1;
   Sudoku::Field field(blocksize);
-  for (int i = 1, cell = 0;
+  for (size_t i = 1, cell = 0;
        i < Size && cell < blocksize * blocksize * blocksize * blocksize;
        ++i, ++cell) {
     field.setCellValue(cell % (blocksize * blocksize),

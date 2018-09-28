@@ -15,6 +15,7 @@ else()
   endif()
 
   target_compile_options(GeneralConfig INTERFACE "-fno-omit-frame-pointer")
+  target_compile_options(GeneralConfig INTERFACE -Wall -Wextra -Wpedantic)
 
   set(SANITIZER_LIST "")
   if(${${PROJECT_NAME}_SANITIZER_ADDRESS})

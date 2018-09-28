@@ -79,8 +79,10 @@ DLHelper::toDancingLinksList(const Field& field) {
 Field
 DLHelper::fromDancingLinksList(
     const std::vector<DancingLinks::Node*>& rowIndices, int blocksize) {
+  assert(blocksize > 0);
   Field field(blocksize);
-  assert(rowIndices.size() == blocksize * blocksize * blocksize * blocksize);
+  assert(rowIndices.size() ==
+         static_cast<size_t>(blocksize * blocksize * blocksize * blocksize));
   for (DancingLinks::Node* entry : rowIndices) {
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
     field.setCellValue(cColumn, cRow, cNumber);
