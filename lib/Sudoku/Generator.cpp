@@ -33,23 +33,6 @@ generateFieldStart(int blocksize) {
 }
 
 static void
-nullCellsStraight(const Field& lower, Field* field, int number) {
-  assert(number >= 0);
-  for (int row = 0; row < lower.getMaxNumber(); ++row) {
-    for (int column = 0; column < lower.getMaxNumber(); ++column) {
-      if (number == 0) {
-        break;
-      }
-      if ((lower.getCellValue(column, row) == 0) &&
-          (field->getCellValue(column, row) > 0)) {
-        field->setCellValue(column, row, 0);
-      }
-      --number;
-    }
-  }
-}
-
-static void
 nullCellsRandom(const Field& lower, Field* field, int number) {
   assert(number >= 0);
   static std::random_device rd;

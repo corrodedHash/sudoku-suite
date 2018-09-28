@@ -12,8 +12,6 @@
 #include <vector>
 
 namespace DancingLinks {
-ListBuilder::ListBuilder() { Header = &(Nodes.emplace_back()); }
-
 ListBuilder::ListBuilder(int rowCount, int columnCount) {
   Header = &(Nodes.emplace_back());
 

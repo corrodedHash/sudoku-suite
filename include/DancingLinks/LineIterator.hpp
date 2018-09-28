@@ -50,7 +50,7 @@ struct std::iterator_traits<DancingLinks::LineIterator<A>> {
 namespace DancingLinks {
 
 /// @brief View of row or column of a DancingLinks List
-template <Node* Node::*Previous, Node* Node::*Next, bool Excluding>
+template <Node* Node::*Previous, Node* Node::*Next>
 class LineView {
   Node* StartNode;
 
@@ -60,30 +60,20 @@ public:
   using reverse_iterator_type = LineIterator<Previous>;
 
   iterator_type begin() {
-    if constexpr (Excluding) {
       return iterator_type(StartNode->*Next, false);
-    } else {
-      return iterator_type(StartNode, true);
-    }
   }
   iterator_type end() { return iterator_type(StartNode, false); }
 
   reverse_iterator_type rbegin() {
-    return reverse_iterator_type(StartNode->*Previous, !Excluding);
+    return reverse_iterator_type(StartNode->*Previous, false);
   }
 
   reverse_iterator_type rend() {
-    if constexpr (Excluding) {
       return reverse_iterator_type(StartNode, false);
-    } else {
-      return reverse_iterator_type(StartNode->*Previous, false);
-    }
   }
 };
 
-using RowExcludingView = LineView<&Node::Left, &Node::Right, true>;
-using RowIncludingView = LineView<&Node::Left, &Node::Right, false>;
-using ColumnExcludingView = LineView<&Node::Up, &Node::Down, true>;
-using ColumnIncludingView = LineView<&Node::Up, &Node::Down, false>;
+using RowExcludingView = LineView<&Node::Left, &Node::Right>;
+using ColumnExcludingView = LineView<&Node::Up, &Node::Down>;
 
 } // namespace DancingLinks
