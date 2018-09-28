@@ -1,16 +1,11 @@
 sudo: require
 language: cpp
-#compiler: clang
 
 addons:
   apt:
     sources:
      - ubuntu-toolchain-r-test
-       #- llvm-toolchain-trusty
-    packages:
-     - ninja-build
-       #- clang
-       #
+
 matrix:
   include:
     # Clang 6.0
@@ -28,17 +23,14 @@ matrix:
 
     # GCC 7
     - env: COMPILER=g++-7 BUILD_TYPE=Debug
-      addons: *gcc7
+      addons:
         apt:
-          packages:
-            - g++-7
-            - ninja-build
           sources:
             - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
 
 before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
   - sudo pip install codecov
   - wget -O cmake.sh https://cmake.org/files/v3.11/cmake-3.11.3-Linux-x86_64.sh
   - sudo sh cmake.sh --skip-license --exclude-subdir --prefix=/usr/local
@@ -51,8 +43,9 @@ install:
 script:
   - mkdir build && cd build
   - /usr/local/bin/cmake -version
-  - /usr/local/bin/cmake -GNinja -DCMAKE_CXX_COMPILER=${COMPILER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DSudokuSuite_TESTS=ON -DSudokuSuite_GCOV=ON  ..
-  - ninja -v
+  - /usr/local/bin/cmake -DCMAKE_CXX_COMPILER=${COMPILER} -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DSudokuSuite_TESTS=ON -DSudokuSuite_GCOV=ON  ..
+  - make -v
+  - make
   - cd tests
   - ./testing
   - codecov

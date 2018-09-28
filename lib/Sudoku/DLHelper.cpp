@@ -6,6 +6,7 @@
 #include "Sudoku/Field.hpp"
 
 #include <cassert>
+#include <cstddef>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -82,7 +83,7 @@ DLHelper::fromDancingLinksList(
   assert(blocksize > 0);
   Field field(blocksize);
   assert(rowIndices.size() ==
-         static_cast<size_t>(blocksize * blocksize * blocksize * blocksize));
+         static_cast<std::size_t>(blocksize * blocksize * blocksize * blocksize));
   for (DancingLinks::Node* entry : rowIndices) {
     auto [cRow, cColumn, cNumber] = getSudokuPos(entry, blocksize);
     field.setCellValue(cColumn, cRow, cNumber);
