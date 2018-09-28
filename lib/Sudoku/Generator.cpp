@@ -1,34 +1,36 @@
 #include "Sudoku/Generator.hpp"
-#include <algorithm>          // for shuffle
-#include <cassert>            // for assert
-#include <cstdlib>            // for rand, srand
-#include <ctime>              // for time
-#include <iterator>           // for begin, end
-#include <numeric>            // for iota
-#include <optional>           // for optional
-#include <random>             // for random_device, mt19937
-#include <utility>            // for move
-#include <vector>             // for vector
-#include "Sudoku/Field.hpp"   // for Field
-#include "Sudoku/Solver.hpp"  // for Solver
+
+#include "Sudoku/Field.hpp"  // for Field
+#include "Sudoku/Solver.hpp" // for Solver
+
+#include <algorithm> // for shuffle
+#include <cassert>   // for assert
+#include <cstdlib>   // for rand, srand
+#include <ctime>     // for time
+#include <iterator>  // for begin, end
+#include <numeric>   // for iota
+#include <optional>  // for optional
+#include <random>    // for random_device, mt19937
+#include <utility>   // for move
+#include <vector>    // for vector
 
 namespace Sudoku::Generator {
 static Field
 generateFieldStart(int blocksize) {
+  static std::random_device rd;
+  static std::mt19937 random_generator(rd());
   Field result(blocksize);
-  int maxNum = blocksize * blocksize;
+  const int maxNum = blocksize * blocksize;
+  std::uniform_int_distribution<> dis(1, maxNum);
   std::srand(std::time(nullptr));
   for (int row = 0; row < blocksize; ++row) {
     for (int column = 0; column < blocksize; ++column) {
       result.setCellValue(column * blocksize + (column + row) % blocksize,
-                          row * blocksize + column, (std::rand() % maxNum) + 1);
+                          row * blocksize + column, dis(random_generator));
     }
   }
   return result;
 }
-
-static std::random_device rd;
-static std::mt19937 g(rd());
 
 static void
 nullCellsStraight(const Field& lower, Field* field, int number) {
@@ -50,9 +52,11 @@ nullCellsStraight(const Field& lower, Field* field, int number) {
 static void
 nullCellsRandom(const Field& lower, Field* field, int number) {
   assert(number >= 0);
+  static std::random_device rd;
+  static std::mt19937 random_generator(rd());
   std::vector<int> indices(lower.getMaxNumber() * lower.getMaxNumber());
   std::iota(std::begin(indices), std::end(indices), 0);
-  std::shuffle(std::begin(indices), std::end(indices), g);
+  std::shuffle(std::begin(indices), std::end(indices), random_generator);
   for (auto index : indices) {
     if (number == 0) {
       return;

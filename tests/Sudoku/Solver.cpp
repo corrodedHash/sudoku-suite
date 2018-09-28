@@ -1,8 +1,8 @@
 #include <catch2/catch.hpp>
 #include <iostream>
 #include <optional>
-#include <vector>
 #include <sstream>
+#include <vector>
 
 #include "Sudoku/Field.hpp"
 #include "Sudoku/Generator.hpp"
