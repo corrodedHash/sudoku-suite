@@ -9,6 +9,7 @@ set(${PROJECT_NAME}_TESTS OFF CACHE BOOL "Enable tests")
 set(${PROJECT_NAME}_FUZZER OFF CACHE BOOL "Enable fuzzing")
 set(${PROJECT_NAME}_BENCHMARKS OFF CACHE BOOL "Enable benchmarks")
 set(${PROJECT_NAME}_TIDY OFF CACHE BOOL "Enable clang-tidy")
+set(${PROJECT_NAME}_IWYU OFF CACHE BOOL "Enable include-what-you-use")
 set(${PROJECT_NAME}_SANITIZER_ADDRESS OFF CACHE BOOL "Enable ASAN")
 set(${PROJECT_NAME}_SANITIZER_MEMORY OFF CACHE BOOL "Enable MSAN, clones and builds custom libc++")
 set(${PROJECT_NAME}_SANITIZER_UB OFF CACHE BOOL "Enable UBSAN")
@@ -22,6 +23,10 @@ if (${PROJECT_NAME}_TIDY)
     -llvm-namespace-comment,-google-readability-namespace-comments,-hicpp-no-array-decay,\
     -clang-analyzer-deadcode.DeadStores,-cppcoreguidelines-pro-bounds-pointer-arithmetic,\
     -cppcoreguidelines-pro-type-static-cast-downcast")
+endif()
+
+if (${PROJECT_NAME}_IWYU)
+  set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE include-what-you-use)
 endif()
 
 
