@@ -38,7 +38,6 @@ add_subdirectory(lib)
 add_subdirectory(tools)
 
 if (${PROJECT_NAME}_TESTS)
-  enable_testing()
   add_subdirectory(tests)
 endif()
 
