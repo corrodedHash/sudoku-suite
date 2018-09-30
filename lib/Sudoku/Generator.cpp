@@ -33,15 +33,15 @@ generateFieldStart(int blocksize) {
 }
 
 static void
-nullCellsRandom(const Field& lower, Field* field, int number) {
-  assert(number >= 0);
+nullCellsRandom(const Field& lower, Field* field, int amount) {
+  assert(amount >= 0);
   static std::random_device rd;
   static std::mt19937 random_generator(rd());
   std::vector<int> indices(lower.getMaxNumber() * lower.getMaxNumber());
   std::iota(std::begin(indices), std::end(indices), 0);
   std::shuffle(std::begin(indices), std::end(indices), random_generator);
   for (auto index : indices) {
-    if (number == 0) {
+    if (amount == 0) {
       return;
     }
 
@@ -51,7 +51,7 @@ nullCellsRandom(const Field& lower, Field* field, int number) {
         (field->getCellValue(column, row) > 0)) {
       field->setCellValue(column, row, 0);
     }
-    --number;
+    --amount;
   }
 }
 
