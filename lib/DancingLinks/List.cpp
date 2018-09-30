@@ -19,7 +19,6 @@ void
 List::coverColumn(ColumnNode* columnNode) {
   columnNode->Left->Right = columnNode->Right;
   columnNode->Right->Left = columnNode->Left;
-  ColumnExcludingView columnView(columnNode);
   for (Node& rowNode : ColumnExcludingView(columnNode)) {
     for (Node& cellNode : RowExcludingView(&rowNode)) {
       cellNode.Up->Down = cellNode.Down;
@@ -30,16 +29,12 @@ List::coverColumn(ColumnNode* columnNode) {
 
 void
 List::uncoverColumn(ColumnNode* columnNode) {
-  ColumnExcludingView columnView(columnNode);
-  std::for_each(std::rbegin(columnView), std::rend(columnView),
-                [](Node& rowNode) {
-                  RowExcludingView rowView(&rowNode);
-                  std::for_each(std::rbegin(rowView), std::rend(rowView),
-                                [](Node& cellNode) {
-                                  cellNode.Down->Up = &cellNode;
-                                  cellNode.Up->Down = &cellNode;
-                                });
-                });
+  for (Node& rowNode : ColumnExcludingView(columnNode)) {
+    for (Node& cellNode : RowExcludingView(&rowNode)) {
+      cellNode.Up->Down = &cellNode;
+      cellNode.Down->Up = &cellNode;
+    }
+  }
   columnNode->Right->Left = columnNode;
   columnNode->Left->Right = columnNode;
 }
