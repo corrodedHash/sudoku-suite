@@ -59,9 +59,7 @@ public:
   using iterator_type = LineIterator<Next>;
   using reverse_iterator_type = LineIterator<Previous>;
 
-  iterator_type begin() {
-      return iterator_type(StartNode->*Next, false);
-  }
+  iterator_type begin() { return iterator_type(StartNode->*Next, false); }
   iterator_type end() { return iterator_type(StartNode, false); }
 
   reverse_iterator_type rbegin() {
@@ -69,7 +67,7 @@ public:
   }
 
   reverse_iterator_type rend() {
-      return reverse_iterator_type(StartNode, false);
+    return reverse_iterator_type(StartNode, false);
   }
 };
 

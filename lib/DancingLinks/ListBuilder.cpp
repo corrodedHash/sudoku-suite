@@ -58,7 +58,8 @@ ListBuilder::print(std::ostream& stream) {
   for (Node* row : Row) {
     for (std::size_t i = 0; i < Column.size(); ++i) {
       assert(row == nullptr || row->Column->Id >= 0);
-      if ((row != nullptr) && (i == static_cast<std::size_t>(row->Column->Id))) {
+      if ((row != nullptr) &&
+          (i == static_cast<std::size_t>(row->Column->Id))) {
         stream << hitChar;
         row = row->Right;
       } else {

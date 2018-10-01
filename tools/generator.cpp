@@ -3,16 +3,17 @@
 #include "Sudoku/Field.hpp"
 
 #include <iostream>
+#include <string>
 
 int
 main(int argc, char** args) {
   int maxFilledCells = 81;
   int sudokuBlockSize = 3;
   if (argc > 1) {
-    sudokuBlockSize = std::atoi(args[1]);
+    sudokuBlockSize = std::stoi(args[1]);
   }
   if (argc > 2) {
-    maxFilledCells = std::atoi(args[2]);
+    maxFilledCells = std::stoi(args[2]);
   }
   while (true) {
     auto x = Sudoku::Generator::generate(sudokuBlockSize);

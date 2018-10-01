@@ -6,7 +6,7 @@
 static Sudoku::Field
 getField(int size) {
   Sudoku::Field field(size);
-  for (int row = 0; row < size * size; ++row){
+  for (int row = 0; row < size * size; ++row) {
     int column = (row % size) * size + (row / size);
     field.setCellValue(row, column, 1);
   }

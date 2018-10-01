@@ -1,14 +1,14 @@
+#include "Sudoku/Field.hpp"
+#include "Sudoku/Solver.hpp"
+
 #include <bits/stdint-uintn.h>
 #include <cstddef>
 #include <optional>
 
-#include "Sudoku/Field.hpp"
-#include "Sudoku/Solver.hpp"
-
 extern "C" int
 LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
   if (Size < 1) {
-    return 0 ;
+    return 0;
   }
   size_t blocksize = (Data[0] % 3) + 1;
   Sudoku::Field field(blocksize);
@@ -20,7 +20,7 @@ LLVMFuzzerTestOneInput(const uint8_t* Data, size_t Size) {
                        (Data[i] % (blocksize * blocksize)) + 1);
   }
 
-  if (!field.correct()){
+  if (!field.correct()) {
     return 0;
   }
   Sudoku::Solver solver(field);

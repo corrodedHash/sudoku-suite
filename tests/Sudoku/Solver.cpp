@@ -1,11 +1,12 @@
-#include <catch2/catch.hpp>      // for StringRef, AssertionHandler, REQUIRE
-#include <optional>              // for optional
-#include <sstream>              // for stringstream
-#include <vector>                // for allocator, vector
+#include "Sudoku/Solver.hpp" // for Solver
 
-#include "Sudoku/Field.hpp"      // for Field
-#include "Sudoku/Generator.hpp"  // for generate
-#include "Sudoku/Solver.hpp"     // for Solver
+#include "Sudoku/Field.hpp"     // for Field
+#include "Sudoku/Generator.hpp" // for generate
+
+#include <catch2/catch.hpp> // for StringRef, AssertionHandler, REQUIRE
+#include <optional>         // for optional
+#include <sstream>          // for stringstream
+#include <vector>           // for allocator, vector
 
 TEST_CASE("Solving a puzzle") {
   Sudoku::Field sudokuPuzzle = Sudoku::Generator::generate(3);
