@@ -19,6 +19,8 @@ else()
   target_link_libraries(GeneralConfig INTERFACE -fno-omit-frame-pointer)
   target_link_libraries(GeneralConfig INTERFACE -Wall -Wextra -Wpedantic)
 
+  target_include_directories(GeneralConfig INTERFACE ${CMAKE_SOURCE_DIR}/include)
+
   set(SANITIZER_LIST "")
   if(${${PROJECT_NAME}_SANITIZER_ADDRESS})
     list(APPEND SANITIZER_LIST "address")

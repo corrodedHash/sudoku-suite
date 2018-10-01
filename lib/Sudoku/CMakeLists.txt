@@ -1,6 +1,7 @@
-add_library(Sudoku Field.cpp DLHelper.cpp Solver.cpp Generator.cpp)
-target_include_directories(Sudoku PUBLIC ${CMAKE_SOURCE_DIR}/include)
-
-target_link_libraries(Sudoku PRIVATE GeneralConfig)
-target_link_libraries(Sudoku PUBLIC DancingLinks)
-
+set (LIB_SOURCES
+  "${LIB_SOURCES}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Field.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/DLHelper.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Solver.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Generator.cpp"
+  PARENT_SCOPE)

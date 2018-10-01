@@ -1,4 +1,8 @@
-add_library(DancingLinks List.cpp ListBuilder.cpp Solver.cpp Node.cpp)
-target_include_directories(DancingLinks PUBLIC ${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(DancingLinks PRIVATE GeneralConfig)
+set (LIB_SOURCES
+  "${LIB_SOURCES}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/List.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/ListBuilder.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Node.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/Solver.cpp"
+  PARENT_SCOPE)
 
