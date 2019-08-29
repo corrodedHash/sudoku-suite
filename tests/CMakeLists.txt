@@ -1,4 +1,4 @@
-include( "ExternalCatch2" )
+include( "external/Catch2" )
 
 set (TEST_SOURCES "")
 add_subdirectory(DancingLinks)

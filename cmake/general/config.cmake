@@ -37,7 +37,7 @@ else()
   endif()
 
   if(${${PROJECT_NAME}_SANITIZER_MEMORY})
-    include("ExternalMsanLibcxx")
+    include("external/MsanLibcxx")
     target_link_libraries(GeneralConfig INTERFACE libcxx::msanlibcxx)
 
     list(APPEND SANITIZER_LIST "memory")
@@ -124,4 +124,3 @@ endif()
 
 # Append system wide include directories
 target_include_directories(GeneralConfig INTERFACE "${CMAKE_SOURCE_DIR}/include")
-
