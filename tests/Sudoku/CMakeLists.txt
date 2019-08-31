@@ -1,4 +1,1 @@
-set (TEST_SOURCES
-  "${TEST_SOURCES}"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Solver.cpp"
-  PARENT_SCOPE)
+target_sources(testing PRIVATE Solver.cpp)

@@ -116,10 +116,6 @@ else()
     target_link_libraries(GeneralConfig INTERFACE "-flto")
 
   endif()
-
-  add_custom_target(print
-    ${CMAKE_COMMAND} -E echo $<TARGET_PROPERTY:GeneralConfig,INTERFACE_COMPILE_OPTIONS>
-    )
 endif()
 
 # Append system wide include directories

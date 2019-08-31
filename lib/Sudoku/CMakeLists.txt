@@ -1,7 +1,1 @@
-set (LIB_SOURCES
-  "${LIB_SOURCES}"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Field.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/DLHelper.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Solver.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Generator.cpp"
-  PARENT_SCOPE)
+target_sources(Core PRIVATE Field.cpp DLHelper.cpp Solver.cpp Generator.cpp)

@@ -1,6 +1,1 @@
-set (TEST_SOURCES
-  "${TEST_SOURCES}"
-  "${CMAKE_CURRENT_SOURCE_DIR}/List.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/Solver.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/NodeIterator.cpp"
-  PARENT_SCOPE)
+target_sources(testing PRIVATE List.cpp Solver.cpp NodeIterator.cpp)
