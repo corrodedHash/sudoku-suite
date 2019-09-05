@@ -1,5 +1,5 @@
 add_library(Core STATIC)
-target_link_libraries(Core PRIVATE GeneralConfig)
+target_link_libraries(Core PRIVATE GeneralConfig SanitizerConfig)
 
 add_subdirectory(DancingLinks)
 add_subdirectory(Sudoku)

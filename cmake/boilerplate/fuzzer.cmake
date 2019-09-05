@@ -1,5 +1,5 @@
 add_executable(fuzzer)
-target_link_libraries(fuzzer PRIVATE FuzzerConfig)
+target_link_libraries(fuzzer PRIVATE GeneralConfig FuzzerSanitizerConfig)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/corpus)
 

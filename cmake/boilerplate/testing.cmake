@@ -2,7 +2,7 @@ include( "external/Catch2" )
 
 add_executable(testing)
 
-target_link_libraries(testing PRIVATE GeneralConfig)
+target_link_libraries(testing PRIVATE GeneralConfig SanitizerConfig)
 target_link_libraries(testing PRIVATE Catch2::Catch2)
 
 add_custom_target(test ./testing)
