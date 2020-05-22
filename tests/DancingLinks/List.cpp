@@ -28,7 +28,7 @@ SCENARIO("Using A Correct List", "[List]") {
     }
     WHEN("Covering a column") {
       DancingLinks::List list = listBuilder.finalize();
-      list.coverColumn(
+      DancingLinks::List::coverColumn(
           static_cast<DancingLinks::ColumnNode*>(list.Header->Right));
       THEN("Nodes are correct") {
         REQUIRE(list.Header->Right->Right->Right == list.Header);

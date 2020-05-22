@@ -16,6 +16,6 @@ public:
   /// @brief Returns a solution to the puzzle that has not yet been returned
   ///
   /// @return Either a completed sudoku field, or nullopt
-  std::optional<Field> nextSolution();
+  auto nextSolution() -> std::optional<Field>;
 };
 } // namespace Sudoku

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>
 
-int
-main(int argc, char** args) {
+auto
+main(int argc, char** args) -> int {
   int maxFilledCells = 81;
   int sudokuBlockSize = 3;
   if (argc > 1) {

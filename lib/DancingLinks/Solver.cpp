@@ -49,8 +49,8 @@ Solver::backtrack() {
   Finished = true;
 }
 
-std::optional<std::vector<Node*>>
-Solver::nextModel() {
+auto
+Solver::nextModel() -> std::optional<std::vector<Node*>> {
   while (!Finished) {
     deepen();
 

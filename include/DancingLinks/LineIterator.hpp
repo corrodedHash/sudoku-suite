@@ -16,24 +16,24 @@ public:
   LineIterator(Node* node, bool justStarted) :
       StartNode(node), JustStarted(justStarted) {}
 
-  LineIterator& operator++() {
+  auto operator++() -> LineIterator& {
     StartNode = StartNode->*Next;
     JustStarted = false;
     return *this;
   }
-  LineIterator operator++(int) {
+  auto operator++(int) -> LineIterator {
     LineIterator buffer = *this;
     ++(*this);
     return buffer;
   }
 
-  Node* operator->() const { return StartNode; }
-  Node& operator*() const { return *StartNode; }
+  auto operator->() const -> Node* { return StartNode; }
+  auto operator*() const -> Node& { return *StartNode; }
 
-  bool operator==(const LineIterator& other) const {
+  auto operator==(const LineIterator& other) const -> bool {
     return other.StartNode == StartNode && other.JustStarted == JustStarted;
   }
-  bool operator!=(const LineIterator& other) const { return !(*this == other); }
+  auto operator!=(const LineIterator& other) const -> bool { return !(*this == other); }
 };
 
 } // namespace DancingLinks
@@ -59,14 +59,14 @@ public:
   using iterator_type = LineIterator<Next>;
   using reverse_iterator_type = LineIterator<Previous>;
 
-  iterator_type begin() { return iterator_type(StartNode->*Next, false); }
-  iterator_type end() { return iterator_type(StartNode, false); }
+  auto begin() -> iterator_type { return iterator_type(StartNode->*Next, false); }
+  auto end() -> iterator_type { return iterator_type(StartNode, false); }
 
-  reverse_iterator_type rbegin() {
+  auto rbegin() -> reverse_iterator_type {
     return reverse_iterator_type(StartNode->*Previous, false);
   }
 
-  reverse_iterator_type rend() {
+  auto rend() -> reverse_iterator_type {
     return reverse_iterator_type(StartNode, false);
   }
 };

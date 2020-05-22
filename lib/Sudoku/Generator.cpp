@@ -15,8 +15,8 @@
 #include <vector>    // for vector
 
 namespace Sudoku::Generator {
-static Field
-generateFieldStart(int blocksize) {
+static auto
+generateFieldStart(int blocksize) -> Field {
   static std::random_device rd;
   static std::mt19937 random_generator(rd());
   Field result(blocksize);
@@ -55,8 +55,8 @@ nullCellsRandom(const Field& lower, Field* field, int amount) {
   }
 }
 
-static Field
-makeMedianField(const Field& lower, const Field& upper) {
+static auto
+makeMedianField(const Field& lower, const Field& upper) -> Field {
   assert(lower.getBlocksize() == upper.getBlocksize());
 
   int lowerCount = lower.filledCellCount();
@@ -70,8 +70,8 @@ makeMedianField(const Field& lower, const Field& upper) {
   return result;
 }
 
-Field
-generate(int blocksize) {
+auto
+generate(int blocksize) -> Field {
   Field lowerBound = generateFieldStart(blocksize);
   Solver sudokuSolver(lowerBound);
   auto result = sudokuSolver.nextSolution();

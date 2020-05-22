@@ -39,15 +39,15 @@ List::uncoverColumn(ColumnNode* columnNode) {
   columnNode->Left->Right = columnNode;
 }
 
-bool
-List::containsEmptyColumn() {
+[[nodiscard]] auto
+List::containsEmptyColumn() const -> bool {
   RowExcludingView rowView(Header);
   return std::any_of(std::begin(rowView), std::end(rowView),
                      [](const Node& node) { return node.Down == &node; });
 }
 
-bool
-List::isEmpty() {
+[[nodiscard]] auto
+List::isEmpty() const -> bool {
   return Header->Right == Header;
 }
 } // namespace DancingLinks

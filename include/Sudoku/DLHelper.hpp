@@ -12,8 +12,8 @@ namespace Sudoku {
 /// @brief Helper functions to translate sudoku to and from dancing links
 /// representation
 namespace DLHelper {
-DancingLinks::List toDancingLinksList(const Field& field);
-Field fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
-                           int blocksize);
+auto toDancingLinksList(const Field& field) -> DancingLinks::List;
+auto fromDancingLinksList(const std::vector<DancingLinks::Node*>& rowIndices,
+                           int blocksize) -> Field;
 }; // namespace DLHelper
 } // namespace Sudoku

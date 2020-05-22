@@ -3,8 +3,8 @@
 
 #include <benchmark/benchmark.h>
 
-static Sudoku::Field
-getField(int size) {
+static auto
+getField(int size) -> Sudoku::Field {
   Sudoku::Field field(size);
   for (int row = 0; row < size * size; ++row) {
     int column = (row % size) * size + (row / size);

@@ -11,8 +11,8 @@ Solver::Solver(const Field& puzzle) :
   assert(puzzle.correct());
 }
 
-std::optional<Field>
-Solver::nextSolution() {
+auto
+Solver::nextSolution() -> std::optional<Field> {
   auto exactCoverResult = PuzzleSolver.nextModel();
   if (!exactCoverResult) {
     return std::nullopt;

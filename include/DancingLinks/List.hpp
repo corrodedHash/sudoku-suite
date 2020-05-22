@@ -23,10 +23,10 @@ public:
   List(const List& other) = delete;
   List(List&& other) = default;
 
-  void coverColumn(ColumnNode* columnNode);
-  void uncoverColumn(ColumnNode* columnNode);
+  static void coverColumn(ColumnNode* columnNode);
+  static void uncoverColumn(ColumnNode* columnNode);
 
-  bool containsEmptyColumn();
-  bool isEmpty();
+  [[nodiscard]] auto containsEmptyColumn() const -> bool;
+  [[nodiscard]] auto isEmpty() const -> bool;
 };
 } // namespace DancingLinks

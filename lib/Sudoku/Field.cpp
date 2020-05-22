@@ -13,27 +13,27 @@ Field::Field(int blocksize) :
     Blocksize(blocksize),
     Grid(std::vector<int>(getMaxNumber() * getMaxNumber())){};
 
-bool
-Field::operator==(const Field& other) const {
+auto
+Field::operator==(const Field& other) const -> bool {
   return (Blocksize == other.Blocksize) && (Grid.size() == other.Grid.size()) &&
          (Grid == other.Grid);
 }
 
-int
-Field::getIndex(int x, int y) const {
+auto
+Field::getIndex(int x, int y) const -> int {
   assert(x < getMaxNumber());
   assert(y < getMaxNumber());
   return y * getMaxNumber() + x;
 }
 
-bool
-Field::filled() const {
+auto
+Field::filled() const -> bool {
   return std::none_of(std::begin(Grid), std::end(Grid),
                       [](auto x) { return x == 0; });
 }
 
-bool
-Field::rowsCorrect() const {
+auto
+Field::rowsCorrect() const -> bool {
   std::vector<bool> numbers(getMaxNumber(), false);
   for (int row = 0; row < getMaxNumber(); ++row) {
     for (int column = 0; column < getMaxNumber(); ++column) {
@@ -50,8 +50,8 @@ Field::rowsCorrect() const {
   return true;
 }
 
-bool
-Field::columnsCorrect() const {
+auto
+Field::columnsCorrect() const -> bool {
   std::vector<bool> numbers(getMaxNumber(), false);
   for (int column = 0; column < getMaxNumber(); ++column) {
     for (int row = 0; row < getMaxNumber(); ++row) {
@@ -68,8 +68,8 @@ Field::columnsCorrect() const {
   return true;
 }
 
-bool
-Field::blocksCorrect() const {
+auto
+Field::blocksCorrect() const -> bool {
   std::vector<bool> numbers(getMaxNumber(), false);
   for (int block = 0; block < getMaxNumber(); ++block) {
     for (int blockcell = 0; blockcell < getMaxNumber(); ++blockcell) {
@@ -90,13 +90,13 @@ Field::blocksCorrect() const {
   return true;
 }
 
-bool
-Field::correct() const {
+auto
+Field::correct() const -> bool {
   return rowsCorrect() && columnsCorrect() && blocksCorrect();
 }
 
-int
-Field::filledCellCount() const {
+auto
+Field::filledCellCount() const -> int {
   return std::count_if(std::begin(Grid), std::end(Grid),
                        [](auto x) { return x != 0; });
 }

@@ -23,6 +23,6 @@ public:
   /// @brief Returns a solution to the puzzle that has not yet been returned
   ///
   /// @return Either a list of nodes representing each row, or nullopt
-  std::optional<std::vector<Node*>> nextModel();
+  auto nextModel() -> std::optional<std::vector<Node*>>;
 };
 } // namespace DancingLinks

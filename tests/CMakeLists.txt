@@ -1,3 +1,7 @@
+if (NOT ${PROJECT_NAME}_BUILD_TESTS)
+  return()
+endif()
+
 include( "boilerplate/testing" )
 
 target_sources(testing PRIVATE main.cpp)

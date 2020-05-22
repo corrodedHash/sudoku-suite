@@ -70,8 +70,8 @@ ListBuilder::print(std::ostream& stream) {
   }
 }
 
-List
-ListBuilder::finalize() {
+auto
+ListBuilder::finalize() -> List {
   return List(std::move(Nodes), std::move(ColumnNodes), Header);
 }
 } // namespace DancingLinks

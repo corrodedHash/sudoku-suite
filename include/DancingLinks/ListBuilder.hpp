@@ -25,7 +25,7 @@ public:
   /// @brief Create the list. Invalidates ListBuilder
   ///
   /// @return The created list
-  List finalize();
+  auto finalize() -> List;
 
   void print(std::ostream& stream);
 };

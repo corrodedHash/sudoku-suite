@@ -5,8 +5,8 @@
 #include <optional>
 #include <string>
 
-int
-main(int argc, char** args) {
+auto
+main(int argc, char** args) -> int {
   int SudokuBlockSize = 3;
   if (argc >= 2) {
     SudokuBlockSize = std::stoi(args[1]);
@@ -17,7 +17,7 @@ main(int argc, char** args) {
   while (auto model = solver.nextSolution()) {
     model->print(std::cout);
     std::cout << '\n';
-    char x;
+    char x = 0;
     std::cin >> x;
   }
   return 0;
